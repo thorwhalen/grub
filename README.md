@@ -18,6 +18,8 @@ path_format = os.path.dirname(sklearn.__file__) + '{}.py'
 search = SearchStore(path_format)
 ```
 
+Let's search for ANN. That stands for Artificial Neural Networks. Did you know? Well search figures it out, pretty early, that I was talking about neural networks.
+
 
 ```python
 search('ANN')  
@@ -36,8 +38,8 @@ search('ANN')
            'sklearn/neural_network/rbm.py',
            'sklearn/neural_network/tests/test_rbm.py'], dtype='<U75')
 
-
-See above that it guessed, pretty early, that I was talking about neural networks.
+Let's search for something more complicated. Like a sentence. 
+The results show promise promises: It's about calibration, but related are robustness, feature selection and validation...
 
 ```python
 search('how to calibrate the estimates of my classifier')  
@@ -54,6 +56,3 @@ search('how to calibrate the estimates of my classifier')
            'sklearn/model_selection/_validation.py',
            'sklearn/ensemble/_forest.py', 'sklearn/ensemble/_gb.py'],
           dtype='<U75')
-
-Yep... I could be convinced.
-Good keyword promises: robust, calibration, feature selection validation...
