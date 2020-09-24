@@ -20,7 +20,7 @@ search = SearchStore(path_format)
 
 
 ```python
-search('ANN')  # see that it guessed, pretty early, that I was talking about neural networks
+search('ANN')  
 ```
 
 
@@ -37,10 +37,10 @@ search('ANN')  # see that it guessed, pretty early, that I was talking about neu
            'sklearn/neural_network/tests/test_rbm.py'], dtype='<U75')
 
 
-
+See above that it guessed, pretty early, that I was talking about neural networks.
 
 ```python
-search('how to calibrate the estimates of my classifier')  # and yep... good keyword promisses: robust, calibration, feature selection and validation...
+search('how to calibrate the estimates of my classifier')  
 ```
 
 
@@ -55,4 +55,5 @@ search('how to calibrate the estimates of my classifier')  # and yep... good key
            'sklearn/ensemble/_forest.py', 'sklearn/ensemble/_gb.py'],
           dtype='<U75')
 
-
+Yep... I could be convinced.
+Good keyword promises: robust, calibration, feature selection validation...
