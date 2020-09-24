@@ -7,7 +7,7 @@ A ridiculously simple search engine
 
 
 ```python
-from grub.grub import SearchStore
+from grub import SearchStore
 ```
 
 
