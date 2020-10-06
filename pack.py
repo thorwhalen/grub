@@ -1,8 +1,33 @@
-from string import Formatter
+"""Utils to package and publish.
+
+
+
+The typical sequence of the methodic and paranoid could be something like this:
+
+```
+python pack.py current-configs  # see what you got
+python pack.py increment-configs-version  # update (increment the version and write that in setup.cfg
+python pack.py current-configs-version  # see that it worked
+python pack.py current-configs  # ... if you really want to see the whole configs again (you're really paranoid)
+python pack.py run-setup  # see that it worked
+python pack.py twine-upload-dist  # publish
+# and then go check things work...
+```
+
+
+If you're crazy (or know what you're doing) just do
+
+```
+python pack.py go
+```
+
+
+"""
+import subprocess
+from setuptools import find_packages
 import json
-import urllib.request
-from urllib.error import HTTPError
 import re
+from pprint import pprint
 from typing import Union, Mapping, Iterable, Generator
 from configparser import ConfigParser
 import os
@@ -10,6 +35,93 @@ import os
 DFLT_CONFIG_FILE = 'setup.cfg'
 DFLT_CONFIG_SECTION = 'metadata'
 
+
+def get_local_name():
+    """Get name from local setup.cfg (metadata section)"""
+    configs = read_configs()
+    return configs['name']
+
+
+def go(version=None, verbose=True):
+    """Update version, package and deploy:
+    Runs in a sequence: update_setup_cfg, run_setup, twine_upload_dist
+
+    :param version: The desired version (if not given, will increment the current version
+    :param verbose: Whether to print stuff or not
+
+    """
+
+    increment_configs_version()
+    run_setup()
+    twine_upload_dist()
+
+
+def clog(condition, *args, **kwargs):
+    if condition:
+        pprint(*args, **kwargs)
+
+
+def update_version(version):
+    """Updates version (writes to setup.cfg)"""
+    pass
+
+
+def current_configs():
+    configs = read_configs()
+    pprint(configs)
+
+
+def current_configs_version():
+    return read_configs()['version']
+
+
+# TODO: Both setup and twine are python. Change to use python objects directly.
+# def update_setup_cfg(new_deploy=False, version=None, verbose=True):
+#     """Update setup.cfg (at this point, just updates the version).
+#     If version is not given, will ask pypi (via http request) what the current version is, and increment that.
+#     """
+#     configs = read_and_resolve_setup_configs(new_deploy=new_deploy, version=version)
+#     clog(verbose, pprint(configs))
+#     write_configs(configs)
+
+
+def set_version(version):
+    """Update setup.cfg (at this point, just updates the version).
+    If version is not given, will ask pypi (via http request) what the current version is, and increment that.
+    """
+    configs = read_configs()
+    assert isinstance(version, str), "version should be a string"
+    configs['version'] = version
+    write_configs(configs)
+
+
+def increment_configs_version(version=None):
+    """Update setup.cfg (at this point, just updates the version).
+    If version is not given, will ask pypi (via http request) what the current version is, and increment that.
+    """
+    configs = read_configs()
+    version = _get_version(version=version, configs=configs, new_deploy=False)
+    version = increment_version(version)
+    configs['version'] = version
+    write_configs(configs)
+
+
+def run_setup():
+    """Run ``python setup.py sdist bdist_wheel``"""
+    print('--------------------------- setup_output ---------------------------')
+    setup_output = subprocess.run('python setup.py sdist bdist_wheel'.split(' '))
+    # print(f"{setup_output}\n")
+
+
+def twine_upload_dist():
+    """Publish to pypi. Runs ``python -m twine upload dist/*``"""
+    print('--------------------------- upload_output ---------------------------')
+    # TODO: dist/*? How to publish just last on
+    upload_output = subprocess.run('python -m twine upload dist/*'.split(' '))
+    # print(f"{upload_output.decode()}\n")
+
+
+# TODO: A lot of work done here to read setup.cfg. setup function apparently does it for you. How to use that?
 
 # TODO: postprocess_ini_section_items and preprocess_ini_section_items: Add comma separated possibility?
 # TODO: Find out if configparse has an option to do this processing alreadys
@@ -90,8 +202,7 @@ def write_configs(
         c.write(fp)
 
 
-dflt_formatter = Formatter()
-
+# dflt_formatter = Formatter()
 
 def increment_version(version_str):
     version_nums = list(map(int, version_str.split('.')))
@@ -99,191 +210,177 @@ def increment_version(version_str):
     return '.'.join(map(str, version_nums))
 
 
+try:
+    import requests
+
+    requests_is_installed = True
+except ModuleNotFoundError:
+    requests_is_installed = False
+
+
+def http_get_json(url, use_requests=requests_is_installed) -> Union[dict, None]:
+    """Make ah http request to url and get json, and return as python dict
+    """
+
+    if use_requests:
+        import requests
+        r = requests.get(url)
+        if r.status_code == 200:
+            return r.json()
+        else:
+            raise ValueError(f"response code was {r.status_code}")
+    else:
+        import urllib.request
+        from urllib.error import HTTPError
+        req = urllib.request.Request(url)
+        try:
+            r = urllib.request.urlopen(req)
+            if r.code == 200:
+                return json.loads(r.read())
+            else:
+                raise ValueError(f"response code was {r.code}")
+        except HTTPError:
+            return None  # to indicate (hopefully) that name doesn't exist
+        except Exception:
+            raise
+
+
 DLFT_PYPI_PACKAGE_JSON_URL_TEMPLATE = 'https://pypi.python.org/pypi/{package}/json'
 
 
 # TODO: Perhaps there's a safer way to analyze errors (and determine if the package exists or other HTTPError)
 def current_pypi_version(
-        package: str,
-        url_template=DLFT_PYPI_PACKAGE_JSON_URL_TEMPLATE
+        name: Union[None, str] = None,
+        url_template=DLFT_PYPI_PACKAGE_JSON_URL_TEMPLATE,
+        use_requests=requests_is_installed
 ) -> Union[str, None]:
     """
     Return version of package on pypi.python.org using json.
 
     ```
-    > get_version('py2store')
+    > current_pypi_version('py2store')
     '0.0.7'
     ```
 
     :param package: Name of the package
     :return: A version (string) or None if there was an exception (usually means there
     """
-
-    req = urllib.request.Request(url_template.format(package=package))
-    try:
-        r = urllib.request.urlopen(req)
-        if r.code == 200:
-            t = json.loads(r.read())
-            releases = t.get('releases', [])
-            if releases:
-                return sorted(releases, key=lambda r: tuple(map(int, r.split('.'))))[-1]
-        else:
-            raise ValueError(f"response code was {r.code}")
-    except HTTPError:
-        return None  # to indicate (hopefully) that name doesn't exist
-    except Exception:
-        raise
+    name = name or get_local_name()
+    url = url_template.format(package=name)
+    t = http_get_json(url, use_requests=use_requests)
+    releases = t.get('releases', [])
+    if releases:
+        return sorted(releases, key=lambda r: tuple(map(int, r.split('.'))))[-1]
 
 
 def next_version_for_package(
-        package: str,
+        name: Union[None, str] = None,
         url_template=DLFT_PYPI_PACKAGE_JSON_URL_TEMPLATE,
-        version_if_current_version_none='0.0.1'
+        version_if_current_version_none='0.0.1',
+        use_requests=requests_is_installed
 ) -> str:
-    current_version = current_pypi_version(package, url_template)
+    name = name or get_local_name()
+    current_version = current_pypi_version(name, url_template, use_requests=use_requests)
     if current_version is not None:
         return increment_version(current_version)
     else:
         return version_if_current_version_none
 
 
-def my_setup(**setup_kwargs):
-    from setuptools import setup
-    import json
-    print("Setup params -------------------------------------------------------")
-    print(json.dumps(setup_kwargs, indent=2))
-    print("--------------------------------------------------------------------")
-    setup(**setup_kwargs)
-
-
-def ujoin(*args):
-    """Join strings with the url seperator (/).
-
-    Note that will add a / where it's missing (as in between 'https://pypi.org' and 'project/'),
-    and only use one if two consecutive tokens use respectively end and start with a /
-    (as in 'project/' and '/pipoke/').
-
-    >>> ujoin('https://pypi.org', 'project/', '/pipoke/')
-    'https://pypi.org/project/pipoke/'
-
-    Extremal cases
-    >>> ujoin('https://pypi.org')
-    'https://pypi.org'
-    >>> ujoin('https://pypi.org/')
-    'https://pypi.org/'
-    >>> ujoin('')
-    ''
-    >>> ujoin()
-    ''
-    """
-    if len(args) == 0 or len(args[0]) == 0:
-        return ''
-    return ((args[0][0] == '/') * '/'  # prepend slash if first arg starts with it
-            + '/'.join(x[(x[0] == '/'):(len(x) - (x[-1] == '/'))] for x in args)
-            + (args[-1][-1] == '/') * '/')  # append slash if last arg ends with it
-
-
-########### Partial and incremental formatting #########################################################################
-class PartialFormatter(Formatter):
-    """A string formatter that won't complain if the fields are only partially formatted.
-    But note that you will lose the spec part of your template (e.g. in {foo:1.2f}, you'll loose the 1.2f
-    if not foo is given -- but {foo} will remain).
-    """
-
-    def get_value(self, key, args, kwargs):
+def _get_version(version,
+                 configs,
+                 name: Union[None, str] = None,
+                 new_deploy=False):
+    version = version or configs.get('version', None)
+    if version is None:
         try:
-            return super().get_value(key, args, kwargs)
-        except KeyError:
-            return '{' + key + '}'
-
-    def format_fields_set(self, s):
-        return {x[1] for x in self.parse(s) if x[1]}
-
-
-partial_formatter = PartialFormatter()
-
-
-# TODO: For those who love algorithmic optimization, there's some wasted to cut out here below.
-
-def _unformatted(d):
-    for k, v in d.items():
-        if isinstance(v, str) and len(partial_formatter.format_fields_set(v)) > 0:
-            yield k
+            if new_deploy:
+                version = next_version_for_package(name)  # when you want to make a new package
+            else:
+                version = current_pypi_version(name)  # when you want to make a new package
+        except Exception as e:
+            print(
+                f"Got an error trying to get the new version of {name} so will try to get the version from setup.cfg...")
+            print(f"{e}")
+            version = configs.get('version', None)
+            if version is None:
+                raise ValueError(f"Couldn't fetch the next version from PyPi (no API token?), "
+                                 f"nor did I find a version in setup.cfg (metadata section).")
+    return version
 
 
-def _fields_to_format(d):
-    for k, v in d.items():
-        if isinstance(v, str):
-            yield from partial_formatter.format_fields_set(v)
+def read_and_resolve_setup_configs(new_deploy=False, version=None):
+    """make setup params and call setup
 
-
-def format_str_vals_of_dict(d, *, max_formatting_loops=10, **kwargs):
+    :param new_deploy: whether this setup for a new deployment (publishing to pypi) or not
+    :param version: The version number to set this up as.
+                    If not given will look at setup.cfg[metadata] for one,
+                    and if not found there will use the current version (requesting pypi.org)
+                    and bump it if the new_deploy flag is on
     """
+    # read the config file (get a dict with it's contents)
+    root_dir = os.path.dirname(__file__)
+    config_file = os.path.join(root_dir, 'setup.cfg')
+    configs = read_configs(config_file, section='metadata')
 
-    :param d:
-    :param max_formatting_loops:
-    :param kwargs:
-    :return:
+    # parse out name and root_url
+    name = configs['name']
+    root_url = configs['root_url']
 
-    >>> d = {
-    ...     'filepath': '{root}/{file}.{ext}',
-    ...     'ext': 'txt'
-    ... }
-    >>> format_str_vals_of_dict(d, root='ROOT', file='FILE')
-    {'filepath': 'ROOT/FILE.txt', 'ext': 'txt'}
+    # Note: if version is not in config, version will be None,
+    #  resulting in bumping the version or making it be 0.0.1 if the package is not found (i.e. first deploy)
 
-    Note that if the input mapping `d` and the kwargs have a conflict, the mapping version is used!
+    meta_data_dict = {k: v for k, v in configs.items()}
 
-    >>> format_str_vals_of_dict(d, root='ROOT', file='FILE', ext='will_not_be_used')
-    {'filepath': 'ROOT/FILE.txt', 'ext': 'txt'}
+    # make the setup_kwargs
+    setup_kwargs = dict(
+        meta_data_dict,
+        # You can add more key=val pairs here if they're missing in config file
+    )
 
-    But if you want to override an input mapping, you can -- the usual way:
-    >>> format_str_vals_of_dict(dict(d, ext='will_be_used'), root='ROOT', file='FILE')
-    {'filepath': 'ROOT/FILE.will_be_used', 'ext': 'will_be_used'}
+    # import os
+    # name = os.path.split(os.path.dirname(__file__))[-1]
 
-    If you don't provide enough fields to satisfy all the format fields in the values of `d`,
-    you'll be told to bugger off.
+    version = _get_version(version, configs, name, new_deploy)
 
-    >>> format_str_vals_of_dict(d, root='ROOT')
-    Traceback (most recent call last):
-    ...
-    ValueError: I won't be able to complete that. You'll need to provide the values for:
-      file
+    def text_of_readme_md_file():
+        try:
+            with open('README.md') as f:
+                return f.read()
+        except:
+            return ""
 
-    And it's recursive...
-    >>> d = {
-    ...     'filepath': '{root}/{filename}',
-    ...     'filename': '{file}.{ext}'
-    ... }
-    >>> my_configs = {'root': 'ROOT', 'file': 'FILE', 'ext': 'EXT'}
-    >>> format_str_vals_of_dict(d, **my_configs)
-    {'filepath': 'ROOT/FILE.EXT', 'filename': 'FILE.EXT'}
+    if root_url.endswith('/'):
+        root_url = root_url[:-1]
 
-    # TODO: Could make the above work if filename is give, but not file nor ext! At least as an option.
+    dflt_kwargs = dict(
+        name=f"{name}",
+        version=f'{version}',
+        url=f"{root_url}/{name}",
+        packages=find_packages(),
+        include_package_data=True,
+        platforms='any',
+        long_description=text_of_readme_md_file(),
+        long_description_content_type="text/markdown",
+    )
 
-    """
-    d = dict(**d)  # make a shallow copy
-    # The defaults (kwargs) cannot overlap with any keys of d, so:
-    kwargs = {k: kwargs[k] for k in set(kwargs) - set(d)}
+    configs = dict(dflt_kwargs, **setup_kwargs)
 
-    provided_fields = set(d) | set(kwargs)
-    missing_fields = set(_fields_to_format(d)) - provided_fields
+    return configs
 
-    if missing_fields:
-        raise ValueError("I won't be able to complete that. You'll need to provide the values for:\n" +
-                         f"  {', '.join(missing_fields)}")
 
-    for i in range(max_formatting_loops):
-        unformatted = set(_unformatted(d))
+if __name__ == '__main__':
+    import argh  # pip install argh
 
-        if unformatted:
-            for k in unformatted:
-                d[k] = partial_formatter.format(d[k], **kwargs, **d)
-        else:
-            break
-    else:
-        raise ValueError(f"There are still some unformatted fields, "
-                         f"but I reached my max {max_formatting_loops} allowed loops. " +
-                         f"Those fields are: {set(_fields_to_format(d)) - (set(d) | set(kwargs))}")
-
-    return d
+    funcs = [
+        current_configs,
+        increment_configs_version,
+        current_configs_version,
+        twine_upload_dist,
+        read_and_resolve_setup_configs,
+        go,
+        get_local_name,
+        run_setup,
+        current_pypi_version
+    ]
+    argh.dispatch_commands(funcs)
