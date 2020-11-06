@@ -32,7 +32,7 @@ camelcase_p = re.compile(r'''
     [A-Z]+(?=[A-Z][a-z]) |  # All upper case before a capitalized word
     [A-Z]?[a-z]+ |  # Capitalized words / all lower case
     [A-Z]+ |  # All upper case
-    \d+  # Numbers
+    \d+  # Numbers  TODO: Might want to drop that.
 ''', re.VERBOSE)
 
 
