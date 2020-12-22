@@ -5,3 +5,6 @@ from grub.base import (
     grub,
     camelcase_and_underscore_tokenizer
 )
+from grub.pycode import (
+    search_documented_attributes
+)
