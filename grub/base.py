@@ -8,8 +8,9 @@ import os
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.neighbors import NearestNeighbors
+from sklearn.utils.validation import check_is_fitted
 
-from py2store import LocalTextStore, cached_keys
+from py2store import LocalTextStore, cached_keys, lazyprop
 
 
 def grub(search_store, query, n=10):
@@ -45,6 +46,32 @@ def camelcase_and_underscore_tokenizer(string):
 
 
 class SearchStore:
+    """Build a search index for anything (that is given a mapping interface with string values).
+
+    A store is anything with a ``collections.Mapping`` interface.
+    Typically, a store's backend comes from local files or data-base wrapped into a mapping
+    (see ``py2store`` for tools to do that!).
+    For testing purposes though, we'll use a ``dict`` here:
+
+    >>> store = {
+    ... "Nelson Mandela": "The greatest glory in living lies not in never falling, but in rising every time we fall.",
+    ... "Walt Disney": "The way to get started is to quit talking and begin doing.",
+    ... "Steve Jobs": "Your time is limited, so don't waste it living someone else's life."
+    ... }
+    >>> search = SearchStore(store, n_neighbors=2)  # our store is small, so need to restrict our result size to less
+    >>> list(search('living'))
+    ['Steve Jobs', 'Nelson Mandela']
+
+    A ``SearchStore`` instance is picklable.
+
+    >>> import pickle
+    >>> unserialized_search = pickle.loads(pickle.dumps(search))
+    >>> list(unserialized_search('living'))
+    ['Steve Jobs', 'Nelson Mandela']
+
+    """
+    _state_attrs = ('keys_array', 'tfidf', 'knn')
+
     def __init__(self,
                  store,
                  n_neighbors=10,
@@ -63,6 +90,13 @@ class SearchStore:
         self.n_neighbors = n_neighbors
         self.knn = NearestNeighbors(n_neighbors=n_neighbors,
                                     metric='cosine').fit(doc_vecs)
+
+    def __getstate__(self):
+        return {attr: getattr(self, attr) for attr in self._state_attrs}
+
+    def __setstate__(self, d):
+        for attr in self._state_attrs:
+            setattr(self, attr, d[attr])
 
     def __call__(self, query):
         (score, *_), (idx, *_) = self.knn.kneighbors(self.tfidf.transform([query]))
@@ -90,7 +124,7 @@ class TfidfKnnSearcher:
     tfidf: TfidfVectorizer = TfidfVectorizer()
     knn: NearestNeighbors = NearestNeighbors(n_neighbors=10, metric='cosine')
 
-    @property
+    @lazyprop
     def keys_array(self):
         return np.array(self.search_store)
 
@@ -129,6 +163,15 @@ class TfidfKnnSearcher:
     def fv_to_idx_and_scores(self, fv):
         (scores, *_), (idx, *_) = self.knn.kneighbors([fv])
         return idx, scores
+
+    _state_attrs = ('keys_array', 'tfidf', 'knn')
+
+    def __getstate__(self):
+        return {attr: getattr(self, attr) for attr in self._state_attrs}
+
+    def __setstate__(self, d):
+        for attr in self._state_attrs:
+            setattr(self, attr, d[attr])
 
 
 @dataclass
