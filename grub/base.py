@@ -74,9 +74,21 @@ class SearchStore:
 
     def __init__(self,
                  store,
-                 n_neighbors=10,
+                 n_neighbors: int = 10,
                  tokenizer=camelcase_and_underscore_tokenizer
                  ):
+        """Index store (values) and provide a search functionality for it.
+
+        :param store: The collection that should be indexed for search.
+            A store is anything with a ``collections.Mapping`` interface.
+            Typically, a store's backend comes from local files or data-base wrapped into a mapping
+            (see ``py2store`` for tools to do that!).
+            If given as a string, it will be considered to be a file path and given to
+            ``py2store.LocalTextStore`` to make a store.
+        :param n_neighbors: The number search results to provide
+        :param tokenizer: The function to apply to store (string) values to get an iterable of tokens.
+            It is these tokens that are used both as the vocabulary for the queries and to represent searched values.
+        """
         if isinstance(store, str):
             store = LocalTextStore(store)
         self.store = store
@@ -133,6 +145,7 @@ class TfidfKnnSearcher:
         return self.knn.n_neighbors
 
     def fvs(self, error_callback=None):
+        """The feature vectors for the search_store"""
         if hasattr(self.search_store, 'keys_cache'):
             return self.tfidf
         else:
