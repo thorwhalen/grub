@@ -1,5 +1,6 @@
 from functools import cached_property
 import re
+from functools import lru_cache
 
 import numpy as np
 
@@ -31,6 +32,28 @@ def word_and_vecs(fp):
         yield tok, tuple(map(float, vec))
 
 
+@lru_cache
+def get_html():
+    simple_index_url = 'https://pypi.org/simple'
+    try:
+        from graze import graze
+        age_threshold = 7 * 24 * 60 * 60  # one week
+        return graze(simple_index_url, max_age=age_threshold)
+    except ModuleNotFoundError:
+        from urllib.request import urlopen
+        with urlopen(simple_index_url) as f:
+            return f.read()
+
+
+def get_distributions(html=None):
+    from xml.etree import ElementTree
+    from io import BytesIO
+
+    html = html or get_html()
+    tree = ElementTree.parse(BytesIO(html))
+    return [a.text for a in tree.iter('a')]
+
+
 class Search:
     """
     Example:
@@ -53,6 +76,7 @@ class Search:
     def __init__(self,
                  wordvec_zip_filepath,
                  search_words,
+                 exclude_words='already_published',
                  wordvec_name_in_zip='wiki-news-300d-1M-subword.vec',
                  n_neighbors=37,
                  verbose=False
@@ -60,6 +84,10 @@ class Search:
         self.wordvec_zip_filepath = wordvec_zip_filepath
         self.wordvec_name_in_zip = wordvec_name_in_zip
         self.search_words = set(search_words)
+        if exclude_words:
+            if exclude_words == 'already_published':
+                exclude_words = set(get_distributions())
+            self.search_words = self.search_words - exclude_words
         self.n_neighbors = n_neighbors
         self.verbose = verbose
 
