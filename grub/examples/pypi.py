@@ -1,12 +1,11 @@
-from functools import cached_property
 import re
-from functools import lru_cache
+from functools import lru_cache, cached_property
 
 import numpy as np
 
 from py2store.slib.s_zipfile import FileStreamsOfZip
 from py2store.base import Stream
-
+from py2store import groupby
 
 def line_to_raw_word_vec(line):
     word, vec = line.split(maxsplit=1)
@@ -53,6 +52,17 @@ def get_distributions(html=None):
     tree = ElementTree.parse(BytesIO(html))
     return [a.text for a in tree.iter('a')]
 
+# from py2store import lazyprop
+class Pypi:
+    @cached_property
+    def pypi_words(self):
+        return set(get_distributions())
+
+    def is_available(self, word):
+        return word not in self.pypi_words
+
+    def available_and_not(self, words):
+        return groupby(words, key=self.is_available)
 
 class Search:
     """
