@@ -64,6 +64,16 @@ class Pypi:
     def available_and_not(self, words):
         return groupby(words, key=self.is_available)
 
+    def live_is_available(self, pkg_name):
+        """Check if a package name is available, but live (directly on pypi, not a cache)"""
+        import urllib
+
+        try:
+            with urllib.request.urlopen(f'https://pypi.org/project/{pkg_name}') as u:
+                return False
+        except urllib.error.HTTPError as e:
+            return True  # if url is invalid, package exists
+
 class Search:
     """
     Example:
