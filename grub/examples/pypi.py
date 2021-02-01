@@ -7,6 +7,7 @@ from py2store.slib.s_zipfile import FileStreamsOfZip
 from py2store.base import Stream
 from py2store import groupby
 
+
 def line_to_raw_word_vec(line):
     word, vec = line.split(maxsplit=1)
     return word.decode(), vec
@@ -35,7 +36,7 @@ def word_and_vecs(fp):
 def get_html():
     simple_index_url = 'https://pypi.org/simple'
     try:
-        from graze import graze
+        from graze.base import graze
         age_threshold = 7 * 24 * 60 * 60  # one week
         return graze(simple_index_url, max_age=age_threshold)
     except ModuleNotFoundError:
@@ -44,13 +45,22 @@ def get_html():
             return f.read()
 
 
+_parse_names_from_html = re.compile('<a href="/simple/.+/">(.+)</a>').findall
+
+
 def get_distributions(html=None):
+    html = html or get_html()
+    return _parse_names_from_html(html.decode())
+
+
+def _get_distributions_old_version_using_xml(html=None):
     from xml.etree import ElementTree
     from io import BytesIO
 
     html = html or get_html()
     tree = ElementTree.parse(BytesIO(html))
     return [a.text for a in tree.iter('a')]
+
 
 # from py2store import lazyprop
 class Pypi:
@@ -73,6 +83,7 @@ class Pypi:
                 return False
         except urllib.error.HTTPError as e:
             return True  # if url is invalid, package exists
+
 
 class Search:
     """

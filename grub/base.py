@@ -96,7 +96,7 @@ class SearchStore:
         self.tfidf = TfidfVectorizer(tokenizer=tokenizer, token_pattern=None)
         self.tfidf.fit(raw_documents=self.store.values())
 
-        self.keys_array = np.array(list(self.store))
+        self.keys_array = np.array(list(self.store), dtype=object)
 
         doc_vecs = self.tfidf.fit_transform(self.store.values())
         self.n_neighbors = n_neighbors
