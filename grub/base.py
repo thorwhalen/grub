@@ -10,7 +10,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.neighbors import NearestNeighbors
 from sklearn.utils.validation import check_is_fitted
 
-from py2store import LocalTextStore, cached_keys, lazyprop
+from py2store import LocalTextStore, cached_keys, lazyprop, KvReader
 
 
 def grub(search_store, query, n=10):
@@ -45,7 +45,27 @@ def camelcase_and_underscore_tokenizer(string):
     return list(map(str.lower, camelcase_p.findall(string)))
 
 
-class SearchStore:
+class SearchStoreMixin(KvReader):
+    store_attr = 'search_store'
+
+    def __getitem__(self, k):
+        return getattr(self, self.store_attr).__getitem__(k)
+
+    def __iter__(self):
+        return getattr(self, self.store_attr).__iter__()
+
+    def __contains__(self, k):
+        return getattr(self, self.store_attr).__contains__(k)
+
+    def __len__(self):
+        return getattr(self, self.store_attr).__len__()
+
+
+class StoreMixin(SearchStoreMixin):
+    store_attr = 'store'
+
+
+class SearchStore(StoreMixin):
     """Build a search index for anything (that is given a mapping interface with string values).
 
     A store is anything with a ``collections.Mapping`` interface.
@@ -114,6 +134,9 @@ class SearchStore:
         (score, *_), (idx, *_) = self.knn.kneighbors(self.tfidf.transform([query]))
         return self.keys_array[idx]
 
+    def __getitem__(self, k):
+        return self.store.__getitem__(k)
+
 
 class DfltSearchStore(Mapping):
     def __iter__(self):
@@ -131,10 +154,14 @@ class DfltSearchStore(Mapping):
 
 # search_store and
 @dataclass
-class TfidfKnnSearcher:
+class TfidfKnnSearcher(SearchStoreMixin):
     search_store: Mapping = DfltSearchStore()
     tfidf: TfidfVectorizer = TfidfVectorizer()
     knn: NearestNeighbors = NearestNeighbors(n_neighbors=10, metric='cosine')
+
+    def __getattr__(self, attr):
+        """Delegate method to wrapped store if not part of wrapper store methods"""
+        return getattr(self.search_store, attr)
 
     @lazyprop
     def keys_array(self):
