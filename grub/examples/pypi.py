@@ -135,7 +135,7 @@ class Search:
         return all_wordvecs
 
     def filtered_wordvecs(self, tok_filt):
-        with self.stream['wiki-news-300d-1M-subword.vec'] as fp:
+        with self.stream[self.wordvec_name_in_zip] as fp:
             yield from filter(lambda x: tok_filt(x[0]), word_and_vecs(fp))
 
     def vec_matrix(self, words):
