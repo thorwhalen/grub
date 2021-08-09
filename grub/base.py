@@ -15,26 +15,31 @@ from py2store import LocalTextStore, cached_keys, lazyprop, KvReader
 
 def grub(search_store, query, n=10):
     search_store = get_py_files_store(search_store)
-    knn = NearestNeighbors(n_neighbors=n, metric='cosine')
+    knn = NearestNeighbors(n_neighbors=n, metric="cosine")
     search = TextFilesSearcher(search_store, knn=knn).fit()
     return search(query)
 
 
 def get_py_files_store(spec):
     if ismodule(spec):
-        spec = os.path.dirname(spec.__file__) + '{}.py'
+        spec = os.path.dirname(spec.__file__) + "{}.py"
     if isinstance(spec, str):
-        spec = LocalTextStore(spec)
+        if not spec.endswith(os.path.sep):
+            spec = spec + os.path.sep
+        spec = LocalTextStore(spec + "{}.py")
     return spec
 
 
-camelcase_p = re.compile(r'''
+camelcase_p = re.compile(
+    r"""
     # Find words in a string. Order matters!
     [A-Z]+(?=[A-Z][a-z]) |  # All upper case before a capitalized word
     [A-Z]?[a-z]+ |  # Capitalized words / all lower case
     [A-Z]+ |  # All upper case
     \d+  # Numbers  TODO: Might want to drop that.
-''', re.VERBOSE)
+""",
+    re.VERBOSE,
+)
 
 
 def camelcase_and_underscore_tokenizer(string):
@@ -46,7 +51,7 @@ def camelcase_and_underscore_tokenizer(string):
 
 
 class SearchStoreMixin(KvReader):
-    store_attr = 'search_store'
+    store_attr = "search_store"
 
     def __getitem__(self, k):
         return getattr(self, self.store_attr).__getitem__(k)
@@ -62,7 +67,7 @@ class SearchStoreMixin(KvReader):
 
 
 class StoreMixin(SearchStoreMixin):
-    store_attr = 'store'
+    store_attr = "store"
 
 
 class SearchStore(StoreMixin):
@@ -90,13 +95,12 @@ class SearchStore(StoreMixin):
     ['Steve Jobs', 'Nelson Mandela']
 
     """
-    _state_attrs = ('keys_array', 'tfidf', 'knn')
 
-    def __init__(self,
-                 store,
-                 n_neighbors: int = 10,
-                 tokenizer=camelcase_and_underscore_tokenizer
-                 ):
+    _state_attrs = ("keys_array", "tfidf", "knn")
+
+    def __init__(
+        self, store, n_neighbors: int = 10, tokenizer=camelcase_and_underscore_tokenizer
+    ):
         """Index store (values) and provide a search functionality for it.
 
         :param store: The collection that should be indexed for search.
@@ -120,8 +124,9 @@ class SearchStore(StoreMixin):
 
         doc_vecs = self.tfidf.fit_transform(self.store.values())
         self.n_neighbors = n_neighbors
-        self.knn = NearestNeighbors(n_neighbors=n_neighbors,
-                                    metric='cosine').fit(doc_vecs)
+        self.knn = NearestNeighbors(n_neighbors=n_neighbors, metric="cosine").fit(
+            doc_vecs
+        )
 
     def __getstate__(self):
         return {attr: getattr(self, attr) for attr in self._state_attrs}
@@ -157,7 +162,7 @@ class DfltSearchStore(Mapping):
 class TfidfKnnSearcher(SearchStoreMixin):
     search_store: Mapping = DfltSearchStore()
     tfidf: TfidfVectorizer = TfidfVectorizer()
-    knn: NearestNeighbors = NearestNeighbors(n_neighbors=10, metric='cosine')
+    knn: NearestNeighbors = NearestNeighbors(n_neighbors=10, metric="cosine")
 
     def __getattr__(self, attr):
         """Delegate method to wrapped store if not part of wrapper store methods"""
@@ -173,14 +178,14 @@ class TfidfKnnSearcher(SearchStoreMixin):
 
     def fvs(self, error_callback=None):
         """The feature vectors for the search_store"""
-        if hasattr(self.search_store, 'keys_cache'):
+        if hasattr(self.search_store, "keys_cache"):
             return self.tfidf
         else:
             keys_cache = []
             search_documents = iterate_values_and_accumulate_non_error_keys(
                 self.search_store,
                 cache_keys_here=keys_cache,
-                error_callback=error_callback
+                error_callback=error_callback,
             )
             fvs = self.tfidf.fit_transform(search_documents)
             self.search_store = cached_keys(self.search_store, keys_cache=keys_cache)
@@ -204,7 +209,7 @@ class TfidfKnnSearcher(SearchStoreMixin):
         (scores, *_), (idx, *_) = self.knn.kneighbors([fv])
         return idx, scores
 
-    _state_attrs = ('keys_array', 'tfidf', 'knn')
+    _state_attrs = ("keys_array", "tfidf", "knn")
 
     def __getstate__(self):
         return {attr: getattr(self, attr) for attr in self._state_attrs}
@@ -247,9 +252,7 @@ class TfidfKnnFitMixin(TfidfKnnSearcher):
             learn_store = self.search_store
         keys_fit_on_ = []
         raw_documents = iterate_values_and_accumulate_non_error_keys(
-            learn_store,
-            cache_keys_here=keys_fit_on_,
-            error_callback=error_callback
+            learn_store, cache_keys_here=keys_fit_on_, error_callback=error_callback
         )
         self.tfidf.fit(raw_documents=raw_documents)
         self.tfidf.keys_fit_on_ = keys_fit_on_
@@ -260,10 +263,7 @@ class TfidfKnnFitMixin(TfidfKnnSearcher):
 
 
 def iterate_values_and_accumulate_non_error_keys(
-        store,
-        cache_keys_here: list,
-        errors_caught=Exception,
-        error_callback=None
+    store, cache_keys_here: list, errors_caught=Exception, error_callback=None
 ):
     for k in store:
         try:
