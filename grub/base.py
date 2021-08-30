@@ -22,8 +22,16 @@ def grub(search_store, query, n=10):
 
 def get_py_files_store(spec):
     if ismodule(spec):
-        spec = os.path.dirname(spec.__file__) + "{}.py"
+        spec = os.path.dirname(spec.__file__)
     if isinstance(spec, str):
+        if spec.endswith(".py"):
+            if spec.endswith("__init__.py"):
+                spec = spec[: -len("__init__.py")]
+            else:
+                raise ValueError(
+                    f"You provided an individual module. "
+                    f"Must be a package module: {spec}"
+                )
         if not spec.endswith(os.path.sep):
             spec = spec + os.path.sep
         spec = LocalTextStore(spec + "{}.py")
