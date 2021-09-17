@@ -1,3 +1,5 @@
+"""Base functionality"""
+
 import re
 from typing import Mapping, Union
 from types import ModuleType
@@ -15,7 +17,7 @@ from py2store import LocalTextStore, cached_keys, lazyprop, KvReader
 
 def grub(search_store, query, n=10):
     search_store = get_py_files_store(search_store)
-    knn = NearestNeighbors(n_neighbors=n, metric="cosine")
+    knn = NearestNeighbors(n_neighbors=n, metric='cosine')
     search = TextFilesSearcher(search_store, knn=knn).fit()
     return search(query)
 
@@ -24,28 +26,28 @@ def get_py_files_store(spec):
     if ismodule(spec):
         spec = os.path.dirname(spec.__file__)
     if isinstance(spec, str):
-        if spec.endswith(".py"):
-            if spec.endswith("__init__.py"):
-                spec = spec[: -len("__init__.py")]
+        if spec.endswith('.py'):
+            if spec.endswith('__init__.py'):
+                spec = spec[: -len('__init__.py')]
             else:
                 raise ValueError(
-                    f"You provided an individual module. "
-                    f"Must be a package module: {spec}"
+                    f'You provided an individual module. '
+                    f'Must be a package module: {spec}'
                 )
         if not spec.endswith(os.path.sep):
             spec = spec + os.path.sep
-        spec = LocalTextStore(spec + "{}.py")
+        spec = LocalTextStore(spec + '{}.py')
     return spec
 
 
 camelcase_p = re.compile(
-    r"""
+    r'''
     # Find words in a string. Order matters!
     [A-Z]+(?=[A-Z][a-z]) |  # All upper case before a capitalized word
     [A-Z]?[a-z]+ |  # Capitalized words / all lower case
     [A-Z]+ |  # All upper case
     \d+  # Numbers  TODO: Might want to drop that.
-""",
+''',
     re.VERBOSE,
 )
 
@@ -59,7 +61,7 @@ def camelcase_and_underscore_tokenizer(string):
 
 
 class SearchStoreMixin(KvReader):
-    store_attr = "search_store"
+    store_attr = 'search_store'
 
     def __getitem__(self, k):
         return getattr(self, self.store_attr).__getitem__(k)
@@ -75,7 +77,7 @@ class SearchStoreMixin(KvReader):
 
 
 class StoreMixin(SearchStoreMixin):
-    store_attr = "store"
+    store_attr = 'store'
 
 
 class SearchStore(StoreMixin):
@@ -104,7 +106,7 @@ class SearchStore(StoreMixin):
 
     """
 
-    _state_attrs = ("keys_array", "tfidf", "knn")
+    _state_attrs = ('keys_array', 'tfidf', 'knn')
 
     def __init__(
         self, store, n_neighbors: int = 10, tokenizer=camelcase_and_underscore_tokenizer
@@ -132,7 +134,7 @@ class SearchStore(StoreMixin):
 
         doc_vecs = self.tfidf.fit_transform(self.store.values())
         self.n_neighbors = n_neighbors
-        self.knn = NearestNeighbors(n_neighbors=n_neighbors, metric="cosine").fit(
+        self.knn = NearestNeighbors(n_neighbors=n_neighbors, metric='cosine').fit(
             doc_vecs
         )
 
@@ -162,7 +164,7 @@ class DfltSearchStore(Mapping):
         return False
 
     def __getitem__(self, item):
-        raise KeyError("DfltSearchStore is not meant to be used")
+        raise KeyError('DfltSearchStore is not meant to be used')
 
 
 # search_store and
@@ -170,7 +172,7 @@ class DfltSearchStore(Mapping):
 class TfidfKnnSearcher(SearchStoreMixin):
     search_store: Mapping = DfltSearchStore()
     tfidf: TfidfVectorizer = TfidfVectorizer()
-    knn: NearestNeighbors = NearestNeighbors(n_neighbors=10, metric="cosine")
+    knn: NearestNeighbors = NearestNeighbors(n_neighbors=10, metric='cosine')
 
     def __getattr__(self, attr):
         """Delegate method to wrapped store if not part of wrapper store methods"""
@@ -186,7 +188,7 @@ class TfidfKnnSearcher(SearchStoreMixin):
 
     def fvs(self, error_callback=None):
         """The feature vectors for the search_store"""
-        if hasattr(self.search_store, "keys_cache"):
+        if hasattr(self.search_store, 'keys_cache'):
             return self.tfidf
         else:
             keys_cache = []
@@ -217,7 +219,7 @@ class TfidfKnnSearcher(SearchStoreMixin):
         (scores, *_), (idx, *_) = self.knn.kneighbors([fv])
         return idx, scores
 
-    _state_attrs = ("keys_array", "tfidf", "knn")
+    _state_attrs = ('keys_array', 'tfidf', 'knn')
 
     def __getstate__(self):
         return {attr: getattr(self, attr) for attr in self._state_attrs}
@@ -246,7 +248,9 @@ class CodeSearcherBase(TextFilesSearcherBase):
 
 
 class TfidfKnnFitMixin(TfidfKnnSearcher):
-    def set_search_store(self, search_store):  # TODO: override setter with this function
+    def set_search_store(
+        self, search_store
+    ):  # TODO: override setter with this function
         self.search_store = search_store
         assert isinstance(self.search_store, Mapping), "Your store isn't a Mapping"
         return self.fit_knn()

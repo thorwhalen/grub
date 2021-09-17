@@ -1,3 +1,5 @@
+"""Searching for available pypi names, with word2vec query expansion"""
+
 import re
 from functools import lru_cache, cached_property
 
@@ -37,10 +39,12 @@ def get_html():
     simple_index_url = 'https://pypi.org/simple'
     try:
         from graze.base import graze
+
         age_threshold = 7 * 24 * 60 * 60  # one week
         return graze(simple_index_url, max_age=age_threshold)
     except ModuleNotFoundError:
         from urllib.request import urlopen
+
         with urlopen(simple_index_url) as f:
             return f.read()
 
@@ -102,16 +106,18 @@ class Search:
     s.search('search for the right name')
     ```
     """
+
     tokenizer = re.compile('\w+').findall
 
-    def __init__(self,
-                 wordvec_zip_filepath,
-                 search_words,
-                 exclude_words='already_published',
-                 wordvec_name_in_zip='wiki-news-300d-1M-subword.vec',
-                 n_neighbors=37,
-                 verbose=False
-                 ):
+    def __init__(
+        self,
+        wordvec_zip_filepath,
+        search_words,
+        exclude_words='already_published',
+        wordvec_name_in_zip='wiki-news-300d-1M-subword.vec',
+        n_neighbors=37,
+        verbose=False,
+    ):
         self.wordvec_zip_filepath = wordvec_zip_filepath
         self.wordvec_name_in_zip = wordvec_name_in_zip
         self.search_words = set(search_words)
@@ -155,6 +161,7 @@ class Search:
     @cached_property
     def knn(self):
         from sklearn.neighbors import NearestNeighbors
+
         taget_wv = dict(self.filtered_wordvecs(lambda x: x in self.search_words))
         X = np.array(list(taget_wv.values()))
 

@@ -1,9 +1,11 @@
+"""Searching python code"""
+
 import re
 from grub.base import (
     SearchStore,
     CodeSearcher,
     get_py_files_store,
-    camelcase_and_underscore_tokenizer
+    camelcase_and_underscore_tokenizer,
 )
 
 
@@ -103,7 +105,8 @@ def func_semantic_info(func) -> dict:
 
 def import_module_from_filepath(filepath):
     import importlib.util
-    spec = importlib.util.spec_from_file_location("module.name", filepath)
+
+    spec = importlib.util.spec_from_file_location('module.name', filepath)
     m = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(m)
     return m
