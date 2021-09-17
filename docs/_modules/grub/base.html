@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>grub.base &#8212; grub 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for grub.base</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Base functionality&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">ModuleType</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">ismodule</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">NearestNeighbors</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="kn">import</span> <span class="n">check_is_fitted</span>
+
+<span class="kn">from</span> <span class="nn">py2store</span> <span class="kn">import</span> <span class="n">LocalTextStore</span><span class="p">,</span> <span class="n">cached_keys</span><span class="p">,</span> <span class="n">lazyprop</span><span class="p">,</span> <span class="n">KvReader</span>
+
+
+<span class="k">def</span> <span class="nf">grub</span><span class="p">(</span><span class="n">search_store</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">search_store</span> <span class="o">=</span> <span class="n">get_py_files_store</span><span class="p">(</span><span class="n">search_store</span><span class="p">)</span>
+    <span class="n">knn</span> <span class="o">=</span> <span class="n">NearestNeighbors</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;cosine&#39;</span><span class="p">)</span>
+    <span class="n">search</span> <span class="o">=</span> <span class="n">TextFilesSearcher</span><span class="p">(</span><span class="n">search_store</span><span class="p">,</span> <span class="n">knn</span><span class="o">=</span><span class="n">knn</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_py_files_store</span><span class="p">(</span><span class="n">spec</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">ismodule</span><span class="p">(</span><span class="n">spec</span><span class="p">):</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.py&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;__init__.py&#39;</span><span class="p">):</span>
+                <span class="n">spec</span> <span class="o">=</span> <span class="n">spec</span><span class="p">[:</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="s1">&#39;__init__.py&#39;</span><span class="p">)]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s1">&#39;You provided an individual module. &#39;</span>
+                    <span class="sa">f</span><span class="s1">&#39;Must be a package module: </span><span class="si">{</span><span class="n">spec</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span><span class="p">):</span>
+            <span class="n">spec</span> <span class="o">=</span> <span class="n">spec</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="n">LocalTextStore</span><span class="p">(</span><span class="n">spec</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.py&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">spec</span>
+
+
+<span class="n">camelcase_p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    # Find words in a string. Order matters!</span>
+<span class="sd">    [A-Z]+(?=[A-Z][a-z]) |  # All upper case before a capitalized word</span>
+<span class="sd">    [A-Z]?[a-z]+ |  # Capitalized words / all lower case</span>
+<span class="sd">    [A-Z]+ |  # All upper case</span>
+<span class="sd">    \d+  # Numbers  TODO: Might want to drop that.</span>
+<span class="sd">&#39;&#39;&#39;</span><span class="p">,</span>
+    <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="camelcase_and_underscore_tokenizer"><a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.camelcase_and_underscore_tokenizer">[docs]</a><span class="k">def</span> <span class="nf">camelcase_and_underscore_tokenizer</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; print(*camelcase_and_underscore_tokenizer(&#39;thereIsSomething i_wanted toShow&#39;))</span>
+<span class="sd">    there is something i wanted to show</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span> <span class="n">camelcase_p</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">string</span><span class="p">)))</span></div>
+
+
+<div class="viewcode-block" id="SearchStoreMixin"><a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.SearchStoreMixin">[docs]</a><span class="k">class</span> <span class="nc">SearchStoreMixin</span><span class="p">(</span><span class="n">KvReader</span><span class="p">):</span>
+    <span class="n">store_attr</span> <span class="o">=</span> <span class="s1">&#39;search_store&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">store_attr</span><span class="p">)</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">store_attr</span><span class="p">)</span><span class="o">.</span><span class="fm">__iter__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">store_attr</span><span class="p">)</span><span class="o">.</span><span class="fm">__contains__</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">store_attr</span><span class="p">)</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="StoreMixin"><a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.StoreMixin">[docs]</a><span class="k">class</span> <span class="nc">StoreMixin</span><span class="p">(</span><span class="n">SearchStoreMixin</span><span class="p">):</span>
+    <span class="n">store_attr</span> <span class="o">=</span> <span class="s1">&#39;store&#39;</span></div>
+
+
+<div class="viewcode-block" id="SearchStore"><a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.SearchStore">[docs]</a><span class="k">class</span> <span class="nc">SearchStore</span><span class="p">(</span><span class="n">StoreMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Build a search index for anything (that is given a mapping interface with string values).</span>
+
+<span class="sd">    A store is anything with a ``collections.Mapping`` interface.</span>
+<span class="sd">    Typically, a store&#39;s backend comes from local files or data-base wrapped into a mapping</span>
+<span class="sd">    (see ``py2store`` for tools to do that!).</span>
+<span class="sd">    For testing purposes though, we&#39;ll use a ``dict`` here:</span>
+
+<span class="sd">    &gt;&gt;&gt; store = {</span>
+<span class="sd">    ... &quot;Nelson Mandela&quot;: &quot;The greatest glory in living lies not in never falling, but in rising every time we fall.&quot;,</span>
+<span class="sd">    ... &quot;Walt Disney&quot;: &quot;The way to get started is to quit talking and begin doing.&quot;,</span>
+<span class="sd">    ... &quot;Steve Jobs&quot;: &quot;Your time is limited, so don&#39;t waste it living someone else&#39;s life.&quot;</span>
+<span class="sd">    ... }</span>
+<span class="sd">    &gt;&gt;&gt; search = SearchStore(store, n_neighbors=2)  # our store is small, so need to restrict our result size to less</span>
+<span class="sd">    &gt;&gt;&gt; list(search(&#39;living&#39;))</span>
+<span class="sd">    [&#39;Steve Jobs&#39;, &#39;Nelson Mandela&#39;]</span>
+
+<span class="sd">    A ``SearchStore`` instance is picklable.</span>
+
+<span class="sd">    &gt;&gt;&gt; import pickle</span>
+<span class="sd">    &gt;&gt;&gt; unserialized_search = pickle.loads(pickle.dumps(search))</span>
+<span class="sd">    &gt;&gt;&gt; list(unserialized_search(&#39;living&#39;))</span>
+<span class="sd">    [&#39;Steve Jobs&#39;, &#39;Nelson Mandela&#39;]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_state_attrs</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;keys_array&#39;</span><span class="p">,</span> <span class="s1">&#39;tfidf&#39;</span><span class="p">,</span> <span class="s1">&#39;knn&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">camelcase_and_underscore_tokenizer</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Index store (values) and provide a search functionality for it.</span>
+
+<span class="sd">        :param store: The collection that should be indexed for search.</span>
+<span class="sd">            A store is anything with a ``collections.Mapping`` interface.</span>
+<span class="sd">            Typically, a store&#39;s backend comes from local files or data-base wrapped into a mapping</span>
+<span class="sd">            (see ``py2store`` for tools to do that!).</span>
+<span class="sd">            If given as a string, it will be considered to be a file path and given to</span>
+<span class="sd">            ``py2store.LocalTextStore`` to make a store.</span>
+<span class="sd">        :param n_neighbors: The number search results to provide</span>
+<span class="sd">        :param tokenizer: The function to apply to store (string) values to get an iterable of tokens.</span>
+<span class="sd">            It is these tokens that are used both as the vocabulary for the queries and to represent searched values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">store</span> <span class="o">=</span> <span class="n">LocalTextStore</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">store</span> <span class="o">=</span> <span class="n">store</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">tfidf</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span> <span class="n">token_pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tfidf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">raw_documents</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">keys_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
+
+        <span class="n">doc_vecs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tfidf</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_neighbors</span> <span class="o">=</span> <span class="n">n_neighbors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">knn</span> <span class="o">=</span> <span class="n">NearestNeighbors</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">n_neighbors</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;cosine&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+            <span class="n">doc_vecs</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">attr</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_attrs</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_attrs</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="n">attr</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">),</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">knn</span><span class="o">.</span><span class="n">kneighbors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tfidf</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="n">query</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys_array</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">k</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DfltSearchStore"><a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.DfltSearchStore">[docs]</a><span class="k">class</span> <span class="nc">DfltSearchStore</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">yield from</span> <span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;DfltSearchStore is not meant to be used&#39;</span><span class="p">)</span></div>
+
+
+<span class="c1"># search_store and</span>
+<div class="viewcode-block" id="TfidfKnnSearcher"><a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.TfidfKnnSearcher">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">TfidfKnnSearcher</span><span class="p">(</span><span class="n">SearchStoreMixin</span><span class="p">):</span>
+    <span class="n">search_store</span><span class="p">:</span> <span class="n">Mapping</span> <span class="o">=</span> <span class="n">DfltSearchStore</span><span class="p">()</span>
+    <span class="n">tfidf</span><span class="p">:</span> <span class="n">TfidfVectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">()</span>
+    <span class="n">knn</span><span class="p">:</span> <span class="n">NearestNeighbors</span> <span class="o">=</span> <span class="n">NearestNeighbors</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;cosine&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delegate method to wrapped store if not part of wrapper store methods&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">search_store</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+
+    <span class="nd">@lazyprop</span>
+    <span class="k">def</span> <span class="nf">keys_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">search_store</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">n_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">knn</span><span class="o">.</span><span class="n">n_neighbors</span>
+
+<div class="viewcode-block" id="TfidfKnnSearcher.fvs"><a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.TfidfKnnSearcher.fvs">[docs]</a>    <span class="k">def</span> <span class="nf">fvs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error_callback</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The feature vectors for the search_store&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">search_store</span><span class="p">,</span> <span class="s1">&#39;keys_cache&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tfidf</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">keys_cache</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">search_documents</span> <span class="o">=</span> <span class="n">iterate_values_and_accumulate_non_error_keys</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">search_store</span><span class="p">,</span>
+                <span class="n">cache_keys_here</span><span class="o">=</span><span class="n">keys_cache</span><span class="p">,</span>
+                <span class="n">error_callback</span><span class="o">=</span><span class="n">error_callback</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">fvs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tfidf</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">search_documents</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">search_store</span> <span class="o">=</span> <span class="n">cached_keys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">search_store</span><span class="p">,</span> <span class="n">keys_cache</span><span class="o">=</span><span class="n">keys_cache</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">fvs</span></div>
+
+    <span class="c1"># def fit(self, learn_store, ):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">),</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">knn</span><span class="o">.</span><span class="n">kneighbors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tfidf</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="n">query</span><span class="p">]))</span>
+        <span class="c1"># # equivalently:</span>
+        <span class="c1"># fv = self.query_to_fv(query)</span>
+        <span class="c1"># idx, scores = self.fv_to_idx_and_score(fv)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys_array</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">docs_to_fvs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tfidf</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">query_to_fv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tfidf</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="n">query</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">fv_to_idx_and_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fv</span><span class="p">):</span>
+        <span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">),</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">knn</span><span class="o">.</span><span class="n">kneighbors</span><span class="p">([</span><span class="n">fv</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">idx</span><span class="p">,</span> <span class="n">scores</span>
+
+    <span class="n">_state_attrs</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;keys_array&#39;</span><span class="p">,</span> <span class="s1">&#39;tfidf&#39;</span><span class="p">,</span> <span class="s1">&#39;knn&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">attr</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_attrs</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_attrs</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="n">attr</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="TextFilesSearcherBase"><a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.TextFilesSearcherBase">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">TextFilesSearcherBase</span><span class="p">(</span><span class="n">TfidfKnnSearcher</span><span class="p">):</span>
+    <span class="n">search_store</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">]</span> <span class="o">=</span> <span class="n">DfltSearchStore</span><span class="p">()</span>
+    <span class="n">tfidf</span><span class="p">:</span> <span class="n">TfidfVectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">token_pattern</span><span class="o">=</span><span class="n">camelcase_p</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">search_store</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">search_store</span> <span class="o">=</span> <span class="n">LocalTextStore</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">search_store</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CodeSearcherBase"><a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.CodeSearcherBase">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">CodeSearcherBase</span><span class="p">(</span><span class="n">TextFilesSearcherBase</span><span class="p">):</span>
+    <span class="n">search_store</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">ModuleType</span><span class="p">]</span> <span class="o">=</span> <span class="n">DfltSearchStore</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">search_store</span> <span class="o">=</span> <span class="n">get_py_files_store</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">search_store</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TfidfKnnFitMixin"><a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.TfidfKnnFitMixin">[docs]</a><span class="k">class</span> <span class="nc">TfidfKnnFitMixin</span><span class="p">(</span><span class="n">TfidfKnnSearcher</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_search_store</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">search_store</span>
+    <span class="p">):</span>  <span class="c1"># TODO: override setter with this function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">search_store</span> <span class="o">=</span> <span class="n">search_store</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">search_store</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">),</span> <span class="s2">&quot;Your store isn&#39;t a Mapping&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_knn</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">fit_knn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fvs</span><span class="p">())</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">fit_tfidf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">learn_store</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">error_callback</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">learn_store</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">learn_store</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_store</span>
+        <span class="n">keys_fit_on_</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">raw_documents</span> <span class="o">=</span> <span class="n">iterate_values_and_accumulate_non_error_keys</span><span class="p">(</span>
+            <span class="n">learn_store</span><span class="p">,</span> <span class="n">cache_keys_here</span><span class="o">=</span><span class="n">keys_fit_on_</span><span class="p">,</span> <span class="n">error_callback</span><span class="o">=</span><span class="n">error_callback</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tfidf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">raw_documents</span><span class="o">=</span><span class="n">raw_documents</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tfidf</span><span class="o">.</span><span class="n">keys_fit_on_</span> <span class="o">=</span> <span class="n">keys_fit_on_</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">learn_store</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_tfidf</span><span class="p">(</span><span class="n">learn_store</span><span class="p">)</span><span class="o">.</span><span class="n">fit_knn</span><span class="p">()</span></div>
+
+
+<span class="k">def</span> <span class="nf">iterate_values_and_accumulate_non_error_keys</span><span class="p">(</span>
+    <span class="n">store</span><span class="p">,</span> <span class="n">cache_keys_here</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">errors_caught</span><span class="o">=</span><span class="ne">Exception</span><span class="p">,</span> <span class="n">error_callback</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">store</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">store</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="n">cache_keys_here</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">v</span>
+        <span class="k">except</span> <span class="n">errors_caught</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">error_callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">error_callback</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="TextFilesSearcher"><a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.TextFilesSearcher">[docs]</a><span class="k">class</span> <span class="nc">TextFilesSearcher</span><span class="p">(</span><span class="n">TextFilesSearcherBase</span><span class="p">,</span> <span class="n">TfidfKnnFitMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fittable Text searcher with fitters&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="CodeSearcher"><a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.CodeSearcher">[docs]</a><span class="k">class</span> <span class="nc">CodeSearcher</span><span class="p">(</span><span class="n">CodeSearcherBase</span><span class="p">,</span> <span class="n">TfidfKnnFitMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Text searcher with fitters&quot;&quot;&quot;</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">grub</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub.html">grub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/base.html">grub.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/examples.html">grub.examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/examples/pypi.html">grub.examples.pypi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/pycode.html">grub.pycode</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;NO COPYRIGHT.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

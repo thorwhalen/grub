@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>grub.base &#8212; grub 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="grub.examples" href="examples.html" />
+    <link rel="prev" title="grub" href="../grub.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-grub.base">
+<span id="grub-base"></span><h1>grub.base<a class="headerlink" href="#module-grub.base" title="Permalink to this headline">¶</a></h1>
+<p>Base functionality</p>
+<dl class="py class">
+<dt id="grub.base.CodeSearcher">
+<em class="property">class </em><code class="sig-prename descclassname">grub.base.</code><code class="sig-name descname">CodeSearcher</code><span class="sig-paren">(</span><em class="sig-param">search_store: Union[str</em>, <em class="sig-param">Mapping</em>, <em class="sig-param">module] = &lt;grub.base.DfltSearchStore object&gt;</em>, <em class="sig-param">tfidf: sklearn.feature_extraction.text.TfidfVectorizer = TfidfVectorizer(token_pattern=re.compile('\n    # Find words in a string. Order matters!\n    [A-Z]+(?=[A-Z][a-z]) |  # All upper case before a capitalized word\n    [A-Z]?[a-z]+ |  # Capitalized words / all lower case\n    [A-Z]+ |  # All u</em>, <em class="sig-param">re.VERBOSE))</em>, <em class="sig-param">knn: sklearn.neighbors._unsupervised.NearestNeighbors = NearestNeighbors(metric='cosine'</em>, <em class="sig-param">n_neighbors=10)</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/grub/base.html#CodeSearcher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grub.base.CodeSearcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Text searcher with fitters</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="grub.base.CodeSearcherBase">
+<em class="property">class </em><code class="sig-prename descclassname">grub.base.</code><code class="sig-name descname">CodeSearcherBase</code><span class="sig-paren">(</span><em class="sig-param">search_store: Union[str</em>, <em class="sig-param">Mapping</em>, <em class="sig-param">module] = &lt;grub.base.DfltSearchStore object at 0x7f9ce17fee50&gt;</em>, <em class="sig-param">tfidf: sklearn.feature_extraction.text.TfidfVectorizer = TfidfVectorizer(token_pattern=re.compile('\n    # Find words in a string. Order matters!\n    [A-Z]+(?=[A-Z][a-z]) |  # All upper case before a capitalized word\n    [A-Z]?[a-z]+ |  # Capitalized words / all lower case\n    [A-Z]+ |  # All u</em>, <em class="sig-param">re.VERBOSE))</em>, <em class="sig-param">knn: sklearn.neighbors._unsupervised.NearestNeighbors = NearestNeighbors(metric='cosine'</em>, <em class="sig-param">n_neighbors=10)</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/grub/base.html#CodeSearcherBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grub.base.CodeSearcherBase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="grub.base.DfltSearchStore">
+<em class="property">class </em><code class="sig-prename descclassname">grub.base.</code><code class="sig-name descname">DfltSearchStore</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/grub/base.html#DfltSearchStore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grub.base.DfltSearchStore" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="grub.base.SearchStore">
+<em class="property">class </em><code class="sig-prename descclassname">grub.base.</code><code class="sig-name descname">SearchStore</code><span class="sig-paren">(</span><em class="sig-param">store</em>, <em class="sig-param">n_neighbors: int = 10</em>, <em class="sig-param">tokenizer=&lt;function camelcase_and_underscore_tokenizer&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/grub/base.html#SearchStore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grub.base.SearchStore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a search index for anything (that is given a mapping interface with string values).</p>
+<p>A store is anything with a <code class="docutils literal notranslate"><span class="pre">collections.Mapping</span></code> interface.
+Typically, a store’s backend comes from local files or data-base wrapped into a mapping
+(see <code class="docutils literal notranslate"><span class="pre">py2store</span></code> for tools to do that!).
+For testing purposes though, we’ll use a <code class="docutils literal notranslate"><span class="pre">dict</span></code> here:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">store</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span><span class="s2">&quot;Nelson Mandela&quot;</span><span class="p">:</span> <span class="s2">&quot;The greatest glory in living lies not in never falling, but in rising every time we fall.&quot;</span><span class="p">,</span>
+<span class="gp">... </span><span class="s2">&quot;Walt Disney&quot;</span><span class="p">:</span> <span class="s2">&quot;The way to get started is to quit talking and begin doing.&quot;</span><span class="p">,</span>
+<span class="gp">... </span><span class="s2">&quot;Steve Jobs&quot;</span><span class="p">:</span> <span class="s2">&quot;Your time is limited, so don&#39;t waste it living someone else&#39;s life.&quot;</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search</span> <span class="o">=</span> <span class="n">SearchStore</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># our store is small, so need to restrict our result size to less</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;living&#39;</span><span class="p">))</span>
+<span class="go">[&#39;Steve Jobs&#39;, &#39;Nelson Mandela&#39;]</span>
+</pre></div>
+</div>
+<p>A <code class="docutils literal notranslate"><span class="pre">SearchStore</span></code> instance is picklable.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pickle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">unserialized_search</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">search</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">unserialized_search</span><span class="p">(</span><span class="s1">&#39;living&#39;</span><span class="p">))</span>
+<span class="go">[&#39;Steve Jobs&#39;, &#39;Nelson Mandela&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt id="grub.base.SearchStoreMixin">
+<em class="property">class </em><code class="sig-prename descclassname">grub.base.</code><code class="sig-name descname">SearchStoreMixin</code><a class="reference internal" href="../../_modules/grub/base.html#SearchStoreMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grub.base.SearchStoreMixin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="grub.base.StoreMixin">
+<em class="property">class </em><code class="sig-prename descclassname">grub.base.</code><code class="sig-name descname">StoreMixin</code><a class="reference internal" href="../../_modules/grub/base.html#StoreMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grub.base.StoreMixin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="grub.base.TextFilesSearcher">
+<em class="property">class </em><code class="sig-prename descclassname">grub.base.</code><code class="sig-name descname">TextFilesSearcher</code><span class="sig-paren">(</span><em class="sig-param">search_store: Union[str</em>, <em class="sig-param">Mapping] = &lt;grub.base.DfltSearchStore object&gt;</em>, <em class="sig-param">tfidf: sklearn.feature_extraction.text.TfidfVectorizer = TfidfVectorizer(token_pattern=re.compile('\n    # Find words in a string. Order matters!\n    [A-Z]+(?=[A-Z][a-z]) |  # All upper case before a capitalized word\n    [A-Z]?[a-z]+ |  # Capitalized words / all lower case\n    [A-Z]+ |  # All u</em>, <em class="sig-param">re.VERBOSE))</em>, <em class="sig-param">knn: sklearn.neighbors._unsupervised.NearestNeighbors = NearestNeighbors(metric='cosine'</em>, <em class="sig-param">n_neighbors=10)</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/grub/base.html#TextFilesSearcher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grub.base.TextFilesSearcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fittable Text searcher with fitters</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="grub.base.TextFilesSearcherBase">
+<em class="property">class </em><code class="sig-prename descclassname">grub.base.</code><code class="sig-name descname">TextFilesSearcherBase</code><span class="sig-paren">(</span><em class="sig-param">search_store: Union[str</em>, <em class="sig-param">Mapping] = &lt;grub.base.DfltSearchStore object at 0x7f9ce17feeb0&gt;</em>, <em class="sig-param">tfidf: sklearn.feature_extraction.text.TfidfVectorizer = TfidfVectorizer(token_pattern=re.compile('\n    # Find words in a string. Order matters!\n    [A-Z]+(?=[A-Z][a-z]) |  # All upper case before a capitalized word\n    [A-Z]?[a-z]+ |  # Capitalized words / all lower case\n    [A-Z]+ |  # All u</em>, <em class="sig-param">re.VERBOSE))</em>, <em class="sig-param">knn: sklearn.neighbors._unsupervised.NearestNeighbors = NearestNeighbors(metric='cosine'</em>, <em class="sig-param">n_neighbors=10)</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/grub/base.html#TextFilesSearcherBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grub.base.TextFilesSearcherBase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="grub.base.TfidfKnnFitMixin">
+<em class="property">class </em><code class="sig-prename descclassname">grub.base.</code><code class="sig-name descname">TfidfKnnFitMixin</code><span class="sig-paren">(</span><em class="sig-param">search_store: Mapping = &lt;grub.base.DfltSearchStore object&gt;</em>, <em class="sig-param">tfidf: sklearn.feature_extraction.text.TfidfVectorizer = TfidfVectorizer()</em>, <em class="sig-param">knn: sklearn.neighbors._unsupervised.NearestNeighbors = NearestNeighbors(metric='cosine'</em>, <em class="sig-param">n_neighbors=10)</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/grub/base.html#TfidfKnnFitMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grub.base.TfidfKnnFitMixin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="grub.base.TfidfKnnSearcher">
+<em class="property">class </em><code class="sig-prename descclassname">grub.base.</code><code class="sig-name descname">TfidfKnnSearcher</code><span class="sig-paren">(</span><em class="sig-param">search_store: Mapping = &lt;grub.base.DfltSearchStore object at 0x7f9cfe50e5b0&gt;</em>, <em class="sig-param">tfidf: sklearn.feature_extraction.text.TfidfVectorizer = TfidfVectorizer()</em>, <em class="sig-param">knn: sklearn.neighbors._unsupervised.NearestNeighbors = NearestNeighbors(metric='cosine'</em>, <em class="sig-param">n_neighbors=10)</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/grub/base.html#TfidfKnnSearcher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grub.base.TfidfKnnSearcher" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="grub.base.TfidfKnnSearcher.fvs">
+<code class="sig-name descname">fvs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">error_callback</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/grub/base.html#TfidfKnnSearcher.fvs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grub.base.TfidfKnnSearcher.fvs" title="Permalink to this definition">¶</a></dt>
+<dd><p>The feature vectors for the search_store</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="grub.base.camelcase_and_underscore_tokenizer">
+<code class="sig-prename descclassname">grub.base.</code><code class="sig-name descname">camelcase_and_underscore_tokenizer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">string</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/grub/base.html#camelcase_and_underscore_tokenizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grub.base.camelcase_and_underscore_tokenizer" title="Permalink to this definition">¶</a></dt>
+<dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">camelcase_and_underscore_tokenizer</span><span class="p">(</span><span class="s1">&#39;thereIsSomething i_wanted toShow&#39;</span><span class="p">))</span>
+<span class="go">there is something i wanted to show</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">grub</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../grub.html">grub</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">grub.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">grub.examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/pypi.html">grub.examples.pypi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycode.html">grub.pycode</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../grub.html" title="previous chapter">grub</a></li>
+      <li>Next: <a href="examples.html" title="next chapter">grub.examples</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;NO COPYRIGHT.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/module_docs/grub/base.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

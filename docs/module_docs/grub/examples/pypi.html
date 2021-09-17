@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>grub.examples.pypi &#8212; grub 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="grub.pycode" href="../pycode.html" />
+    <link rel="prev" title="grub.examples" href="../examples.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-grub.examples.pypi">
+<span id="grub-examples-pypi"></span><h1>grub.examples.pypi<a class="headerlink" href="#module-grub.examples.pypi" title="Permalink to this headline">¶</a></h1>
+<p>Searching for available pypi names, with word2vec query expansion</p>
+<dl class="py class">
+<dt id="grub.examples.pypi.Search">
+<em class="property">class </em><code class="sig-prename descclassname">grub.examples.pypi.</code><code class="sig-name descname">Search</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wordvec_zip_filepath</span></em>, <em class="sig-param"><span class="n">search_words</span></em>, <em class="sig-param"><span class="n">exclude_words</span><span class="o">=</span><span class="default_value">'already_published'</span></em>, <em class="sig-param"><span class="n">wordvec_name_in_zip</span><span class="o">=</span><span class="default_value">'wiki-news-300d-1M-subword.vec'</span></em>, <em class="sig-param"><span class="n">n_neighbors</span><span class="o">=</span><span class="default_value">37</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/grub/examples/pypi.html#Search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grub.examples.pypi.Search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Example:</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a>`
+zip_filepath = ‘/D/Dropbox/_odata/misc/wiki-news-300d-1M-subword.vec.zip’</p>
+<p>import pandas as pd
+df = pd.read_excel(‘/Users/twhalen/Downloads/pypi package names.xlsx’)
+target_words = set(df.word)</p>
+<p>from grub.examples.pypi import Search</p>
+<p>s = Search(zip_filepath, search_words=target_words)
+s.search(‘search for the right name’)
+<a href="#id3"><span class="problematic" id="id4">``</span></a><a href="#id5"><span class="problematic" id="id6">`</span></a></p>
+<dl class="py method">
+<dt id="grub.examples.pypi.Search.tokenizer">
+<code class="sig-name descname">tokenizer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pos</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">endpos</span><span class="o">=</span><span class="default_value">9223372036854775807</span></em><span class="sig-paren">)</span><a class="headerlink" href="#grub.examples.pypi.Search.tokenizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of all non-overlapping matches of pattern in string.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="grub.examples.pypi.StreamsOfZip">
+<em class="property">class </em><code class="sig-prename descclassname">grub.examples.pypi.</code><code class="sig-name descname">StreamsOfZip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">zip_file</span></em>, <em class="sig-param"><span class="n">prefix</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">open_kws</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/grub/examples/pypi.html#StreamsOfZip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grub.examples.pypi.StreamsOfZip" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="grub.examples.pypi.WordVecStream">
+<em class="property">class </em><code class="sig-prename descclassname">grub.examples.pypi.</code><code class="sig-name descname">WordVecStream</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stream</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/grub/examples/pypi.html#WordVecStream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grub.examples.pypi.WordVecStream" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">grub</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../grub.html">grub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../base.html">grub.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">grub.examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">grub.examples.pypi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pycode.html">grub.pycode</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../examples.html" title="previous chapter">grub.examples</a></li>
+      <li>Next: <a href="../pycode.html" title="next chapter">grub.pycode</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;NO COPYRIGHT.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../../_sources/module_docs/grub/examples/pypi.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

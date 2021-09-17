@@ -1,0 +1,282 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>grub.examples.pypi &#8212; grub 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for grub.examples.pypi</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Searching for available pypi names, with word2vec query expansion&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span><span class="p">,</span> <span class="n">cached_property</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">py2store.slib.s_zipfile</span> <span class="kn">import</span> <span class="n">FileStreamsOfZip</span>
+<span class="kn">from</span> <span class="nn">py2store.base</span> <span class="kn">import</span> <span class="n">Stream</span>
+<span class="kn">from</span> <span class="nn">py2store</span> <span class="kn">import</span> <span class="n">groupby</span>
+
+
+<span class="k">def</span> <span class="nf">line_to_raw_word_vec</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+    <span class="n">word</span><span class="p">,</span> <span class="n">vec</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">word</span><span class="o">.</span><span class="n">decode</span><span class="p">(),</span> <span class="n">vec</span>
+
+
+<div class="viewcode-block" id="WordVecStream"><a class="viewcode-back" href="../../../module_docs/grub/examples/pypi.html#grub.examples.pypi.WordVecStream">[docs]</a><span class="k">class</span> <span class="nc">WordVecStream</span><span class="p">(</span><span class="n">Stream</span><span class="p">):</span>
+    <span class="n">_obj_of_data</span> <span class="o">=</span> <span class="n">line_to_raw_word_vec</span></div>
+
+
+<div class="viewcode-block" id="StreamsOfZip"><a class="viewcode-back" href="../../../module_docs/grub/examples/pypi.html#grub.examples.pypi.StreamsOfZip">[docs]</a><span class="k">class</span> <span class="nc">StreamsOfZip</span><span class="p">(</span><span class="n">FileStreamsOfZip</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_obj_of_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">line_to_raw_word_vec</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">word_and_vecs</span><span class="p">(</span><span class="n">fp</span><span class="p">):</span>
+    <span class="c1">#     fin = io.open(fname, &#39;r&#39;, encoding=&#39;utf-8&#39;, newline=&#39;\n&#39;, errors=&#39;ignore&#39;)</span>
+
+    <span class="c1"># consume the first line (n_lines, n_dims) not yielded</span>
+    <span class="n">n_lines</span><span class="p">,</span> <span class="n">n_dims</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">fp</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="p">:</span>
+        <span class="n">tok</span><span class="p">,</span> <span class="o">*</span><span class="n">vec</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">tok</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">vec</span><span class="p">))</span>
+
+
+<span class="nd">@lru_cache</span>
+<span class="k">def</span> <span class="nf">get_html</span><span class="p">():</span>
+    <span class="n">simple_index_url</span> <span class="o">=</span> <span class="s1">&#39;https://pypi.org/simple&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">graze.base</span> <span class="kn">import</span> <span class="n">graze</span>
+
+        <span class="n">age_threshold</span> <span class="o">=</span> <span class="mi">7</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span>  <span class="c1"># one week</span>
+        <span class="k">return</span> <span class="n">graze</span><span class="p">(</span><span class="n">simple_index_url</span><span class="p">,</span> <span class="n">max_age</span><span class="o">=</span><span class="n">age_threshold</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
+
+        <span class="k">with</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">simple_index_url</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+
+<span class="n">_parse_names_from_html</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;&lt;a href=&quot;/simple/.+/&quot;&gt;(.+)&lt;/a&gt;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">findall</span>
+
+
+<span class="k">def</span> <span class="nf">get_distributions</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">html</span> <span class="ow">or</span> <span class="n">get_html</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">_parse_names_from_html</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+
+
+<span class="k">def</span> <span class="nf">_get_distributions_old_version_using_xml</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">xml.etree</span> <span class="kn">import</span> <span class="n">ElementTree</span>
+    <span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
+
+    <span class="n">html</span> <span class="o">=</span> <span class="n">html</span> <span class="ow">or</span> <span class="n">get_html</span><span class="p">()</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">html</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)]</span>
+
+
+<span class="c1"># from py2store import lazyprop</span>
+<span class="k">class</span> <span class="nc">Pypi</span><span class="p">:</span>
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">pypi_words</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">get_distributions</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">is_available</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pypi_words</span>
+
+    <span class="k">def</span> <span class="nf">available_and_not</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">groupby</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_available</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">live_is_available</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pkg_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if a package name is available, but live (directly on pypi, not a cache)&quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">urllib</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;https://pypi.org/project/</span><span class="si">{</span><span class="n">pkg_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">u</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">except</span> <span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">HTTPError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># if url is invalid, package exists</span>
+
+
+<div class="viewcode-block" id="Search"><a class="viewcode-back" href="../../../module_docs/grub/examples/pypi.html#grub.examples.pypi.Search">[docs]</a><span class="k">class</span> <span class="nc">Search</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```</span>
+<span class="sd">    zip_filepath = &#39;/D/Dropbox/_odata/misc/wiki-news-300d-1M-subword.vec.zip&#39;</span>
+
+<span class="sd">    import pandas as pd</span>
+<span class="sd">    df = pd.read_excel(&#39;/Users/twhalen/Downloads/pypi package names.xlsx&#39;)</span>
+<span class="sd">    target_words = set(df.word)</span>
+
+<span class="sd">    from grub.examples.pypi import Search</span>
+
+<span class="sd">    s = Search(zip_filepath, search_words=target_words)</span>
+<span class="sd">    s.search(&#39;search for the right name&#39;)</span>
+<span class="sd">    ```</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;\w+&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">findall</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">wordvec_zip_filepath</span><span class="p">,</span>
+        <span class="n">search_words</span><span class="p">,</span>
+        <span class="n">exclude_words</span><span class="o">=</span><span class="s1">&#39;already_published&#39;</span><span class="p">,</span>
+        <span class="n">wordvec_name_in_zip</span><span class="o">=</span><span class="s1">&#39;wiki-news-300d-1M-subword.vec&#39;</span><span class="p">,</span>
+        <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">37</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wordvec_zip_filepath</span> <span class="o">=</span> <span class="n">wordvec_zip_filepath</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wordvec_name_in_zip</span> <span class="o">=</span> <span class="n">wordvec_name_in_zip</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">search_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">search_words</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">exclude_words</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">exclude_words</span> <span class="o">==</span> <span class="s1">&#39;already_published&#39;</span><span class="p">:</span>
+                <span class="n">exclude_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">get_distributions</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">search_words</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_words</span> <span class="o">-</span> <span class="n">exclude_words</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_neighbors</span> <span class="o">=</span> <span class="n">n_neighbors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">stream</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">StreamsOfZip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wordvec_zip_filepath</span><span class="p">)</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">wordvecs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Gathering all the word vecs. This could take a few minutes...&#39;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">wordvec_name_in_zip</span><span class="p">]</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="n">all_wordvecs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">word_and_vecs</span><span class="p">(</span><span class="n">fp</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">all_wordvecs</span>
+
+    <span class="k">def</span> <span class="nf">filtered_wordvecs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tok_filt</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">wordvec_name_in_zip</span><span class="p">]</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="k">yield from</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">tok_filt</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">word_and_vecs</span><span class="p">(</span><span class="n">fp</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">vec_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">wordvecs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">mean_vec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vec_matrix</span><span class="p">(</span><span class="n">words</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">query_to_vec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_vec</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">query_to_vec_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vec_matrix</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">knn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">NearestNeighbors</span>
+
+        <span class="n">taget_wv</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filtered_wordvecs</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_words</span><span class="p">))</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">taget_wv</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+
+        <span class="n">knn</span> <span class="o">=</span> <span class="n">NearestNeighbors</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_neighbors</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;cosine&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">knn</span><span class="o">.</span><span class="n">words</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">taget_wv</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">knn</span>
+
+    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="n">query_vec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_to_vec</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="n">r_dist</span><span class="p">,</span> <span class="n">r_idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">knn</span><span class="o">.</span><span class="n">kneighbors</span><span class="p">(</span><span class="n">query_vec</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">knn</span><span class="o">.</span><span class="n">words</span><span class="p">[</span><span class="n">r_idx</span><span class="p">]</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">grub</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/grub.html">grub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/grub/base.html">grub.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/grub/examples.html">grub.examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/grub/examples/pypi.html">grub.examples.pypi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/grub/pycode.html">grub.pycode</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;NO COPYRIGHT.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
