@@ -167,9 +167,39 @@ class DfltSearchStore(Mapping):
         raise KeyError('DfltSearchStore is not meant to be used')
 
 
+class TfidfKnnFitMixin:
+    def set_search_store(
+        self, search_store
+    ):  # TODO: override setter with this function
+        self.search_store = search_store
+        assert isinstance(self.search_store, Mapping), "Your store isn't a Mapping"
+        return self.fit_knn()
+
+    def fit_knn(self):
+        """Fit the knn model"""
+        self.knn.fit(self.fvs())
+        return self
+
+    def fit_tfidf(self, learn_store=None, error_callback=None):
+        """Fit the tfidf model"""
+        if learn_store is None:
+            learn_store = self.search_store
+        keys_fit_on_ = []
+        raw_documents = iterate_values_and_accumulate_non_error_keys(
+            learn_store, cache_keys_here=keys_fit_on_, error_callback=error_callback
+        )
+        self.tfidf.fit(raw_documents=raw_documents)
+        self.tfidf.keys_fit_on_ = keys_fit_on_
+        return self
+
+    def fit(self, learn_store=None):
+        """Fit all models of pipeline, i.e. making a search index."""
+        return self.fit_tfidf(learn_store).fit_knn()
+
+
 # search_store and
 @dataclass
-class TfidfKnnSearcher(SearchStoreMixin):
+class TfidfKnnSearcher(SearchStoreMixin, TfidfKnnFitMixin):
     search_store: Mapping = DfltSearchStore()
     tfidf: TfidfVectorizer = TfidfVectorizer()
     knn: NearestNeighbors = NearestNeighbors(n_neighbors=10, metric='cosine')
@@ -247,33 +277,6 @@ class CodeSearcherBase(TextFilesSearcherBase):
         self.search_store = get_py_files_store(self.search_store)
 
 
-class TfidfKnnFitMixin(TfidfKnnSearcher):
-    def set_search_store(
-        self, search_store
-    ):  # TODO: override setter with this function
-        self.search_store = search_store
-        assert isinstance(self.search_store, Mapping), "Your store isn't a Mapping"
-        return self.fit_knn()
-
-    def fit_knn(self):
-        self.knn.fit(self.fvs())
-        return self
-
-    def fit_tfidf(self, learn_store=None, error_callback=None):
-        if learn_store is None:
-            learn_store = self.search_store
-        keys_fit_on_ = []
-        raw_documents = iterate_values_and_accumulate_non_error_keys(
-            learn_store, cache_keys_here=keys_fit_on_, error_callback=error_callback
-        )
-        self.tfidf.fit(raw_documents=raw_documents)
-        self.tfidf.keys_fit_on_ = keys_fit_on_
-        return self
-
-    def fit(self, learn_store=None):
-        return self.fit_tfidf(learn_store).fit_knn()
-
-
 def iterate_values_and_accumulate_non_error_keys(
     store, cache_keys_here: list, errors_caught=Exception, error_callback=None
 ):
@@ -287,9 +290,10 @@ def iterate_values_and_accumulate_non_error_keys(
                 error_callback(store, k, err)
 
 
-class TextFilesSearcher(TextFilesSearcherBase, TfidfKnnFitMixin):
+# TODO: These do no more than their bases. Refactor.
+class TextFilesSearcher(TextFilesSearcherBase):
     """Fittable Text searcher with fitters"""
 
 
-class CodeSearcher(CodeSearcherBase, TfidfKnnFitMixin):
+class CodeSearcher(CodeSearcherBase):
     """Text searcher with fitters"""
