@@ -70,7 +70,7 @@ def _get_distributions_old_version_using_xml(html=None):
 class Pypi:
     @cached_property
     def pypi_words(self):
-        return set(get_distributions())
+        return set(x.lower() for x in get_distributions())
 
     def is_available(self, word):
         return word not in self.pypi_words
@@ -79,7 +79,8 @@ class Pypi:
         return groupby(words, key=self.is_available)
 
     def live_is_available(self, pkg_name):
-        """Check if a package name is available, but live (directly on pypi, not a cache)"""
+        """Check if a package name is available,
+        but live (directly on pypi, not a cache)"""
         import urllib
 
         try:
