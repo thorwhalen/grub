@@ -15,6 +15,7 @@ from sklearn.utils.validation import check_is_fitted
 from py2store import LocalTextStore, cached_keys, lazyprop, KvReader
 from py2store import add_ipython_key_completions
 
+
 def grub(search_store, query, n=10):
     search_store = get_py_files_store(search_store)
     knn = NearestNeighbors(n_neighbors=n, metric='cosine')
