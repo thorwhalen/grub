@@ -13,7 +13,7 @@ from sklearn.neighbors import NearestNeighbors
 from sklearn.utils.validation import check_is_fitted
 
 from py2store import LocalTextStore, cached_keys, lazyprop, KvReader
-
+from py2store import add_ipython_key_completions
 
 def grub(search_store, query, n=10):
     search_store = get_py_files_store(search_store)
@@ -80,6 +80,7 @@ class StoreMixin(SearchStoreMixin):
     store_attr = 'store'
 
 
+# @add_ipython_key_completions  # TODO: Not working: Make it work
 class SearchStore(StoreMixin):
     """Build a search index for anything (that is given a mapping interface with string values).
 
@@ -168,6 +169,8 @@ class DfltSearchStore(Mapping):
 
 
 class TfidfKnnFitMixin:
+    _is_fit = False
+
     def set_search_store(
         self, search_store
     ):  # TODO: override setter with this function
@@ -194,7 +197,12 @@ class TfidfKnnFitMixin:
 
     def fit(self, learn_store=None):
         """Fit all models of pipeline, i.e. making a search index."""
-        return self.fit_tfidf(learn_store).fit_knn()
+        s = self.fit_tfidf(learn_store).fit_knn()
+        self._is_fit = True
+        return s
+
+    def is_fit(self):
+        return self._is_fit
 
 
 # search_store and
@@ -233,6 +241,8 @@ class TfidfKnnSearcher(SearchStoreMixin, TfidfKnnFitMixin):
 
     # def fit(self, learn_store, ):
     def __call__(self, query):
+        if not self.is_fit():
+            self.fit()
         (_, *_), (idx, *_) = self.knn.kneighbors(self.tfidf.transform([query]))
         # # equivalently:
         # fv = self.query_to_fv(query)
