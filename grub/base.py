@@ -18,9 +18,16 @@ from py2store import add_ipython_key_completions
 
 def grub(search_store, query, n=10):
     search_store = get_py_files_store(search_store)
-    knn = NearestNeighbors(n_neighbors=n, metric='cosine')
-    search = TextFilesSearcher(search_store, knn=knn).fit()
+    search = grubber(search_store, n=n)
     return search(query)
+
+
+def grubber(search_store: Mapping, n=10):
+    """Computes a TF-IDF model and a KNN model for a search store."""
+    knn = NearestNeighbors(n_neighbors=n, metric='cosine')
+    searcher = TextFilesSearcher(search_store, knn=knn).fit()
+    searcher.search_store = search_store
+    return searcher
 
 
 def get_py_files_store(spec):
@@ -273,11 +280,14 @@ class TfidfKnnSearcher(SearchStoreMixin, TfidfKnnFitMixin):
 @dataclass
 class TextFilesSearcherBase(TfidfKnnSearcher):
     search_store: Union[str, Mapping] = DfltSearchStore()
-    tfidf: TfidfVectorizer = TfidfVectorizer(token_pattern=camelcase_p)
+    tfidf: Union[TfidfVectorizer, str] = '\w'
 
     def __post_init__(self):
         if isinstance(self.search_store, str):
             self.search_store = LocalTextStore(self.search_store)
+        if isinstance(self.tfidf, (str, re.Pattern)):
+            pattern_string = str(self.tfidf)
+            self.tfidf = TfidfVectorizer(token_pattern=pattern_string)
 
 
 @dataclass
@@ -286,6 +296,9 @@ class CodeSearcherBase(TextFilesSearcherBase):
 
     def __post_init__(self):
         self.search_store = get_py_files_store(self.search_store)
+        if isinstance(self.tfidf, str) and self.tfidf == '\w':
+            # TODO: Antipattern. Replacing '\w' with a pattern object specific to python code.
+            self.tfidf = TfidfVectorizer(token_pattern=str(camelcase_p))
 
 
 def iterate_values_and_accumulate_non_error_keys(
