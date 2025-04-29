@@ -30,13 +30,13 @@ def word_and_vecs(fp):
     # consume the first line (n_lines, n_dims) not yielded
     n_lines, n_dims = map(int, fp.readline().decode().split())
     for line in fp:
-        tok, *vec = line.decode().rstrip().split(' ')
+        tok, *vec = line.decode().rstrip().split(" ")
         yield tok, tuple(map(float, vec))
 
 
 @lru_cache
 def get_html():
-    simple_index_url = 'https://pypi.org/simple'
+    simple_index_url = "https://pypi.org/simple"
     try:
         from graze.base import graze
 
@@ -63,7 +63,7 @@ def _get_distributions_old_version_using_xml(html=None):
 
     html = html or get_html()
     tree = ElementTree.parse(BytesIO(html))
-    return [a.text for a in tree.iter('a')]
+    return [a.text for a in tree.iter("a")]
 
 
 # from py2store import lazyprop
@@ -84,7 +84,7 @@ class Pypi:
         import urllib
 
         try:
-            with urllib.request.urlopen(f'https://pypi.org/project/{pkg_name}') as u:
+            with urllib.request.urlopen(f"https://pypi.org/project/{pkg_name}") as u:
                 return False
         except urllib.error.HTTPError as e:
             return True  # if url is invalid, package exists
@@ -108,14 +108,14 @@ class Search:
     ```
     """
 
-    tokenizer = re.compile('\w+').findall
+    tokenizer = re.compile("\w+").findall
 
     def __init__(
         self,
         wordvec_zip_filepath,
         search_words,
-        exclude_words='already_published',
-        wordvec_name_in_zip='wiki-news-300d-1M-subword.vec',
+        exclude_words="already_published",
+        wordvec_name_in_zip="wiki-news-300d-1M-subword.vec",
         n_neighbors=37,
         verbose=False,
     ):
@@ -123,7 +123,7 @@ class Search:
         self.wordvec_name_in_zip = wordvec_name_in_zip
         self.search_words = set(search_words)
         if exclude_words:
-            if exclude_words == 'already_published':
+            if exclude_words == "already_published":
                 exclude_words = set(get_distributions())
             self.search_words = self.search_words - exclude_words
         self.n_neighbors = n_neighbors
@@ -136,7 +136,7 @@ class Search:
     @cached_property
     def wordvecs(self):
         if self.verbose:
-            print('Gathering all the word vecs. This could take a few minutes...')
+            print("Gathering all the word vecs. This could take a few minutes...")
         with self.stream[self.wordvec_name_in_zip] as fp:
             all_wordvecs = dict(word_and_vecs(fp))
         return all_wordvecs
@@ -166,7 +166,7 @@ class Search:
         taget_wv = dict(self.filtered_wordvecs(lambda x: x in self.search_words))
         X = np.array(list(taget_wv.values()))
 
-        knn = NearestNeighbors(n_neighbors=self.n_neighbors, metric='cosine').fit(X)
+        knn = NearestNeighbors(n_neighbors=self.n_neighbors, metric="cosine").fit(X)
         knn.words = np.array(list(taget_wv.keys()))
         return knn
 

@@ -37,11 +37,11 @@ from grub import TfidfKnnSearcher
 
 
 def not_dundered(string):
-    return not string.startswith('__')
+    return not string.startswith("__")
 
 
 def not_underscored(string):
-    return not string.startswith('_')
+    return not string.startswith("_")
 
 
 DFLT_ATTRNAME_FILT = not_underscored
@@ -52,7 +52,7 @@ def attr_docs(obj, attrname_filt=DFLT_ATTRNAME_FILT, attr_filt=DFLT_ATTR_FILT):
     for attrname in filter(attrname_filt, dir(obj)):
         attr = getattr(obj, attrname)
         if attr_filt(attr):
-            doc = getattr(attr, '__doc__', None)
+            doc = getattr(attr, "__doc__", None)
             if doc:
                 yield attrname, doc
 
@@ -78,5 +78,5 @@ def docs_searcher(
 
     """
     docs = dict(attr_docs(obj, attrname_filt, attr_filt))
-    knn = NearestNeighbors(n_neighbors=n_results, metric='cosine')
+    knn = NearestNeighbors(n_neighbors=n_results, metric="cosine")
     return TfidfKnnSearcher(docs, knn=knn).fit()

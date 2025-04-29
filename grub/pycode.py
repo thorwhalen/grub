@@ -15,8 +15,8 @@ class PyCodeSearcherBase(CodeSearcher):
         self.search_store = pyobj_semantics_dict(self.search_store)
 
 
-doctest_line_p = re.compile('\s*>>>')
-empty_line = re.compile('\s*$')
+doctest_line_p = re.compile("\s*>>>")
+empty_line = re.compile("\s*$")
 
 
 def non_doctest_lines(doc):
@@ -70,7 +70,7 @@ doctest_finder = DocTestFinder(recurse=False)
 
 
 def argnames(func):
-    return ' '.join(inspect.signature(func).parameters)
+    return " ".join(inspect.signature(func).parameters)
 
 
 def tokenize_for_code(string):
@@ -78,10 +78,10 @@ def tokenize_for_code(string):
 
 
 _func_info_funcs = {
-    'func_name': lambda f: f.__qualname__,
-    'arg_names': argnames,
-    'comments': getcomments,
-    'doc': lambda f: '\n'.join(non_doctest_lines(getdoc(f))),
+    "func_name": lambda f: f.__qualname__,
+    "arg_names": argnames,
+    "comments": getcomments,
+    "doc": lambda f: "\n".join(non_doctest_lines(getdoc(f))),
 }
 
 
@@ -106,7 +106,7 @@ def func_semantic_info(func) -> dict:
 def import_module_from_filepath(filepath):
     import importlib.util
 
-    spec = importlib.util.spec_from_file_location('module.name', filepath)
+    spec = importlib.util.spec_from_file_location("module.name", filepath)
     m = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(m)
     return m
@@ -117,7 +117,7 @@ def objs_from_store(store):
         f = store._prefix + k  # TODO: Revise. Fragile
         m = import_module_from_filepath(f)
         for a in dir(m):
-            if not a.startswith('__'):
+            if not a.startswith("__"):
                 yield getattr(m, a)
 
 
@@ -138,7 +138,7 @@ def pyobj_semantics_dict(src):
     def gen():
         for obj in objs:
             try:
-                yield func_key_info(obj), '\n'.join(func_semantic_info(obj).values())
+                yield func_key_info(obj), "\n".join(func_semantic_info(obj).values())
             except Exception:
                 pass
 
@@ -151,7 +151,7 @@ def ddir(obj):
     :param obj: Any python object
     :return: A list of attribute names
     """
-    return [a for a in dir(obj) if not a.startswith('_')]
+    return [a for a in dir(obj) if not a.startswith("_")]
 
 
 def search_documented_attributes(obj, obj_to_attrs=ddir, max_results=10):
@@ -173,7 +173,7 @@ def search_documented_attributes(obj, obj_to_attrs=ddir, max_results=10):
     def documented_attrs():
         for attr_name in obj_to_attrs(obj):
             attr_val = getattr(obj, attr_name)
-            doc = getattr(attr_val, '__doc__', None)
+            doc = getattr(attr_val, "__doc__", None)
             if isinstance(doc, str):
                 yield attr_name, doc
 
