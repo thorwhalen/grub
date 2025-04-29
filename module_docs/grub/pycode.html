@@ -1,0 +1,201 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>grub.pycode &mdash; grub 0.1.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=360bc84d"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="grub.examples.pypi" href="examples/pypi.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            grub
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../grub.html">grub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">grub.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">grub.examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/py_object_docs.html">grub.examples.py_object_docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/pypi.html">grub.examples.pypi</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">grub.pycode</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#grub.pycode.PyCodeSearcherBase"><code class="docutils literal notranslate"><span class="pre">PyCodeSearcherBase</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#grub.pycode.ddir"><code class="docutils literal notranslate"><span class="pre">ddir()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#grub.pycode.func_key_info"><code class="docutils literal notranslate"><span class="pre">func_key_info()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#grub.pycode.func_semantic_info"><code class="docutils literal notranslate"><span class="pre">func_semantic_info()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#grub.pycode.non_doctest_lines"><code class="docutils literal notranslate"><span class="pre">non_doctest_lines()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#grub.pycode.search_documented_attributes"><code class="docutils literal notranslate"><span class="pre">search_documented_attributes()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">grub</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">grub.pycode</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/grub/pycode.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-grub.pycode">
+<span id="grub-pycode"></span><h1>grub.pycode<a class="headerlink" href="#module-grub.pycode" title="Link to this heading"></a></h1>
+<p>Searching python code</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="grub.pycode.PyCodeSearcherBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">grub.pycode.</span></span><span class="sig-name descname"><span class="pre">PyCodeSearcherBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_store:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">~typing.Mapping</span> <span class="pre">|</span> <span class="pre">~types.ModuleType</span> <span class="pre">=</span> <span class="pre">&lt;grub.base.DfltSearchStore</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tfidf:</span> <span class="pre">~sklearn.feature_extraction.text.TfidfVectorizer</span> <span class="pre">|</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'\\w'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">knn:</span> <span class="pre">~sklearn.neighbors._unsupervised.NearestNeighbors</span> <span class="pre">=</span> <span class="pre">NearestNeighbors(metric='cosine'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_neighbors=10)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/grub/pycode.html#PyCodeSearcherBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.pycode.PyCodeSearcherBase" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="grub.pycode.ddir">
+<span class="sig-prename descclassname"><span class="pre">grub.pycode.</span></span><span class="sig-name descname"><span class="pre">ddir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/grub/pycode.html#ddir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.pycode.ddir" title="Link to this definition"></a></dt>
+<dd><p>List of (dir(obj)) attributes of obj that don’t start with an underscore
+:param obj: Any python object
+:return: A list of attribute names</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="grub.pycode.func_key_info">
+<span class="sig-prename descclassname"><span class="pre">grub.pycode.</span></span><span class="sig-name descname"><span class="pre">func_key_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../../_modules/grub/pycode.html#func_key_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.pycode.func_key_info" title="Link to this definition"></a></dt>
+<dd><p>Information that points to the function’s source</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="grub.pycode.func_semantic_info">
+<span class="sig-prename descclassname"><span class="pre">grub.pycode.</span></span><span class="sig-name descname"><span class="pre">func_semantic_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../../_modules/grub/pycode.html#func_semantic_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.pycode.func_semantic_info" title="Link to this definition"></a></dt>
+<dd><p>A dict of semantically relevant infos about a function.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="grub.pycode.non_doctest_lines">
+<span class="sig-prename descclassname"><span class="pre">grub.pycode.</span></span><span class="sig-name descname"><span class="pre">non_doctest_lines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/grub/pycode.html#non_doctest_lines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.pycode.non_doctest_lines" title="Link to this definition"></a></dt>
+<dd><p>Generator of lines of the doc string that are not in a doctest scope.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">_test_func</span><span class="p">():</span>
+<span class="gp">... </span><span class="w">    </span><span class="sd">&#39;&#39;&#39;Line 1</span>
+<span class="gp">... </span><span class="sd">    Another</span>
+<span class="gp">... </span><span class="sd">    &gt;&gt;&gt; doctest_1</span>
+<span class="gp">... </span><span class="sd">    &gt;&gt;&gt; doctest_2</span>
+<span class="gp">... </span><span class="sd">    line_after_a_doc_test</span>
+<span class="gp">... </span><span class="sd">    another_line_that_is_in_the_doc_test scope</span>
+<span class="gp">...</span>
+<span class="gp">... </span><span class="sd">    But now we&#39;re out of a doctest&#39;s scope</span>
+<span class="gp">...</span>
+<span class="gp">... </span><span class="sd">    &gt;&gt;&gt; Oh no, another doctest!</span>
+<span class="gp">... </span><span class="sd">    &#39;&#39;&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">inspect</span><span class="w"> </span><span class="kn">import</span> <span class="n">getdoc</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">non_doctest_lines</span><span class="p">(</span><span class="n">getdoc</span><span class="p">(</span><span class="n">_test_func</span><span class="p">)))</span>
+<span class="go">[&#39;Line 1&#39;, &#39;Another&#39;, &quot;But now we&#39;re out of a doctest&#39;s scope&quot;, &#39;&#39;]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>doc</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="grub.pycode.search_documented_attributes">
+<span class="sig-prename descclassname"><span class="pre">grub.pycode.</span></span><span class="sig-name descname"><span class="pre">search_documented_attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_to_attrs=&lt;function</span> <span class="pre">ddir&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_results=10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/grub/pycode.html#search_documented_attributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.pycode.search_documented_attributes" title="Link to this definition"></a></dt>
+<dd><p>Search the documented attributes of a python object
+:param obj: Any python object
+:param obj_to_attrs: The function that gives you attribute names of an object.
+:return: A SearchStore instance to search attributes via their docs</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">inspect</span><span class="w"> </span><span class="kn">import</span> <span class="n">getmodule</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">containing_module</span> <span class="o">=</span> <span class="n">getmodule</span><span class="p">(</span><span class="n">search_documented_attributes</span><span class="p">)</span>  <span class="c1"># the module of this function</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search_module</span> <span class="o">=</span> <span class="n">search_documented_attributes</span><span class="p">(</span><span class="n">containing_module</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">search_module</span><span class="p">(</span><span class="s1">&#39;documented attributes&#39;</span><span class="p">))</span>  <span class="c1"># if you get an error here, it&#39;s probably just be that the docs changed</span>
+<span class="go">[&#39;search_documented_attributes&#39;, &#39;ddir&#39;, &#39;inspect&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">search_module</span><span class="p">(</span><span class="s1">&#39;documented objects&#39;</span><span class="p">))</span>  <span class="c1"># if you get an error here, it&#39;s probably just be that the docs changed</span>
+<span class="go">[&#39;search_documented_attributes&#39;, &#39;DocTestFinder&#39;, &#39;doctest_finder&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="examples/pypi.html" class="btn btn-neutral float-left" title="grub.examples.pypi" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
