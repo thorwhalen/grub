@@ -70,7 +70,7 @@ def _get_distributions_old_version_using_xml(html=None):
 class Pypi:
     @cached_property
     def pypi_words(self):
-        return set(x.lower() for x in get_distributions())
+        return {x.lower() for x in get_distributions()}
 
     def is_available(self, word):
         return word not in self.pypi_words
@@ -108,7 +108,7 @@ class Search:
     ```
     """
 
-    tokenizer = re.compile("\w+").findall
+    tokenizer = re.compile(r"\w+").findall
 
     def __init__(
         self,

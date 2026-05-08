@@ -1,9 +1,10 @@
 """Base functionality"""
 
 import re
-from typing import Mapping, Union
+from typing import Union
+from collections.abc import Mapping
 from types import ModuleType
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from inspect import ismodule
 import os
 
@@ -216,9 +217,11 @@ class TfidfKnnFitMixin:
 # search_store and
 @dataclass
 class TfidfKnnSearcher(SearchStoreMixin, TfidfKnnFitMixin):
-    search_store: Mapping = DfltSearchStore()
-    tfidf: TfidfVectorizer = TfidfVectorizer()
-    knn: NearestNeighbors = NearestNeighbors(n_neighbors=10, metric="cosine")
+    search_store: Mapping = field(default_factory=DfltSearchStore)
+    tfidf: TfidfVectorizer = field(default_factory=TfidfVectorizer)
+    knn: NearestNeighbors = field(
+        default_factory=lambda: NearestNeighbors(n_neighbors=10, metric="cosine")
+    )
 
     def __getattr__(self, attr):
         """Delegate method to wrapped store if not part of wrapper store methods"""
@@ -279,8 +282,8 @@ class TfidfKnnSearcher(SearchStoreMixin, TfidfKnnFitMixin):
 
 @dataclass
 class TextFilesSearcherBase(TfidfKnnSearcher):
-    search_store: Union[str, Mapping] = DfltSearchStore()
-    tfidf: Union[TfidfVectorizer, str] = "\w"
+    search_store: str | Mapping = field(default_factory=DfltSearchStore)
+    tfidf: TfidfVectorizer | str = r"\w"
 
     def __post_init__(self):
         if isinstance(self.search_store, str):
@@ -292,11 +295,11 @@ class TextFilesSearcherBase(TfidfKnnSearcher):
 
 @dataclass
 class CodeSearcherBase(TextFilesSearcherBase):
-    search_store: Union[str, Mapping, ModuleType] = DfltSearchStore()
+    search_store: str | Mapping | ModuleType = field(default_factory=DfltSearchStore)
 
     def __post_init__(self):
         self.search_store = get_py_files_store(self.search_store)
-        if isinstance(self.tfidf, str) and self.tfidf == "\w":
+        if isinstance(self.tfidf, str) and self.tfidf == r"\w":
             # TODO: Antipattern. Replacing '\w' with a pattern object specific to python code.
             self.tfidf = TfidfVectorizer(token_pattern=str(camelcase_p))
 

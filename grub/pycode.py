@@ -15,8 +15,8 @@ class PyCodeSearcherBase(CodeSearcher):
         self.search_store = pyobj_semantics_dict(self.search_store)
 
 
-doctest_line_p = re.compile("\s*>>>")
-empty_line = re.compile("\s*$")
+doctest_line_p = re.compile(r"\s*>>>")
+empty_line = re.compile(r"\s*$")
 
 
 def non_doctest_lines(doc):
