@@ -133,6 +133,7 @@ coverage_report_format = [
 exclude_paths = [
     "examples",
     "scrap",
+    "docsrc",
 ]
 test_on_windows = true
 
