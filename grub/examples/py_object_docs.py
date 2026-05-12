@@ -18,7 +18,7 @@ docs_searcher: Search the docs of the attributes of the input python object.
     >>> len(search)
     6
     >>> keys = search('make index')
-    >>> list(keys)
+    >>> [str(k) for k in keys]
     ['fit', 'fit_knn']
 
     Those are the names of the top 2 (=n_results) methods matching the query 'make
@@ -67,7 +67,7 @@ def docs_searcher(
     >>> len(search)
     6
     >>> keys = search('make index')
-    >>> list(keys)
+    >>> [str(k) for k in keys]
     ['fit', 'fit_knn']
 
     Those are the names of the top 2 (=n_results) methods matching the query 'make
