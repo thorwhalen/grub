@@ -1,0 +1,203 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>grub.util &mdash; grub 0.1.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6e0256f3"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="grub.sources" href="sources.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            grub
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../grub.html">grub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="__main__.html">grub.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends.html">grub.backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">grub.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">grub.cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">grub.examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/py_object_docs.html">grub.examples.py_object_docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/pypi.html">grub.examples.pypi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facade.html">grub.facade</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycode.html">grub.pycode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="results.html">grub.results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="searcher.html">grub.searcher</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sources.html">grub.sources</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">grub.util</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#grub.util.best_snippet"><code class="docutils literal notranslate"><span class="pre">best_snippet()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#grub.util.clamp_n"><code class="docutils literal notranslate"><span class="pre">clamp_n()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#grub.util.is_url"><code class="docutils literal notranslate"><span class="pre">is_url()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#grub.util.simple_tokenizer"><code class="docutils literal notranslate"><span class="pre">simple_tokenizer()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#grub.util.truncate"><code class="docutils literal notranslate"><span class="pre">truncate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">grub</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">grub.util</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/grub/util.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-grub.util">
+<span id="grub-util"></span><h1>grub.util<a class="headerlink" href="#module-grub.util" title="Link to this heading"></a></h1>
+<p>Small shared utilities for grub: tokenizing, clamping, snippet extraction.</p>
+<p>These are low-level helpers used across grub’s modules. They have no
+heavy dependencies and are safe to import anywhere.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="grub.util.best_snippet">
+<span class="sig-prename descclassname"><span class="pre">grub.util.</span></span><span class="sig-name descname"><span class="pre">best_snippet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">text:</span> <span class="pre">str,</span> <span class="pre">query:</span> <span class="pre">str,</span> <span class="pre">*,</span> <span class="pre">width:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">240,</span> <span class="pre">tokenizer:</span> <span class="pre">~typing.Callable[[str],</span> <span class="pre">~typing.Sequence[str]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">simple_tokenizer&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/grub/util.html#best_snippet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.util.best_snippet" title="Link to this definition"></a></dt>
+<dd><p>Return a short excerpt of <code class="docutils literal notranslate"><span class="pre">text</span></code> that best matches <code class="docutils literal notranslate"><span class="pre">query</span></code>.</p>
+<p>The excerpt is the single line sharing the most tokens with the
+query – a cheap way to show <em>why</em> a document matched.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">doc</span> <span class="o">=</span> <span class="s2">&quot;Intro line.</span><span class="se">\n</span><span class="s2">The quick brown fox jumps over.</span><span class="se">\n</span><span class="s2">Trailing words.&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">best_snippet</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="s2">&quot;quick brown fox&quot;</span><span class="p">)</span>
+<span class="go">&#39;The quick brown fox jumps over.&#39;</span>
+</pre></div>
+</div>
+<p>With no overlap at all it falls back to the start of the text:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">best_snippet</span><span class="p">(</span><span class="s2">&quot;alpha beta gamma&quot;</span><span class="p">,</span> <span class="s2">&quot;nothing matches here&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+<span class="go">&#39;alpha beta gamma&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="grub.util.clamp_n">
+<span class="sig-prename descclassname"><span class="pre">grub.util.</span></span><span class="sig-name descname"><span class="pre">clamp_n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../_modules/grub/util.html#clamp_n"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.util.clamp_n" title="Link to this definition"></a></dt>
+<dd><p>Clamp a requested result count to <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">size]</span></code>.</p>
+<p>Search backends choke when asked for more neighbours than they have
+documents; this keeps requests in range.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">clamp_n</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clamp_n</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clamp_n</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="grub.util.is_url">
+<span class="sig-prename descclassname"><span class="pre">grub.util.</span></span><span class="sig-name descname"><span class="pre">is_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../_modules/grub/util.html#is_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.util.is_url" title="Link to this definition"></a></dt>
+<dd><p>Whether <code class="docutils literal notranslate"><span class="pre">value</span></code> looks like a fetchable URL.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">is_url</span><span class="p">(</span><span class="s2">&quot;https://example.com&quot;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_url</span><span class="p">(</span><span class="s2">&quot;./local/path&quot;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="grub.util.simple_tokenizer">
+<span class="sig-prename descclassname"><span class="pre">grub.util.</span></span><span class="sig-name descname"><span class="pre">simple_tokenizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/grub/util.html#simple_tokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.util.simple_tokenizer" title="Link to this definition"></a></dt>
+<dd><p>Lower-cased word tokens of a string.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">simple_tokenizer</span><span class="p">(</span><span class="s2">&quot;Hello, World! Version 2&quot;</span><span class="p">)</span>
+<span class="go">[&#39;hello&#39;, &#39;world&#39;, &#39;version&#39;, &#39;2&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="grub.util.truncate">
+<span class="sig-prename descclassname"><span class="pre">grub.util.</span></span><span class="sig-name descname"><span class="pre">truncate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">240</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/grub/util.html#truncate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.util.truncate" title="Link to this definition"></a></dt>
+<dd><p>Collapse whitespace and truncate <code class="docutils literal notranslate"><span class="pre">text</span></code> to at most <code class="docutils literal notranslate"><span class="pre">width</span></code> chars.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">truncate</span><span class="p">(</span><span class="s2">&quot;  lots   of   space  &quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+<span class="go">&#39;lots of space&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">truncate</span><span class="p">(</span><span class="s2">&quot;abcdefghij&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">&#39;abcd…&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="sources.html" class="btn btn-neutral float-left" title="grub.sources" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

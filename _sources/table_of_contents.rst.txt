@@ -3,8 +3,16 @@
    :caption: Contents:
 
    module_docs/grub
+   module_docs/grub/__main__
+   module_docs/grub/backends
    module_docs/grub/base
+   module_docs/grub/cli
    module_docs/grub/examples
    module_docs/grub/examples/py_object_docs
    module_docs/grub/examples/pypi
+   module_docs/grub/facade
    module_docs/grub/pycode
+   module_docs/grub/results
+   module_docs/grub/searcher
+   module_docs/grub/sources
+   module_docs/grub/util

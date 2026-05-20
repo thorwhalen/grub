@@ -1,0 +1,369 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>grub.backends &mdash; grub 0.1.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6e0256f3"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            grub
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub.html">grub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/__main__.html">grub.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/backends.html">grub.backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/base.html">grub.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/cli.html">grub.cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/examples.html">grub.examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/examples/py_object_docs.html">grub.examples.py_object_docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/examples/pypi.html">grub.examples.pypi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/facade.html">grub.facade</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/pycode.html">grub.pycode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/results.html">grub.results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/searcher.html">grub.searcher</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/sources.html">grub.sources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/util.html">grub.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">grub</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">grub.backends</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for grub.backends</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Search backends: the engines that score documents against a query.</span>
+
+<span class="sd">Every backend implements the same tiny interface:</span>
+
+<span class="sd">* ``index(docs)`` -- build an index over a list of text documents.</span>
+<span class="sd">* ``scores(query)`` -- return a relevance score per document.</span>
+<span class="sd">* ``query(query, n)`` -- return the top-``n`` ``(indices, scores)``.</span>
+
+<span class="sd">Three backends ship with grub:</span>
+
+<span class="sd">* :class:`TfidfBackend` -- lexical TF-IDF + cosine similarity (default,</span>
+<span class="sd">  no extra dependencies).</span>
+<span class="sd">* :class:`SemanticBackend` -- dense embeddings; understands meaning, not</span>
+<span class="sd">  just words. Needs ``sentence-transformers`` (``pip install grub[semantic]``)</span>
+<span class="sd">  or any embedding function you supply.</span>
+<span class="sd">* :class:`HybridBackend` -- a weighted blend of the two.</span>
+
+<span class="sd">Pick a backend by name with :func:`make_backend`.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">grub.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">camelcase_and_underscore_tokenizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">grub.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">clamp_n</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Backend&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TfidfBackend&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SemanticBackend&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;HybridBackend&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;make_backend&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DFLT_SEMANTIC_MODEL&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="c1">#: Default sentence-transformers model for :class:`SemanticBackend`.</span>
+<span class="n">DFLT_SEMANTIC_MODEL</span> <span class="o">=</span> <span class="s2">&quot;all-MiniLM-L6-v2&quot;</span>
+
+
+<div class="viewcode-block" id="Backend">
+<a class="viewcode-back" href="../../module_docs/grub/backends.html#grub.Backend">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Backend</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base backend: turns per-document ``scores`` into a ranked ``query``.&quot;&quot;&quot;</span>
+
+    <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;base&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docs</span><span class="p">):</span>  <span class="c1"># pragma: no cover - abstract</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>  <span class="c1"># pragma: no cover - abstract</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+<div class="viewcode-block" id="Backend.query">
+<a class="viewcode-back" href="../../module_docs/grub/backends.html#grub.Backend.query">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Top-``n`` ``(indices, scores)`` for ``query``, best first.&quot;&quot;&quot;</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scores</span><span class="p">(</span><span class="n">query</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float64&quot;</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">clamp_n</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">))</span>
+        <span class="c1"># primary key: descending score; tie-break: ascending original index</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">lexsort</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">)),</span> <span class="o">-</span><span class="n">scores</span><span class="p">))</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">order</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">idx</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TfidfBackend">
+<a class="viewcode-back" href="../../module_docs/grub/backends.html#grub.TfidfBackend">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TfidfBackend</span><span class="p">(</span><span class="n">Backend</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lexical search via TF-IDF vectors and cosine similarity.</span>
+
+<span class="sd">    Fast, dependency-light, and excellent when the query shares actual</span>
+<span class="sd">    words with the documents -- the right default for code and docs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;tfidf&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">camelcase_and_underscore_tokenizer</span><span class="p">,</span> <span class="o">**</span><span class="n">tfidf_kwargs</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.feature_extraction.text</span><span class="w"> </span><span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tfidf_kwargs</span> <span class="o">=</span> <span class="n">tfidf_kwargs</span>
+        <span class="k">if</span> <span class="n">tokenizer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span>
+                <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span> <span class="n">token_pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">tfidf_kwargs</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="o">**</span><span class="n">tfidf_kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">docs</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;TfidfBackend.index() must be called before scores().&quot;</span><span class="p">)</span>
+        <span class="n">query_vec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectorizer</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">query</span><span class="p">)])</span>
+        <span class="c1"># tf-idf rows are L2-normalised, so the dot product is the cosine.</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">query_vec</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">todense</span><span class="p">())</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="SemanticBackend">
+<a class="viewcode-back" href="../../module_docs/grub/backends.html#grub.SemanticBackend">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SemanticBackend</span><span class="p">(</span><span class="n">Backend</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dense-embedding search: matches meaning, not just shared words.</span>
+
+<span class="sd">    Supply your own ``embed`` callable (``list[str] -&gt; 2D array``) to use</span>
+<span class="sd">    any provider, or leave it ``None`` to lazily load a local</span>
+<span class="sd">    ``sentence-transformers`` model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;semantic&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">embed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DFLT_SEMANTIC_MODEL</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_embed</span> <span class="o">=</span> <span class="n">embed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_name</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">sentence_transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">SentenceTransformer</span>
+            <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>  <span class="c1"># pragma: no cover - env dependent</span>
+                <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                    <span class="s2">&quot;Semantic search needs sentence-transformers. Install it &quot;</span>
+                    <span class="s2">&quot;with:  pip install &#39;grub[semantic]&#39;  -- or pass your own &quot;</span>
+                    <span class="s2">&quot;embed=... function to grub().&quot;</span>
+                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">error</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">SentenceTransformer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span>
+
+<div class="viewcode-block" id="SemanticBackend.embed">
+<a class="viewcode-back" href="../../module_docs/grub/backends.html#grub.SemanticBackend.embed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">embed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">texts</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Embed ``texts`` into an L2-normalised matrix.&quot;&quot;&quot;</span>
+        <span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">vectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_embed</span><span class="p">(</span><span class="n">texts</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">vectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_get_model</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">convert_to_numpy</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">_l2_normalize</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">docs</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;SemanticBackend.index() must be called before scores().&quot;</span><span class="p">)</span>
+        <span class="n">query_vec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embed</span><span class="p">([</span><span class="n">query</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span> <span class="o">@</span> <span class="n">query_vec</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># The (large, sometimes unpicklable) model is rebuilt lazily on load.</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">state</span><span class="p">[</span><span class="s2">&quot;_model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">state</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">state</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="HybridBackend">
+<a class="viewcode-back" href="../../module_docs/grub/backends.html#grub.HybridBackend">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HybridBackend</span><span class="p">(</span><span class="n">Backend</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A weighted blend of lexical (TF-IDF) and semantic search.</span>
+
+<span class="sd">    ``alpha`` is the lexical weight: ``1.0`` is pure TF-IDF, ``0.0`` is</span>
+<span class="sd">    pure semantic, ``0.5`` (default) gives an even mix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;hybrid&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">tokenizer</span><span class="o">=</span><span class="n">camelcase_and_underscore_tokenizer</span><span class="p">,</span>
+        <span class="n">embed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DFLT_SEMANTIC_MODEL</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lexical</span> <span class="o">=</span> <span class="n">TfidfBackend</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">semantic</span> <span class="o">=</span> <span class="n">SemanticBackend</span><span class="p">(</span><span class="n">embed</span><span class="o">=</span><span class="n">embed</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docs</span><span class="p">):</span>
+        <span class="n">docs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lexical</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">semantic</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="n">lexical</span> <span class="o">=</span> <span class="n">_minmax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lexical</span><span class="o">.</span><span class="n">scores</span><span class="p">(</span><span class="n">query</span><span class="p">))</span>
+        <span class="n">semantic</span> <span class="o">=</span> <span class="n">_minmax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">semantic</span><span class="o">.</span><span class="n">scores</span><span class="p">(</span><span class="n">query</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">lexical</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">semantic</span></div>
+
+
+
+<div class="viewcode-block" id="make_backend">
+<a class="viewcode-back" href="../../module_docs/grub/backends.html#grub.make_backend">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_backend</span><span class="p">(</span>
+    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;tfidf&quot;</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="o">=</span><span class="n">camelcase_and_underscore_tokenizer</span><span class="p">,</span>
+    <span class="n">embed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DFLT_SEMANTIC_MODEL</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Backend</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a backend by name: ``&#39;tfidf&#39;``, ``&#39;semantic&#39;``, or ``&#39;hybrid&#39;``.</span>
+
+<span class="sd">    &gt;&gt;&gt; make_backend(&quot;tfidf&quot;).method</span>
+<span class="sd">    &#39;tfidf&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">method</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;tfidf&quot;</span><span class="p">,</span> <span class="s2">&quot;lexical&quot;</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">}:</span>
+        <span class="k">return</span> <span class="n">TfidfBackend</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;semantic&quot;</span><span class="p">,</span> <span class="s2">&quot;embedding&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">,</span> <span class="s2">&quot;dense&quot;</span><span class="p">}:</span>
+        <span class="k">return</span> <span class="n">SemanticBackend</span><span class="p">(</span><span class="n">embed</span><span class="o">=</span><span class="n">embed</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;hybrid&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">HybridBackend</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span> <span class="n">embed</span><span class="o">=</span><span class="n">embed</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Unknown search method </span><span class="si">{</span><span class="n">method</span><span class="si">!r}</span><span class="s2">. Use &#39;tfidf&#39;, &#39;semantic&#39;, or &#39;hybrid&#39;.&quot;</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_l2_normalize</span><span class="p">(</span><span class="n">matrix</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Row-wise L2 normalisation (zero rows left untouched).&quot;&quot;&quot;</span>
+    <span class="n">matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">))</span>
+    <span class="n">norms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">norms</span><span class="p">[</span><span class="n">norms</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">return</span> <span class="n">matrix</span> <span class="o">/</span> <span class="n">norms</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_minmax</span><span class="p">(</span><span class="n">scores</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Scale scores into ``[0, 1]`` so backends can be blended fairly.&quot;&quot;&quot;</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float64&quot;</span><span class="p">)</span>
+    <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">scores</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">scores</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">hi</span> <span class="o">&lt;=</span> <span class="n">lo</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">scores</span> <span class="o">-</span> <span class="n">lo</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

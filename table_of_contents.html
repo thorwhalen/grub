@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; grub 0.1.5 documentation</title>
+  <title>&lt;no title&gt; &mdash; grub 0.1.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=59fadc99"></script>
+      <script src="_static/documentation_options.js?v=6e0256f3"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -48,11 +48,19 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/grub.html">grub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/grub/__main__.html">grub.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/grub/backends.html">grub.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/grub/base.html">grub.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/grub/cli.html">grub.cli</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/grub/examples.html">grub.examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/grub/examples/py_object_docs.html">grub.examples.py_object_docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/grub/examples/pypi.html">grub.examples.pypi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/grub/facade.html">grub.facade</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/grub/pycode.html">grub.pycode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/grub/results.html">grub.results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/grub/searcher.html">grub.searcher</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/grub/sources.html">grub.sources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/grub/util.html">grub.util</a></li>
 </ul>
 
         </div>
@@ -82,7 +90,39 @@
   <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/grub.html">grub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/grub.html">grub</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.CodeSearcher"><code class="docutils literal notranslate"><span class="pre">CodeSearcher</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.HybridBackend"><code class="docutils literal notranslate"><span class="pre">HybridBackend</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.SearchResult"><code class="docutils literal notranslate"><span class="pre">SearchResult</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.SearchResults"><code class="docutils literal notranslate"><span class="pre">SearchResults</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.SearchStore"><code class="docutils literal notranslate"><span class="pre">SearchStore</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.Searcher"><code class="docutils literal notranslate"><span class="pre">Searcher</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.SemanticBackend"><code class="docutils literal notranslate"><span class="pre">SemanticBackend</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.TextFilesSearcher"><code class="docutils literal notranslate"><span class="pre">TextFilesSearcher</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.TfidfBackend"><code class="docutils literal notranslate"><span class="pre">TfidfBackend</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.TfidfKnnSearcher"><code class="docutils literal notranslate"><span class="pre">TfidfKnnSearcher</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.camelcase_and_underscore_tokenizer"><code class="docutils literal notranslate"><span class="pre">camelcase_and_underscore_tokenizer()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.chunk_store"><code class="docutils literal notranslate"><span class="pre">chunk_store()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.chunk_text"><code class="docutils literal notranslate"><span class="pre">chunk_text()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.grub"><code class="docutils literal notranslate"><span class="pre">grub()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.grubber"><code class="docutils literal notranslate"><span class="pre">grubber()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.html_to_text"><code class="docutils literal notranslate"><span class="pre">html_to_text()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.make_backend"><code class="docutils literal notranslate"><span class="pre">make_backend()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.search"><code class="docutils literal notranslate"><span class="pre">search()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.search_documented_attributes"><code class="docutils literal notranslate"><span class="pre">search_documented_attributes()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub.html#grub.to_store"><code class="docutils literal notranslate"><span class="pre">to_store()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/grub/__main__.html">grub.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/grub/backends.html">grub.backends</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/backends.html#grub.backends.Backend"><code class="docutils literal notranslate"><span class="pre">Backend</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/backends.html#grub.backends.DFLT_SEMANTIC_MODEL"><code class="docutils literal notranslate"><span class="pre">DFLT_SEMANTIC_MODEL</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/backends.html#grub.backends.HybridBackend"><code class="docutils literal notranslate"><span class="pre">HybridBackend</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/backends.html#grub.backends.SemanticBackend"><code class="docutils literal notranslate"><span class="pre">SemanticBackend</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/backends.html#grub.backends.TfidfBackend"><code class="docutils literal notranslate"><span class="pre">TfidfBackend</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/backends.html#grub.backends.make_backend"><code class="docutils literal notranslate"><span class="pre">make_backend()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/grub/base.html">grub.base</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/grub/base.html#grub.base.CodeSearcher"><code class="docutils literal notranslate"><span class="pre">CodeSearcher</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/grub/base.html#grub.base.CodeSearcherBase"><code class="docutils literal notranslate"><span class="pre">CodeSearcherBase</span></code></a></li>
@@ -97,6 +137,11 @@
 <li class="toctree-l2"><a class="reference internal" href="module_docs/grub/base.html#grub.base.grubber"><code class="docutils literal notranslate"><span class="pre">grubber()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/grub/cli.html">grub.cli</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/cli.html#grub.cli.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/cli.html#grub.cli.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/grub/examples.html">grub.examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/grub/examples/py_object_docs.html">grub.examples.py_object_docs</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/grub/examples/py_object_docs.html#grub.examples.py_object_docs.docs_searcher"><code class="docutils literal notranslate"><span class="pre">docs_searcher()</span></code></a></li>
@@ -108,6 +153,11 @@
 <li class="toctree-l2"><a class="reference internal" href="module_docs/grub/examples/pypi.html#grub.examples.pypi.WordVecStream"><code class="docutils literal notranslate"><span class="pre">WordVecStream</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/grub/facade.html">grub.facade</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/facade.html#grub.facade.grub"><code class="docutils literal notranslate"><span class="pre">grub()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/facade.html#grub.facade.search"><code class="docutils literal notranslate"><span class="pre">search()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/grub/pycode.html">grub.pycode</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/grub/pycode.html#grub.pycode.PyCodeSearcherBase"><code class="docutils literal notranslate"><span class="pre">PyCodeSearcherBase</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/grub/pycode.html#grub.pycode.ddir"><code class="docutils literal notranslate"><span class="pre">ddir()</span></code></a></li>
@@ -115,6 +165,35 @@
 <li class="toctree-l2"><a class="reference internal" href="module_docs/grub/pycode.html#grub.pycode.func_semantic_info"><code class="docutils literal notranslate"><span class="pre">func_semantic_info()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/grub/pycode.html#grub.pycode.non_doctest_lines"><code class="docutils literal notranslate"><span class="pre">non_doctest_lines()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/grub/pycode.html#grub.pycode.search_documented_attributes"><code class="docutils literal notranslate"><span class="pre">search_documented_attributes()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/grub/results.html">grub.results</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/results.html#grub.results.SearchResult"><code class="docutils literal notranslate"><span class="pre">SearchResult</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/results.html#grub.results.SearchResults"><code class="docutils literal notranslate"><span class="pre">SearchResults</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/grub/searcher.html">grub.searcher</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/searcher.html#grub.searcher.Searcher"><code class="docutils literal notranslate"><span class="pre">Searcher</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/grub/sources.html">grub.sources</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/sources.html#grub.sources.chunk_store"><code class="docutils literal notranslate"><span class="pre">chunk_store()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/sources.html#grub.sources.chunk_text"><code class="docutils literal notranslate"><span class="pre">chunk_text()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/sources.html#grub.sources.from_dir"><code class="docutils literal notranslate"><span class="pre">from_dir()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/sources.html#grub.sources.from_files"><code class="docutils literal notranslate"><span class="pre">from_files()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/sources.html#grub.sources.from_module"><code class="docutils literal notranslate"><span class="pre">from_module()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/sources.html#grub.sources.from_strings"><code class="docutils literal notranslate"><span class="pre">from_strings()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/sources.html#grub.sources.from_urls"><code class="docutils literal notranslate"><span class="pre">from_urls()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/sources.html#grub.sources.html_to_text"><code class="docutils literal notranslate"><span class="pre">html_to_text()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/sources.html#grub.sources.to_store"><code class="docutils literal notranslate"><span class="pre">to_store()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/grub/util.html">grub.util</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/util.html#grub.util.best_snippet"><code class="docutils literal notranslate"><span class="pre">best_snippet()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/util.html#grub.util.clamp_n"><code class="docutils literal notranslate"><span class="pre">clamp_n()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/util.html#grub.util.is_url"><code class="docutils literal notranslate"><span class="pre">is_url()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/util.html#grub.util.simple_tokenizer"><code class="docutils literal notranslate"><span class="pre">simple_tokenizer()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/grub/util.html#grub.util.truncate"><code class="docutils literal notranslate"><span class="pre">truncate()</span></code></a></li>
 </ul>
 </li>
 </ul>

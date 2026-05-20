@@ -1,0 +1,212 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>grub.results &mdash; grub 0.1.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6e0256f3"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="grub.searcher" href="searcher.html" />
+    <link rel="prev" title="grub.pycode" href="pycode.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            grub
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../grub.html">grub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="__main__.html">grub.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends.html">grub.backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">grub.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">grub.cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">grub.examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/py_object_docs.html">grub.examples.py_object_docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/pypi.html">grub.examples.pypi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facade.html">grub.facade</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycode.html">grub.pycode</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">grub.results</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#grub.results.SearchResult"><code class="docutils literal notranslate"><span class="pre">SearchResult</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#grub.results.SearchResults"><code class="docutils literal notranslate"><span class="pre">SearchResults</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#grub.results.SearchResults.as_dict"><code class="docutils literal notranslate"><span class="pre">SearchResults.as_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#grub.results.SearchResults.keys"><code class="docutils literal notranslate"><span class="pre">SearchResults.keys</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#grub.results.SearchResults.scores"><code class="docutils literal notranslate"><span class="pre">SearchResults.scores</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#grub.results.SearchResults.show"><code class="docutils literal notranslate"><span class="pre">SearchResults.show()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#grub.results.SearchResults.snippets"><code class="docutils literal notranslate"><span class="pre">SearchResults.snippets</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="searcher.html">grub.searcher</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sources.html">grub.sources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">grub.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">grub</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">grub.results</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/grub/results.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-grub.results">
+<span id="grub-results"></span><h1>grub.results<a class="headerlink" href="#module-grub.results" title="Link to this heading"></a></h1>
+<p>Rich search results: keys, scores, and snippets that explain a match.</p>
+<p>Where the legacy <a class="reference internal" href="../grub.html#grub.SearchStore" title="grub.SearchStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">grub.SearchStore</span></code></a> returns a bare array of keys,
+the modern <a class="reference internal" href="../grub.html#grub.Searcher" title="grub.Searcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">grub.Searcher</span></code></a> returns a <a class="reference internal" href="#grub.results.SearchResults" title="grub.results.SearchResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchResults</span></code></a> – a
+list of <a class="reference internal" href="#grub.results.SearchResult" title="grub.results.SearchResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchResult</span></code></a> records that also know their score and a
+snippet showing <em>why</em> the document matched.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="grub.results.SearchResult">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">grub.results.</span></span><span class="sig-name descname"><span class="pre">SearchResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snippet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/grub/results.html#SearchResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.results.SearchResult" title="Link to this definition"></a></dt>
+<dd><p>A single hit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> – the document’s key in the store.</p></li>
+<li><p><strong>score</strong> – relevance in <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1]</span></code> (higher is better).</p></li>
+<li><p><strong>snippet</strong> – a short excerpt showing why the document matched.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="grub.results.SearchResults">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">grub.results.</span></span><span class="sig-name descname"><span class="pre">SearchResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/grub/results.html#SearchResults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.results.SearchResults" title="Link to this definition"></a></dt>
+<dd><p>An ordered list of <a class="reference internal" href="#grub.results.SearchResult" title="grub.results.SearchResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchResult</span></code></a>, best match first.</p>
+<p>It <em>is</em> a list, so it indexes, slices, and iterates as you’d expect:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">SearchResults</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="n">SearchResult</span><span class="p">(</span><span class="s2">&quot;guitar&quot;</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="s2">&quot;a string instrument&quot;</span><span class="p">),</span>
+<span class="gp">... </span>     <span class="n">SearchResult</span><span class="p">(</span><span class="s2">&quot;piano&quot;</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="s2">&quot;a keyboard instrument&quot;</span><span class="p">)],</span>
+<span class="gp">... </span>    <span class="n">query</span><span class="o">=</span><span class="s2">&quot;instrument&quot;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">key</span>
+<span class="go">&#39;guitar&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span><span class="o">.</span><span class="n">keys</span>
+<span class="go">[&#39;guitar&#39;, &#39;piano&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">scores</span><span class="p">]</span>
+<span class="go">[0.9, 0.4]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;guitar&#39;</span><span class="p">]</span>
+<span class="go">0.9</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="grub.results.SearchResults.as_dict">
+<span class="sig-name descname"><span class="pre">as_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../../_modules/grub/results.html#SearchResults.as_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.results.SearchResults.as_dict" title="Link to this definition"></a></dt>
+<dd><p>A <code class="docutils literal notranslate"><span class="pre">{key:</span> <span class="pre">score}</span></code> mapping of the results.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="grub.results.SearchResults.keys">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">keys</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></span><a class="headerlink" href="#grub.results.SearchResults.keys" title="Link to this definition"></a></dt>
+<dd><p>Just the keys, ranked best-first.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="grub.results.SearchResults.scores">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">scores</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></span><a class="headerlink" href="#grub.results.SearchResults.scores" title="Link to this definition"></a></dt>
+<dd><p>Just the scores, ranked best-first.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grub.results.SearchResults.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">snippets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/grub/results.html#SearchResults.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.results.SearchResults.show" title="Link to this definition"></a></dt>
+<dd><p>A human-readable, multi-line rendering of the results.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="grub.results.SearchResults.snippets">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">snippets</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></span><a class="headerlink" href="#grub.results.SearchResults.snippets" title="Link to this definition"></a></dt>
+<dd><p>Just the snippets, ranked best-first.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pycode.html" class="btn btn-neutral float-left" title="grub.pycode" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="searcher.html" class="btn btn-neutral float-right" title="grub.searcher" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

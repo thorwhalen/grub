@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>grub.base &mdash; grub 0.1.5 documentation</title>
+  <title>grub.base &mdash; grub 0.1.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=59fadc99"></script>
+      <script src="../../_static/documentation_options.js?v=6e0256f3"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -24,8 +24,8 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="grub.examples" href="examples.html" />
-    <link rel="prev" title="grub" href="../grub.html" /> 
+    <link rel="next" title="grub.cli" href="cli.html" />
+    <link rel="prev" title="grub.backends" href="backends.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -50,6 +50,8 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../grub.html">grub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="__main__.html">grub.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends.html">grub.backends</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">grub.base</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#grub.base.CodeSearcher"><code class="docutils literal notranslate"><span class="pre">CodeSearcher</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#grub.base.CodeSearcherBase"><code class="docutils literal notranslate"><span class="pre">CodeSearcherBase</span></code></a></li>
@@ -67,10 +69,16 @@
 <li class="toctree-l2"><a class="reference internal" href="#grub.base.grubber"><code class="docutils literal notranslate"><span class="pre">grubber()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">grub.cli</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">grub.examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/py_object_docs.html">grub.examples.py_object_docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/pypi.html">grub.examples.pypi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facade.html">grub.facade</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pycode.html">grub.pycode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="results.html">grub.results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="searcher.html">grub.searcher</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sources.html">grub.sources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">grub.util</a></li>
 </ul>
 
         </div>
@@ -196,8 +204,8 @@ For testing purposes though, we’ll use a <code class="docutils literal notrans
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../grub.html" class="btn btn-neutral float-left" title="grub" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="examples.html" class="btn btn-neutral float-right" title="grub.examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="backends.html" class="btn btn-neutral float-left" title="grub.backends" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cli.html" class="btn btn-neutral float-right" title="grub.cli" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>grub.pycode &mdash; grub 0.1.5 documentation</title>
+  <title>grub.pycode &mdash; grub 0.1.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=59fadc99"></script>
+      <script src="../../_static/documentation_options.js?v=6e0256f3"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -47,11 +47,19 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub.html">grub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/__main__.html">grub.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/backends.html">grub.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/base.html">grub.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/cli.html">grub.cli</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/examples.html">grub.examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/examples/py_object_docs.html">grub.examples.py_object_docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/examples/pypi.html">grub.examples.pypi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/facade.html">grub.facade</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/pycode.html">grub.pycode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/results.html">grub.results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/searcher.html">grub.searcher</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/sources.html">grub.sources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/util.html">grub.util</a></li>
 </ul>
 
         </div>
@@ -92,7 +100,7 @@
 
 <span class="c1"># TODO: Not finished: Continue</span>
 <div class="viewcode-block" id="PyCodeSearcherBase">
-<a class="viewcode-back" href="../../module_docs/grub/pycode.html#grub.pycode.PyCodeSearcherBase">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/grub/pycode.html#grub.PyCodeSearcherBase">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PyCodeSearcherBase</span><span class="p">(</span><span class="n">CodeSearcher</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">search_store</span> <span class="o">=</span> <span class="n">pyobj_semantics_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">search_store</span><span class="p">)</span></div>
@@ -104,7 +112,7 @@
 
 
 <div class="viewcode-block" id="non_doctest_lines">
-<a class="viewcode-back" href="../../module_docs/grub/pycode.html#grub.pycode.non_doctest_lines">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/grub/pycode.html#grub.non_doctest_lines">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">non_doctest_lines</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generator of lines of the doc string that are not in a doctest scope.</span>
 
@@ -173,7 +181,7 @@
 
 
 <div class="viewcode-block" id="func_key_info">
-<a class="viewcode-back" href="../../module_docs/grub/pycode.html#grub.pycode.func_key_info">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/grub/pycode.html#grub.func_key_info">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">func_key_info</span><span class="p">(</span><span class="n">func</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Information that points to the function&#39;s source&quot;&quot;&quot;</span>
     <span class="n">func_src</span><span class="p">,</span> <span class="n">lineno</span> <span class="o">=</span> <span class="n">getsourcelines</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
@@ -182,7 +190,7 @@
 
 
 <div class="viewcode-block" id="func_semantic_info">
-<a class="viewcode-back" href="../../module_docs/grub/pycode.html#grub.pycode.func_semantic_info">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/grub/pycode.html#grub.func_semantic_info">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">func_semantic_info</span><span class="p">(</span><span class="n">func</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A dict of semantically relevant infos about a function.&quot;&quot;&quot;</span>
 
@@ -239,7 +247,7 @@
 
 
 <div class="viewcode-block" id="ddir">
-<a class="viewcode-back" href="../../module_docs/grub/pycode.html#grub.pycode.ddir">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/grub/pycode.html#grub.ddir">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ddir</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    List of (dir(obj)) attributes of obj that don&#39;t start with an underscore</span>
@@ -251,7 +259,7 @@
 
 
 <div class="viewcode-block" id="search_documented_attributes">
-<a class="viewcode-back" href="../../module_docs/grub/pycode.html#grub.pycode.search_documented_attributes">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/grub/pycode.html#grub.search_documented_attributes">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">search_documented_attributes</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">obj_to_attrs</span><span class="o">=</span><span class="n">ddir</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Search the documented attributes of a python object</span>

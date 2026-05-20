@@ -1,0 +1,4 @@
+grub.cli
+========
+.. automodule:: grub.cli
+   :members:

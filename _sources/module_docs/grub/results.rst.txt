@@ -1,0 +1,4 @@
+grub.results
+============
+.. automodule:: grub.results
+   :members:

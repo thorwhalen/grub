@@ -1,0 +1,189 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>grub.facade &mdash; grub 0.1.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6e0256f3"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            grub
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub.html">grub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/__main__.html">grub.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/backends.html">grub.backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/base.html">grub.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/cli.html">grub.cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/examples.html">grub.examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/examples/py_object_docs.html">grub.examples.py_object_docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/examples/pypi.html">grub.examples.pypi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/facade.html">grub.facade</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/pycode.html">grub.pycode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/results.html">grub.results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/searcher.html">grub.searcher</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/sources.html">grub.sources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/util.html">grub.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">grub</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">grub.facade</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for grub.facade</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;The one-line front door to grub: :func:`grub` (and its alias :func:`search`).</span>
+
+<span class="sd">``grub(source)`` builds a reusable :class:`~grub.searcher.Searcher`;</span>
+<span class="sd">``grub(source, query)`` searches in a single call. That is the whole</span>
+<span class="sd">API most people ever need.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">grub.results</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchResults</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">grub.searcher</span><span class="w"> </span><span class="kn">import</span> <span class="n">Searcher</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;grub&quot;</span><span class="p">,</span> <span class="s2">&quot;search&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="grub">
+<a class="viewcode-back" href="../../module_docs/grub/facade.html#grub.grub">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">grub</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;tfidf&quot;</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Search *anything*, in one line.</span>
+
+<span class="sd">    Point ``grub`` at a source -- a folder, a glob, a Python module, a</span>
+<span class="sd">    URL, a dict, or a list of strings -- and it builds a search engine.</span>
+
+<span class="sd">    Called with just a ``source`` it returns a reusable</span>
+<span class="sd">    :class:`~grub.searcher.Searcher`:</span>
+
+<span class="sd">    &gt;&gt;&gt; docs = {</span>
+<span class="sd">    ...     &#39;python&#39;: &#39;Python is a popular programming language.&#39;,</span>
+<span class="sd">    ...     &#39;guitar&#39;: &#39;A guitar is a musical instrument with strings.&#39;,</span>
+<span class="sd">    ...     &#39;coffee&#39;: &#39;Coffee is a hot drink brewed from beans.&#39;,</span>
+<span class="sd">    ... }</span>
+<span class="sd">    &gt;&gt;&gt; searcher = grub(docs)</span>
+<span class="sd">    &gt;&gt;&gt; searcher(&#39;a musical instrument&#39;).keys[0]</span>
+<span class="sd">    &#39;guitar&#39;</span>
+
+<span class="sd">    Called with a ``query`` too, it searches immediately and returns the</span>
+<span class="sd">    :class:`~grub.results.SearchResults`:</span>
+
+<span class="sd">    &gt;&gt;&gt; grub(docs, &#39;hot drink brewed from beans&#39;).keys[0]</span>
+<span class="sd">    &#39;coffee&#39;</span>
+
+<span class="sd">    :param source: anything :func:`grub.sources.to_store` understands.</span>
+<span class="sd">        An existing :class:`~grub.searcher.Searcher` is reused as-is.</span>
+<span class="sd">    :param query: if given, search for it and return results; otherwise</span>
+<span class="sd">        return the searcher.</span>
+<span class="sd">    :param method: ``&#39;tfidf&#39;``, ``&#39;semantic&#39;``, or ``&#39;hybrid&#39;``.</span>
+<span class="sd">    :param n: number of results.</span>
+<span class="sd">    :param kwargs: forwarded to :class:`~grub.searcher.Searcher`</span>
+<span class="sd">        (e.g. ``chunk=1500``, ``extensions=[&#39;.py&#39;]``, ``embed=...``).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">Searcher</span><span class="p">):</span>
+        <span class="n">searcher</span> <span class="o">=</span> <span class="n">source</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">searcher</span> <span class="o">=</span> <span class="n">Searcher</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">n_results</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">query</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">searcher</span>
+    <span class="k">return</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="search">
+<a class="viewcode-back" href="../../module_docs/grub/facade.html#grub.search">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;tfidf&quot;</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResults</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Search ``source`` for ``query`` -- a query-first alias of :func:`grub`.</span>
+
+<span class="sd">    &gt;&gt;&gt; search([&#39;apple pie&#39;, &#39;car engine&#39;, &#39;apple orchard&#39;], &#39;fruit apple&#39;).keys[0]</span>
+<span class="sd">    &#39;0&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">grub</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

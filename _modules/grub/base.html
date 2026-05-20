@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>grub.base &mdash; grub 0.1.5 documentation</title>
+  <title>grub.base &mdash; grub 0.1.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=59fadc99"></script>
+      <script src="../../_static/documentation_options.js?v=6e0256f3"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -47,11 +47,19 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub.html">grub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/__main__.html">grub.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/backends.html">grub.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/base.html">grub.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/cli.html">grub.cli</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/examples.html">grub.examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/examples/py_object_docs.html">grub.examples.py_object_docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/examples/pypi.html">grub.examples.pypi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/facade.html">grub.facade</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/pycode.html">grub.pycode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/results.html">grub.results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/searcher.html">grub.searcher</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/sources.html">grub.sources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/grub/util.html">grub.util</a></li>
 </ul>
 
         </div>
@@ -105,7 +113,7 @@
 
 
 <div class="viewcode-block" id="grubber">
-<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.grubber">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.grubber">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">grubber</span><span class="p">(</span><span class="n">search_store</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes a TF-IDF model and a KNN model for a search store.&quot;&quot;&quot;</span>
     <span class="n">knn</span> <span class="o">=</span> <span class="n">NearestNeighbors</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;cosine&quot;</span><span class="p">)</span>
@@ -146,7 +154,7 @@
 
 
 <div class="viewcode-block" id="camelcase_and_underscore_tokenizer">
-<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.camelcase_and_underscore_tokenizer">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.camelcase_and_underscore_tokenizer">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">camelcase_and_underscore_tokenizer</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    &gt;&gt;&gt; print(*camelcase_and_underscore_tokenizer(&#39;thereIsSomething i_wanted toShow&#39;))</span>
@@ -157,7 +165,7 @@
 
 
 <div class="viewcode-block" id="SearchStoreMixin">
-<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.SearchStoreMixin">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.SearchStoreMixin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SearchStoreMixin</span><span class="p">(</span><span class="n">KvReader</span><span class="p">):</span>
     <span class="n">store_attr</span> <span class="o">=</span> <span class="s2">&quot;search_store&quot;</span>
 
@@ -176,7 +184,7 @@
 
 
 <div class="viewcode-block" id="StoreMixin">
-<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.StoreMixin">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.StoreMixin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">StoreMixin</span><span class="p">(</span><span class="n">SearchStoreMixin</span><span class="p">):</span>
     <span class="n">store_attr</span> <span class="o">=</span> <span class="s2">&quot;store&quot;</span></div>
 
@@ -184,7 +192,7 @@
 
 <span class="c1"># @add_ipython_key_completions  # TODO: Not working: Make it work</span>
 <div class="viewcode-block" id="SearchStore">
-<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.SearchStore">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.SearchStore">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SearchStore</span><span class="p">(</span><span class="n">StoreMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a search index for anything (that is given a mapping interface with string values).</span>
 
@@ -260,7 +268,7 @@
 
 
 <div class="viewcode-block" id="DfltSearchStore">
-<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.DfltSearchStore">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.DfltSearchStore">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DfltSearchStore</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">yield from</span> <span class="p">()</span>
@@ -315,7 +323,7 @@
 
 <span class="c1"># search_store and</span>
 <div class="viewcode-block" id="TfidfKnnSearcher">
-<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.TfidfKnnSearcher">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.TfidfKnnSearcher">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TfidfKnnSearcher</span><span class="p">(</span><span class="n">SearchStoreMixin</span><span class="p">,</span> <span class="n">TfidfKnnFitMixin</span><span class="p">):</span>
     <span class="n">search_store</span><span class="p">:</span> <span class="n">Mapping</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">DfltSearchStore</span><span class="p">)</span>
@@ -330,14 +338,14 @@
 
     <span class="nd">@lazyprop</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">keys_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">search_store</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">search_store</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">n_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">knn</span><span class="o">.</span><span class="n">n_neighbors</span>
 
 <div class="viewcode-block" id="TfidfKnnSearcher.fvs">
-<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.TfidfKnnSearcher.fvs">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.TfidfKnnSearcher.fvs">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fvs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error_callback</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The feature vectors for the search_store&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">search_store</span><span class="p">,</span> <span class="s2">&quot;keys_cache&quot;</span><span class="p">):</span>
@@ -386,7 +394,7 @@
 
 
 <div class="viewcode-block" id="TextFilesSearcherBase">
-<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.TextFilesSearcherBase">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.TextFilesSearcherBase">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TextFilesSearcherBase</span><span class="p">(</span><span class="n">TfidfKnnSearcher</span><span class="p">):</span>
     <span class="n">search_store</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Mapping</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">DfltSearchStore</span><span class="p">)</span>
@@ -402,7 +410,7 @@
 
 
 <div class="viewcode-block" id="CodeSearcherBase">
-<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.CodeSearcherBase">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.CodeSearcherBase">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">CodeSearcherBase</span><span class="p">(</span><span class="n">TextFilesSearcherBase</span><span class="p">):</span>
     <span class="n">search_store</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Mapping</span> <span class="o">|</span> <span class="n">ModuleType</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">DfltSearchStore</span><span class="p">)</span>
@@ -430,14 +438,14 @@
 
 <span class="c1"># TODO: These do no more than their bases. Refactor.</span>
 <div class="viewcode-block" id="TextFilesSearcher">
-<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.TextFilesSearcher">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.TextFilesSearcher">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TextFilesSearcher</span><span class="p">(</span><span class="n">TextFilesSearcherBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Fittable Text searcher with fitters&quot;&quot;&quot;</span></div>
 
 
 
 <div class="viewcode-block" id="CodeSearcher">
-<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.base.CodeSearcher">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/grub/base.html#grub.CodeSearcher">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CodeSearcher</span><span class="p">(</span><span class="n">CodeSearcherBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Text searcher with fitters&quot;&quot;&quot;</span></div>
 

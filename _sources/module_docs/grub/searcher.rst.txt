@@ -1,0 +1,4 @@
+grub.searcher
+=============
+.. automodule:: grub.searcher
+   :members:

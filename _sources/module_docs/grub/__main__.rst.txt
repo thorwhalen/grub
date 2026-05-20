@@ -1,0 +1,4 @@
+grub.__main__
+=============
+.. automodule:: grub.__main__
+   :members:
