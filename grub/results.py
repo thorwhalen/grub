@@ -91,7 +91,6 @@ class SearchResults(list):
             return f"SearchResults(query={self.query!r}, [])"
         head = f"SearchResults for {self.query!r} -- {len(self)} hits:"
         body = "\n".join(
-            f"  {rank:>2}. [{r.score:.3f}] {r.key}"
-            for rank, r in enumerate(self, 1)
+            f"  {rank:>2}. [{r.score:.3f}] {r.key}" for rank, r in enumerate(self, 1)
         )
         return f"{head}\n{body}"

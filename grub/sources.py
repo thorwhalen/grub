@@ -171,9 +171,7 @@ def _route_iterable(source):
         return from_strings(items)
     if all(isinstance(it, (tuple, list)) and len(it) == 2 for it in items):
         return {str(k): str(v) for k, v in items}
-    raise TypeError(
-        "An iterable source must be all strings or all (key, value) pairs."
-    )
+    raise TypeError("An iterable source must be all strings or all (key, value) pairs.")
 
 
 # -- explicit adapters ------------------------------------------------------
@@ -230,9 +228,7 @@ def from_dir(
     skip = set(skip_dirs)
     out: dict[str, str] = {}
     for dirpath, dirnames, filenames in os.walk(root):
-        dirnames[:] = [
-            d for d in dirnames if d not in skip and not d.startswith(".")
-        ]
+        dirnames[:] = [d for d in dirnames if d not in skip and not d.startswith(".")]
         if not recursive:
             dirnames[:] = []
         for filename in sorted(filenames):
@@ -355,9 +351,7 @@ def html_to_text(html: str) -> str:
 def _normalize_extensions(extensions):
     if extensions is None:
         return None
-    return {
-        ("." + e.lstrip(".")).lower() for e in extensions
-    }
+    return {("." + e.lstrip(".")).lower() for e in extensions}
 
 
 def _read_text_file(path: Path, *, encoding: str, max_bytes: int) -> str | None:

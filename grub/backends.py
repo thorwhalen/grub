@@ -140,7 +140,9 @@ class SemanticBackend(Backend):
 
     def scores(self, query):
         if self._matrix is None:
-            raise RuntimeError("SemanticBackend.index() must be called before scores().")
+            raise RuntimeError(
+                "SemanticBackend.index() must be called before scores()."
+            )
         query_vec = self.embed([query])[0]
         return self._matrix @ query_vec
 

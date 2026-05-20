@@ -13,7 +13,9 @@ from grub.searcher import Searcher
 __all__ = ["grub", "search"]
 
 
-def grub(source, query: str | None = None, *, method: str = "tfidf", n: int = 10, **kwargs):
+def grub(
+    source, query: str | None = None, *, method: str = "tfidf", n: int = 10, **kwargs
+):
     """Search *anything*, in one line.
 
     Point ``grub`` at a source -- a folder, a glob, a Python module, a
@@ -55,7 +57,9 @@ def grub(source, query: str | None = None, *, method: str = "tfidf", n: int = 10
     return searcher.search(query, n=n)
 
 
-def search(source, query: str, *, method: str = "tfidf", n: int = 10, **kwargs) -> SearchResults:
+def search(
+    source, query: str, *, method: str = "tfidf", n: int = 10, **kwargs
+) -> SearchResults:
     """Search ``source`` for ``query`` -- a query-first alias of :func:`grub`.
 
     >>> search(['apple pie', 'car engine', 'apple orchard'], 'fruit apple').keys[0]
