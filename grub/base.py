@@ -229,7 +229,7 @@ class TfidfKnnSearcher(SearchStoreMixin, TfidfKnnFitMixin):
 
     @lazyprop
     def keys_array(self):
-        return np.array(self.search_store)
+        return np.array(list(self.search_store), dtype=object)
 
     @property
     def n_neighbors(self):

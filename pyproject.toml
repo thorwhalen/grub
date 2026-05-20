@@ -22,6 +22,8 @@ authors = [
 dependencies = [
     "py2store",
     "scikit-learn",
+    "numpy",
+    "argh",
 ]
 
 [project.license]
@@ -30,7 +32,13 @@ text = "Apache-2.0"
 [project.urls]
 Homepage = "https://github.com/thorwhalen/grub"
 
+[project.scripts]
+grub = "grub.cli:main"
+
 [project.optional-dependencies]
+semantic = [
+    "sentence-transformers>=2.2",
+]
 dev = [
     "pytest>=7.0",
     "pytest-cov>=4.0",
