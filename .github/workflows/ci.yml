@@ -8,9 +8,23 @@
 # a release-sensitive repo, change `@master` to a wads tag (e.g. `@v0.1.81`).
 # CI failure does not block a published release — it blocks the publish
 # step itself — so floating master is generally safe.
+#
+# Permissions: GitHub validates that the caller grants AT LEAST the
+# permissions any job in the called workflow requests — at workflow-parse
+# time, not at run-time, even if the job would be skipped via `if:`.
+# The reusable workflow needs:
+#   contents: write   for the publish job's version-bump push-back
+#   pages: write      for the github-pages publish (if enabled)
+#   id-token: write   for the github-pages OIDC handshake (if enabled)
+# Granting these in the stub keeps it working on any caller, including
+# personal-account repos where id-token is not write-by-default.
 name: Continuous Integration
 on: [push, pull_request]
 jobs:
   ci:
     uses: i2mint/wads/.github/workflows/uv-ci.yml@master
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
     secrets: inherit
