@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "grub"
-version = "0.1.7"
+version = "0.1.8"
 description = "A ridiculously simple search engine factory"
 readme = "README.md"
 requires-python = ">=3.10"
