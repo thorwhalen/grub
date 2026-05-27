@@ -27,4 +27,20 @@ jobs:
       contents: write
       pages: write
       id-token: write
-    secrets: inherit
+    # Explicit pass-through (not `secrets: inherit`) because `inherit` does
+    # not reliably propagate caller-repo secrets to a reusable workflow
+    # owned by a different account (verified empirically: caller in a
+    # personal account, called in i2mint org → `${{ secrets.PYPI_PASSWORD }}`
+    # resolved to empty inside the reusable workflow despite the secret
+    # being set on the caller repo). Listing each secret here makes the
+    # propagation unambiguous regardless of caller-vs-called ownership.
+    # Missing secrets on the caller resolve to empty strings, harmless for
+    # the optional ones; PYPI_PASSWORD must be set for the publish job.
+    secrets:
+      PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      HUGGINGFACE_TOKEN: ${{ secrets.HUGGINGFACE_TOKEN }}
+      KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+      KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
