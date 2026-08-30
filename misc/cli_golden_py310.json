@@ -1,0 +1,249 @@
+{
+  "cases": [
+    {
+      "argv": [
+        "--help"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "usage: grub [-h] [-m METHOD] [-n N] [--snippets] [--semantic] [--hybrid] [-c CHUNK]\n            [-e EXTENSIONS]\n            source [query ...]\n\nSearch ``source``; with no query, drop into an interactive prompt.\n\n:param source: folder, glob, ``dir/{}.ext`` format, module path, or URL.\n:param query: the search query (omit for an interactive session).\n:param method: ``tfidf``, ``semantic``, or ``hybrid``.\n:param n: number of results to show.\n:param snippets: also show the matching snippet for each result.\n:param semantic: shortcut for ``--method semantic``.\n:param hybrid: shortcut for ``--method hybrid``.\n:param chunk: split documents into windows of this many characters.\n:param extensions: comma-separated file extensions to restrict to,\n    e.g. ``.py,.md``.\n\npositional arguments:\n  source                -\n  query                 -\n\noptions:\n  -h, --help            show this help message and exit\n  -m METHOD, --method METHOD\n                        'tfidf'\n  -n N, --n N           10\n  --snippets            False\n  --semantic            False\n  --hybrid              False\n  -c CHUNK, --chunk CHUNK\n                        0\n  -e EXTENSIONS, --extensions EXTENSIONS\n                        ''\n",
+      "tier": 3,
+      "usage": "usage: grub [-h] [-m METHOD] [-n N] [--snippets] [--semantic] [--hybrid] [-c CHUNK] [-e EXTENSIONS] source [query ...]"
+    },
+    {
+      "argv": [
+        "tests/fixtures/corpus"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "<Searcher: tfidf index over 4 documents>  --  type a query (blank line or Ctrl-D to quit)\ngrub> \n",
+      "tier": 1,
+      "usage": ""
+    },
+    {
+      "argv": [
+        "tests/fixtures/corpus",
+        "musical instrument",
+        "-n",
+        "1"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "1 results for 'musical instrument':\n   1. [0.437] guitar.txt\n",
+      "tier": 1,
+      "usage": ""
+    },
+    {
+      "argv": [
+        "tests/fixtures/corpus",
+        "musical instrument",
+        "--snippets",
+        "-n",
+        "1"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "1 results for 'musical instrument':\n   1. [0.437] guitar.txt\n      A guitar is a musical instrument with six strings played by hand.\n",
+      "tier": 1,
+      "usage": ""
+    },
+    {
+      "argv": [
+        "tests/fixtures/corpus",
+        "hot drink",
+        "--method",
+        "tfidf",
+        "-n",
+        "1"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "1 results for 'hot drink':\n   1. [0.414] coffee.txt\n",
+      "tier": 1,
+      "usage": ""
+    },
+    {
+      "argv": [
+        "tests/fixtures/corpus",
+        "hot drink",
+        "-m",
+        "tfidf",
+        "-n",
+        "1"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "1 results for 'hot drink':\n   1. [0.414] coffee.txt\n",
+      "tier": 1,
+      "usage": ""
+    },
+    {
+      "argv": [
+        "tests/fixtures/corpus",
+        "python",
+        "programming",
+        "language",
+        "-n",
+        "1"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "1 results for 'python programming language':\n   1. [0.557] python.txt\n",
+      "tier": 1,
+      "usage": ""
+    },
+    {
+      "argv": [
+        "tests/fixtures/corpus",
+        "musical instrument",
+        "--extensions",
+        ".txt",
+        "-n",
+        "1"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "1 results for 'musical instrument':\n   1. [0.437] guitar.txt\n",
+      "tier": 1,
+      "usage": ""
+    },
+    {
+      "argv": [
+        "tests/fixtures/corpus",
+        "musical instrument",
+        "-e",
+        ".txt",
+        "-n",
+        "1"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "1 results for 'musical instrument':\n   1. [0.437] guitar.txt\n",
+      "tier": 1,
+      "usage": ""
+    },
+    {
+      "argv": [
+        "tests/fixtures/corpus",
+        "musical instrument",
+        "--chunk",
+        "40",
+        "-n",
+        "2"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "2 results for 'musical instrument':\n   1. [0.530] guitar.txt#0\n   2. [0.000] coffee.txt#0\n",
+      "tier": 1,
+      "usage": ""
+    },
+    {
+      "argv": [
+        "tests/fixtures/corpus",
+        "musical instrument",
+        "-c",
+        "40",
+        "-n",
+        "2"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "2 results for 'musical instrument':\n   1. [0.530] guitar.txt#0\n   2. [0.000] coffee.txt#0\n",
+      "tier": 1,
+      "usage": ""
+    },
+    {
+      "argv": [
+        "tests/fixtures/corpus",
+        "musical instrument",
+        "--n",
+        "1"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "1 results for 'musical instrument':\n   1. [0.437] guitar.txt\n",
+      "tier": 1,
+      "usage": ""
+    },
+    {
+      "argv": [
+        "./no/such/place",
+        "query"
+      ],
+      "returncode": 1,
+      "stderr": "grub: No such file, folder, or glob: './no/such/place'. Pass an existing path, a glob like 'docs/*.md', a 'dir/{}.py' format, a module, or a dict.\n",
+      "stdout": "",
+      "tier": 1,
+      "usage": ""
+    },
+    {
+      "argv": [],
+      "returncode": 2,
+      "stderr": "usage: grub [-h] [-m METHOD] [-n N] [--snippets] [--semantic] [--hybrid] [-c CHUNK]\n            [-e EXTENSIONS]\n            source [query ...]\ngrub: error: the following arguments are required: source, query\n",
+      "stdout": "",
+      "tier": 1,
+      "usage": "usage: grub [-h] [-m METHOD] [-n N] [--snippets] [--semantic] [--hybrid] [-c CHUNK] [-e EXTENSIONS] source [query ...] grub: error: the following arguments are required: source, query"
+    },
+    {
+      "argv": [
+        "--nosuchflag"
+      ],
+      "returncode": 2,
+      "stderr": "usage: grub [-h] [-m METHOD] [-n N] [--snippets] [--semantic] [--hybrid] [-c CHUNK]\n            [-e EXTENSIONS]\n            source [query ...]\ngrub: error: the following arguments are required: source, query\n",
+      "stdout": "",
+      "tier": 1,
+      "usage": "usage: grub [-h] [-m METHOD] [-n N] [--snippets] [--semantic] [--hybrid] [-c CHUNK] [-e EXTENSIONS] source [query ...] grub: error: the following arguments are required: source, query"
+    },
+    {
+      "argv": [
+        "-n",
+        "notanint"
+      ],
+      "returncode": 2,
+      "stderr": "usage: grub [-h] [-m METHOD] [-n N] [--snippets] [--semantic] [--hybrid] [-c CHUNK]\n            [-e EXTENSIONS]\n            source [query ...]\ngrub: error: argument -n/--n: invalid int value: 'notanint'\n",
+      "stdout": "",
+      "tier": 1,
+      "usage": "usage: grub [-h] [-m METHOD] [-n N] [--snippets] [--semantic] [--hybrid] [-c CHUNK] [-e EXTENSIONS] source [query ...] grub: error: argument -n/--n: invalid int value: 'notanint'"
+    },
+    {
+      "argv": [
+        "--n",
+        "notanint"
+      ],
+      "returncode": 2,
+      "stderr": "usage: grub [-h] [-m METHOD] [-n N] [--snippets] [--semantic] [--hybrid] [-c CHUNK]\n            [-e EXTENSIONS]\n            source [query ...]\ngrub: error: argument -n/--n: invalid int value: 'notanint'\n",
+      "stdout": "",
+      "tier": 1,
+      "usage": "usage: grub [-h] [-m METHOD] [-n N] [--snippets] [--semantic] [--hybrid] [-c CHUNK] [-e EXTENSIONS] source [query ...] grub: error: argument -n/--n: invalid int value: 'notanint'"
+    },
+    {
+      "argv": [
+        "--method"
+      ],
+      "returncode": 2,
+      "stderr": "usage: grub [-h] [-m METHOD] [-n N] [--snippets] [--semantic] [--hybrid] [-c CHUNK]\n            [-e EXTENSIONS]\n            source [query ...]\ngrub: error: argument -m/--method: expected one argument\n",
+      "stdout": "",
+      "tier": 1,
+      "usage": "usage: grub [-h] [-m METHOD] [-n N] [--snippets] [--semantic] [--hybrid] [-c CHUNK] [-e EXTENSIONS] source [query ...] grub: error: argument -m/--method: expected one argument"
+    }
+  ],
+  "cw_golden": 1,
+  "env": {
+    "COLUMNS": "100",
+    "NO_COLOR": "1",
+    "PYTHONHASHSEED": "0",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONUTF8": "1",
+    "TERM": "dumb"
+  },
+  "newlines": "lf",
+  "note": "argh 0.31.3, grub 6956353, pre-cw-migration, CPython 3.10",
+  "prog": [
+    "grub"
+  ],
+  "recorded_with": {
+    "implementation": "CPython",
+    "platform": "Darwin",
+    "python": "3.10.13"
+  }
+}

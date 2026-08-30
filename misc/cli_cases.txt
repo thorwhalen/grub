@@ -1,0 +1,59 @@
+# grub CLI characterization corpus. Replayed by tests/test_cli_parity.py;
+# re-recording procedure is in misc/README.md.
+#
+# Recorded from the argh-based CLI *before* the migration to cw, and replayed after, so a
+# dispatcher swap that changes anything a shell can see fails loudly.
+#
+# Rules for adding a case:
+#   * paths are relative to the repo root (characterize/replay run with cwd=repo root);
+#   * no case may print an absolute path -- the golden is committed and must replay on
+#     someone else's machine. That rules out any case whose failure escapes as an
+#     uncaught traceback: `grub SRC Q --extensions .md` over a .txt-only corpus raises
+#     `ValueError: empty vocabulary` out of scikit-learn, and the traceback names every
+#     frame's file. (It also names the dispatcher's own frames, so it could never have
+#     replayed across this migration anyway.)
+#   * no case may write to the filesystem or reach the network;
+#   * no case may need the optional `semantic` extra (sentence-transformers).
+
+# -- tier 3: the whole surface. grub is one command, so this is all of its grammar --
+--help
+
+# -- tier 1: the headline behaviour. With no query, grub drops into an interactive
+#    prompt; recorded with stdin closed, so it prints the banner and one prompt and
+#    exits 0 on EOF. This case is why cw.testing had to pin stdin (i2mint/cw#34):
+#    inheriting the recorder's made it record a timeout at a terminal and an EOF in CI.
+tests/fixtures/corpus
+
+# -- tier 1: a search. `-n 1` keeps the output to a single result line, so exactly one
+#    similarity score is asserted.
+#
+#    NOTE: that score comes from scikit-learn's TfidfVectorizer, and is the only byte in
+#    this golden a dependency upgrade could legitimately move. A diff confined to the
+#    bracketed number is a scikit-learn change -- re-record. A diff anywhere else is a
+#    CLI change; read it before you re-record anything.
+tests/fixtures/corpus "musical instrument" -n 1
+tests/fixtures/corpus "musical instrument" --snippets -n 1
+tests/fixtures/corpus "hot drink" --method tfidf -n 1
+tests/fixtures/corpus "hot drink" -m tfidf -n 1
+
+# -- tier 1: a multi-word query as separate argv items, which is what *query catches --
+tests/fixtures/corpus python programming language -n 1
+
+# -- tier 1: flags that reach the Searcher's constructor rather than its search --
+tests/fixtures/corpus "musical instrument" --extensions .txt -n 1
+tests/fixtures/corpus "musical instrument" -e .txt -n 1
+tests/fixtures/corpus "musical instrument" --chunk 40 -n 2
+tests/fixtures/corpus "musical instrument" -c 40 -n 2
+
+# -- tier 1: --n is the long spelling argh derives for a one-character parameter --
+tests/fixtures/corpus "musical instrument" --n 1
+
+# -- tier 1: the error path grub handles itself. Exits 1, not argparse's 2 --
+./no/such/place query
+
+# -- tier 1: usage errors. These must keep argparse's exit code 2 --
+[]
+--nosuchflag
+-n notanint
+--n notanint
+--method

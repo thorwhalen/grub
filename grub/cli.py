@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import sys
 
-import argh
+import cw
 
 from grub.searcher import Searcher
 
@@ -88,9 +88,13 @@ def _repl(searcher: Searcher, *, snippets: bool) -> None:
 
 
 def main(argv=None) -> int:
-    """Entry point for the ``grub`` console script."""
-    argh.dispatch_command(run, argv=argv)
-    return 0
+    """Entry point for the ``grub`` console script; returns its exit code.
+
+    ``argv`` defaults to ``sys.argv[1:]``. :func:`cw.dispatch` takes it positionally and
+    reproduces the grammar this CLI has always had -- pinned by ``misc/cli_golden_py*.json``
+    and asserted by ``tests/test_cli_parity.py``.
+    """
+    return cw.dispatch(run, argv)
 
 
 if __name__ == "__main__":  # pragma: no cover
