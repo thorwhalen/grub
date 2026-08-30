@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>grub.util &mdash; grub 0.1.7 documentation</title>
+  <title>grub.util &mdash; grub 0.1.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=ca7ad2ea"></script>
+      <script src="../../_static/documentation_options.js?v=22607128"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -87,11 +87,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for grub.util</h1><div class="highlight"><pre>
-<span></span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Small shared utilities for grub: tokenizing, clamping, snippet extraction.</span>
+<span></span><span class="sa">r</span><span class="sd">"""Small shared utilities for grub: tokenizing, clamping, snippet extraction.</span>
 
-<span class="sd">These are low-level helpers used across grub&#39;s modules. They have no</span>
+<span class="sd">These are low-level helpers used across grub's modules. They have no</span>
 <span class="sd">heavy dependencies and are safe to import anywhere.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -99,24 +99,24 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;simple_tokenizer&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;clamp_n&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;best_snippet&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;is_url&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;truncate&quot;</span><span class="p">,</span>
+    <span class="s2">"simple_tokenizer"</span><span class="p">,</span>
+    <span class="s2">"clamp_n"</span><span class="p">,</span>
+    <span class="s2">"best_snippet"</span><span class="p">,</span>
+    <span class="s2">"is_url"</span><span class="p">,</span>
+    <span class="s2">"truncate"</span><span class="p">,</span>
 <span class="p">]</span>
 
-<span class="n">_word_p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\w+&quot;</span><span class="p">)</span>
+<span class="n">_word_p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\w+"</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="simple_tokenizer">
 <a class="viewcode-back" href="../../module_docs/grub/util.html#grub.util.simple_tokenizer">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">simple_tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lower-cased word tokens of a string.</span>
+<span class="w">    </span><span class="sd">"""Lower-cased word tokens of a string.</span>
 
-<span class="sd">    &gt;&gt;&gt; simple_tokenizer(&quot;Hello, World! Version 2&quot;)</span>
-<span class="sd">    [&#39;hello&#39;, &#39;world&#39;, &#39;version&#39;, &#39;2&#39;]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; simple_tokenizer("Hello, World! Version 2")</span>
+<span class="sd">    ['hello', 'world', 'version', '2']</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">_word_p</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span></div>
 
 
@@ -124,7 +124,7 @@
 <div class="viewcode-block" id="clamp_n">
 <a class="viewcode-back" href="../../module_docs/grub/util.html#grub.util.clamp_n">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">clamp_n</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Clamp a requested result count to ``[1, size]``.</span>
+<span class="w">    </span><span class="sd">"""Clamp a requested result count to ``[1, size]``.</span>
 
 <span class="sd">    Search backends choke when asked for more neighbours than they have</span>
 <span class="sd">    documents; this keeps requests in range.</span>
@@ -135,7 +135,7 @@
 <span class="sd">    5</span>
 <span class="sd">    &gt;&gt;&gt; clamp_n(0, 100)</span>
 <span class="sd">    1</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">size</span><span class="p">))))</span></div>
 
 
@@ -143,17 +143,17 @@
 <div class="viewcode-block" id="truncate">
 <a class="viewcode-back" href="../../module_docs/grub/util.html#grub.util.truncate">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">truncate</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">240</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Collapse whitespace and truncate ``text`` to at most ``width`` chars.</span>
+<span class="w">    </span><span class="sd">"""Collapse whitespace and truncate ``text`` to at most ``width`` chars.</span>
 
-<span class="sd">    &gt;&gt;&gt; truncate(&quot;  lots   of   space  &quot;, width=80)</span>
-<span class="sd">    &#39;lots of space&#39;</span>
-<span class="sd">    &gt;&gt;&gt; truncate(&quot;abcdefghij&quot;, width=5)</span>
-<span class="sd">    &#39;abcd…&#39;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+<span class="sd">    &gt;&gt;&gt; truncate("  lots   of   space  ", width=80)</span>
+<span class="sd">    'lots of space'</span>
+<span class="sd">    &gt;&gt;&gt; truncate("abcdefghij", width=5)</span>
+<span class="sd">    'abcd…'</span>
+<span class="sd">    """</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">width</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">text</span>
-    <span class="k">return</span> <span class="n">text</span><span class="p">[:</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;…&quot;</span></div>
+    <span class="k">return</span> <span class="n">text</span><span class="p">[:</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"…"</span></div>
 
 
 
@@ -166,20 +166,20 @@
     <span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">240</span><span class="p">,</span>
     <span class="n">tokenizer</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">simple_tokenizer</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return a short excerpt of ``text`` that best matches ``query``.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""Return a short excerpt of ``text`` that best matches ``query``.</span>
 
 <span class="sd">    The excerpt is the single line sharing the most tokens with the</span>
 <span class="sd">    query -- a cheap way to show *why* a document matched.</span>
 
-<span class="sd">    &gt;&gt;&gt; doc = &quot;Intro line.\nThe quick brown fox jumps over.\nTrailing words.&quot;</span>
-<span class="sd">    &gt;&gt;&gt; best_snippet(doc, &quot;quick brown fox&quot;)</span>
-<span class="sd">    &#39;The quick brown fox jumps over.&#39;</span>
+<span class="sd">    &gt;&gt;&gt; doc = "Intro line.\nThe quick brown fox jumps over.\nTrailing words."</span>
+<span class="sd">    &gt;&gt;&gt; best_snippet(doc, "quick brown fox")</span>
+<span class="sd">    'The quick brown fox jumps over.'</span>
 
 <span class="sd">    With no overlap at all it falls back to the start of the text:</span>
 
-<span class="sd">    &gt;&gt;&gt; best_snippet(&quot;alpha beta gamma&quot;, &quot;nothing matches here&quot;, width=80)</span>
-<span class="sd">    &#39;alpha beta gamma&#39;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; best_snippet("alpha beta gamma", "nothing matches here", width=80)</span>
+<span class="sd">    'alpha beta gamma'</span>
+<span class="sd">    """</span>
     <span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
     <span class="n">q_tokens</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">(</span><span class="n">query</span><span class="p">))</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">ln</span> <span class="k">for</span> <span class="n">ln</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span> <span class="k">if</span> <span class="n">ln</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
@@ -204,32 +204,32 @@
     <span class="n">tokenizer</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Window ``line`` around the first query-token hit.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Window ``line`` around the first query-token hit."""</span>
     <span class="n">lowered</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="n">hit</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">lowered</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">tok</span><span class="p">)</span> <span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">q_tokens</span> <span class="k">if</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">lowered</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">hit</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">truncate</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span>
     <span class="n">start</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">hit</span> <span class="o">-</span> <span class="n">width</span> <span class="o">//</span> <span class="mi">3</span><span class="p">)</span>
     <span class="n">window</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="n">start</span> <span class="p">:</span> <span class="n">start</span> <span class="o">+</span> <span class="n">width</span><span class="p">]</span>
-    <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;…&quot;</span> <span class="k">if</span> <span class="n">start</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">suffix</span> <span class="o">=</span> <span class="s2">&quot;…&quot;</span> <span class="k">if</span> <span class="n">start</span> <span class="o">+</span> <span class="n">width</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">window</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="o">+</span> <span class="n">suffix</span>
+    <span class="n">prefix</span> <span class="o">=</span> <span class="s2">"…"</span> <span class="k">if</span> <span class="n">start</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">""</span>
+    <span class="n">suffix</span> <span class="o">=</span> <span class="s2">"…"</span> <span class="k">if</span> <span class="n">start</span> <span class="o">+</span> <span class="n">width</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="k">else</span> <span class="s2">""</span>
+    <span class="k">return</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">window</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="o">+</span> <span class="n">suffix</span>
 
 
 <div class="viewcode-block" id="is_url">
 <a class="viewcode-back" href="../../module_docs/grub/util.html#grub.util.is_url">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_url</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether ``value`` looks like a fetchable URL.</span>
+<span class="w">    </span><span class="sd">"""Whether ``value`` looks like a fetchable URL.</span>
 
-<span class="sd">    &gt;&gt;&gt; is_url(&quot;https://example.com&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; is_url("https://example.com")</span>
 <span class="sd">    True</span>
-<span class="sd">    &gt;&gt;&gt; is_url(&quot;./local/path&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; is_url("./local/path")</span>
 <span class="sd">    False</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="p">(</span>
         <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-        <span class="ow">and</span> <span class="s2">&quot;://&quot;</span> <span class="ow">in</span> <span class="n">value</span>
-        <span class="ow">and</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;://&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;http&quot;</span><span class="p">,</span> <span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="s2">&quot;ftp&quot;</span><span class="p">,</span> <span class="s2">&quot;file&quot;</span><span class="p">}</span>
+        <span class="ow">and</span> <span class="s2">"://"</span> <span class="ow">in</span> <span class="n">value</span>
+        <span class="ow">and</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"://"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"http"</span><span class="p">,</span> <span class="s2">"https"</span><span class="p">,</span> <span class="s2">"ftp"</span><span class="p">,</span> <span class="s2">"file"</span><span class="p">}</span>
     <span class="p">)</span></div>
 
 </pre></div>
@@ -241,7 +241,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright NO COPYRIGHT.</p>
+    <p></p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

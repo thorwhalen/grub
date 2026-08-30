@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>grub.base &mdash; grub 0.1.7 documentation</title>
+  <title>grub.base &mdash; grub 0.1.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=ca7ad2ea"></script>
+      <script src="../../_static/documentation_options.js?v=22607128"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -133,20 +133,20 @@ Typically, a store’s backend comes from local files or data-base wrapped into 
 (see <code class="docutils literal notranslate"><span class="pre">py2store</span></code> for tools to do that!).
 For testing purposes though, we’ll use a <code class="docutils literal notranslate"><span class="pre">dict</span></code> here:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">store</span> <span class="o">=</span> <span class="p">{</span>
-<span class="gp">... </span><span class="s2">&quot;Nelson Mandela&quot;</span><span class="p">:</span> <span class="s2">&quot;The greatest glory in living lies not in never falling, but in rising every time we fall.&quot;</span><span class="p">,</span>
-<span class="gp">... </span><span class="s2">&quot;Walt Disney&quot;</span><span class="p">:</span> <span class="s2">&quot;The way to get started is to quit talking and begin doing.&quot;</span><span class="p">,</span>
-<span class="gp">... </span><span class="s2">&quot;Steve Jobs&quot;</span><span class="p">:</span> <span class="s2">&quot;Your time is limited, so don&#39;t waste it living someone else&#39;s life.&quot;</span>
+<span class="gp">... </span><span class="s2">"Nelson Mandela"</span><span class="p">:</span> <span class="s2">"The greatest glory in living lies not in never falling, but in rising every time we fall."</span><span class="p">,</span>
+<span class="gp">... </span><span class="s2">"Walt Disney"</span><span class="p">:</span> <span class="s2">"The way to get started is to quit talking and begin doing."</span><span class="p">,</span>
+<span class="gp">... </span><span class="s2">"Steve Jobs"</span><span class="p">:</span> <span class="s2">"Your time is limited, so don't waste it living someone else's life."</span>
 <span class="gp">... </span><span class="p">}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">search</span> <span class="o">=</span> <span class="n">SearchStore</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># our store is small, so need to restrict our result size to less</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;living&#39;</span><span class="p">))</span>
-<span class="go">[&#39;Steve Jobs&#39;, &#39;Nelson Mandela&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">search</span><span class="p">(</span><span class="s1">'living'</span><span class="p">))</span>
+<span class="go">['Steve Jobs', 'Nelson Mandela']</span>
 </pre></div>
 </div>
 <p>A <code class="docutils literal notranslate"><span class="pre">SearchStore</span></code> instance is picklable.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">unserialized_search</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">search</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">unserialized_search</span><span class="p">(</span><span class="s1">&#39;living&#39;</span><span class="p">))</span>
-<span class="go">[&#39;Steve Jobs&#39;, &#39;Nelson Mandela&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">unserialized_search</span><span class="p">(</span><span class="s1">'living'</span><span class="p">))</span>
+<span class="go">['Steve Jobs', 'Nelson Mandela']</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -186,7 +186,7 @@ For testing purposes though, we’ll use a <code class="docutils literal notrans
 <dl class="py function">
 <dt class="sig sig-object py" id="grub.base.camelcase_and_underscore_tokenizer">
 <span class="sig-prename descclassname"><span class="pre">grub.base.</span></span><span class="sig-name descname"><span class="pre">camelcase_and_underscore_tokenizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/grub/base.html#camelcase_and_underscore_tokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.base.camelcase_and_underscore_tokenizer" title="Link to this definition"></a></dt>
-<dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">camelcase_and_underscore_tokenizer</span><span class="p">(</span><span class="s1">&#39;thereIsSomething i_wanted toShow&#39;</span><span class="p">))</span>
+<dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">camelcase_and_underscore_tokenizer</span><span class="p">(</span><span class="s1">'thereIsSomething i_wanted toShow'</span><span class="p">))</span>
 <span class="go">there is something i wanted to show</span>
 </pre></div>
 </div>
@@ -211,7 +211,7 @@ For testing purposes though, we’ll use a <code class="docutils literal notrans
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright NO COPYRIGHT.</p>
+    <p></p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

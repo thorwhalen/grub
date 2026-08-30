@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>grub &mdash; grub 0.1.7 documentation</title>
+  <title>grub &mdash; grub 0.1.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=ca7ad2ea"></script>
+      <script src="../_static/documentation_options.js?v=22607128"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -138,15 +138,15 @@
 dict, a list of strings – and get back a search engine in one line:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">grub</span><span class="w"> </span><span class="kn">import</span> <span class="n">grub</span>
 
-<span class="n">search</span> <span class="o">=</span> <span class="n">grub</span><span class="p">(</span><span class="s1">&#39;./my_docs&#39;</span><span class="p">)</span>              <span class="c1"># build a searcher</span>
-<span class="n">results</span> <span class="o">=</span> <span class="n">search</span><span class="p">(</span><span class="s1">&#39;how do I configure logging&#39;</span><span class="p">)</span>
+<span class="n">search</span> <span class="o">=</span> <span class="n">grub</span><span class="p">(</span><span class="s1">'./my_docs'</span><span class="p">)</span>              <span class="c1"># build a searcher</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">search</span><span class="p">(</span><span class="s1">'how do I configure logging'</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">hit</span><span class="o">.</span><span class="n">score</span><span class="p">,</span> <span class="n">hit</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">hit</span><span class="o">.</span><span class="n">snippet</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Or search in a single call:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">grub</span><span class="p">(</span><span class="s1">&#39;./my_docs&#39;</span><span class="p">,</span> <span class="s1">&#39;how do I configure logging&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">grub</span><span class="p">(</span><span class="s1">'./my_docs'</span><span class="p">,</span> <span class="s1">'how do I configure logging'</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Three search methods are available: <code class="docutils literal notranslate"><span class="pre">'tfidf'</span></code> (lexical, the default),
@@ -187,19 +187,19 @@ pure semantic, <code class="docutils literal notranslate"><span class="pre">0.5<
 <dd><p>An ordered list of <a class="reference internal" href="#grub.SearchResult" title="grub.SearchResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchResult</span></code></a>, best match first.</p>
 <p>It <em>is</em> a list, so it indexes, slices, and iterates as you’d expect:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">SearchResults</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="p">[</span><span class="n">SearchResult</span><span class="p">(</span><span class="s2">&quot;guitar&quot;</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="s2">&quot;a string instrument&quot;</span><span class="p">),</span>
-<span class="gp">... </span>     <span class="n">SearchResult</span><span class="p">(</span><span class="s2">&quot;piano&quot;</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="s2">&quot;a keyboard instrument&quot;</span><span class="p">)],</span>
-<span class="gp">... </span>    <span class="n">query</span><span class="o">=</span><span class="s2">&quot;instrument&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="n">SearchResult</span><span class="p">(</span><span class="s2">"guitar"</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="s2">"a string instrument"</span><span class="p">),</span>
+<span class="gp">... </span>     <span class="n">SearchResult</span><span class="p">(</span><span class="s2">"piano"</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="s2">"a keyboard instrument"</span><span class="p">)],</span>
+<span class="gp">... </span>    <span class="n">query</span><span class="o">=</span><span class="s2">"instrument"</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
 <span class="go">2</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">key</span>
-<span class="go">&#39;guitar&#39;</span>
+<span class="go">'guitar'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">results</span><span class="o">.</span><span class="n">keys</span>
-<span class="go">[&#39;guitar&#39;, &#39;piano&#39;]</span>
+<span class="go">['guitar', 'piano']</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">scores</span><span class="p">]</span>
 <span class="go">[0.9, 0.4]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;guitar&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">'guitar'</span><span class="p">]</span>
 <span class="go">0.9</span>
 </pre></div>
 </div>
@@ -244,20 +244,20 @@ Typically, a store’s backend comes from local files or data-base wrapped into 
 (see <code class="docutils literal notranslate"><span class="pre">py2store</span></code> for tools to do that!).
 For testing purposes though, we’ll use a <code class="docutils literal notranslate"><span class="pre">dict</span></code> here:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">store</span> <span class="o">=</span> <span class="p">{</span>
-<span class="gp">... </span><span class="s2">&quot;Nelson Mandela&quot;</span><span class="p">:</span> <span class="s2">&quot;The greatest glory in living lies not in never falling, but in rising every time we fall.&quot;</span><span class="p">,</span>
-<span class="gp">... </span><span class="s2">&quot;Walt Disney&quot;</span><span class="p">:</span> <span class="s2">&quot;The way to get started is to quit talking and begin doing.&quot;</span><span class="p">,</span>
-<span class="gp">... </span><span class="s2">&quot;Steve Jobs&quot;</span><span class="p">:</span> <span class="s2">&quot;Your time is limited, so don&#39;t waste it living someone else&#39;s life.&quot;</span>
+<span class="gp">... </span><span class="s2">"Nelson Mandela"</span><span class="p">:</span> <span class="s2">"The greatest glory in living lies not in never falling, but in rising every time we fall."</span><span class="p">,</span>
+<span class="gp">... </span><span class="s2">"Walt Disney"</span><span class="p">:</span> <span class="s2">"The way to get started is to quit talking and begin doing."</span><span class="p">,</span>
+<span class="gp">... </span><span class="s2">"Steve Jobs"</span><span class="p">:</span> <span class="s2">"Your time is limited, so don't waste it living someone else's life."</span>
 <span class="gp">... </span><span class="p">}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">search</span> <span class="o">=</span> <span class="n">SearchStore</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># our store is small, so need to restrict our result size to less</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;living&#39;</span><span class="p">))</span>
-<span class="go">[&#39;Steve Jobs&#39;, &#39;Nelson Mandela&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">search</span><span class="p">(</span><span class="s1">'living'</span><span class="p">))</span>
+<span class="go">['Steve Jobs', 'Nelson Mandela']</span>
 </pre></div>
 </div>
 <p>A <code class="docutils literal notranslate"><span class="pre">SearchStore</span></code> instance is picklable.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">unserialized_search</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">search</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">unserialized_search</span><span class="p">(</span><span class="s1">&#39;living&#39;</span><span class="p">))</span>
-<span class="go">[&#39;Steve Jobs&#39;, &#39;Nelson Mandela&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">unserialized_search</span><span class="p">(</span><span class="s1">'living'</span><span class="p">))</span>
+<span class="go">['Steve Jobs', 'Nelson Mandela']</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -267,27 +267,27 @@ For testing purposes though, we’ll use a <code class="docutils literal notrans
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">grub.</span></span><span class="sig-name descname"><span class="pre">Searcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tfidf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">camelcase_and_underscore_tokenizer&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'all-MiniLM-L6-v2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snippets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="grub/backends.html#grub.backends.Backend" title="grub.backends.Backend"><span class="pre">Backend</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**source_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/grub/searcher.html#Searcher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.Searcher" title="Link to this definition"></a></dt>
 <dd><p>Index any source and search it.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">docs</span> <span class="o">=</span> <span class="p">{</span>
-<span class="gp">... </span>    <span class="s1">&#39;python&#39;</span><span class="p">:</span> <span class="s1">&#39;Python is a popular high level programming language.&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="s1">&#39;guitar&#39;</span><span class="p">:</span> <span class="s1">&#39;A guitar is a musical instrument with six strings.&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="s1">&#39;coffee&#39;</span><span class="p">:</span> <span class="s1">&#39;Coffee is a hot drink brewed from roasted beans.&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">'python'</span><span class="p">:</span> <span class="s1">'Python is a popular high level programming language.'</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">'guitar'</span><span class="p">:</span> <span class="s1">'A guitar is a musical instrument with six strings.'</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">'coffee'</span><span class="p">:</span> <span class="s1">'Coffee is a hot drink brewed from roasted beans.'</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">searcher</span> <span class="o">=</span> <span class="n">Searcher</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">searcher</span>
 <span class="go">&lt;Searcher: tfidf index over 3 documents&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="p">(</span><span class="s1">&#39;a musical instrument&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="p">(</span><span class="s1">'a musical instrument'</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="go">&#39;guitar&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">searcher</span><span class="p">(</span><span class="s1">&#39;hot drink brewed from beans&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="go">&#39;coffee&#39;</span>
+<span class="go">'guitar'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">searcher</span><span class="p">(</span><span class="s1">'hot drink brewed from beans'</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">'coffee'</span>
 </pre></div>
 </div>
 <p>Each result carries a score and a snippet explaining the match:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hit</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">hit</span><span class="o">.</span><span class="n">key</span>
-<span class="go">&#39;guitar&#39;</span>
+<span class="go">'guitar'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">hit</span><span class="o">.</span><span class="n">score</span> <span class="o">&gt;</span> <span class="mi">0</span>
 <span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;musical instrument&#39;</span> <span class="ow">in</span> <span class="n">hit</span><span class="o">.</span><span class="n">snippet</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">'musical instrument'</span> <span class="ow">in</span> <span class="n">hit</span><span class="o">.</span><span class="n">snippet</span>
 <span class="go">True</span>
 </pre></div>
 </div>
@@ -371,7 +371,7 @@ words with the documents – the right default for code and docs.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="grub.camelcase_and_underscore_tokenizer">
 <span class="sig-prename descclassname"><span class="pre">grub.</span></span><span class="sig-name descname"><span class="pre">camelcase_and_underscore_tokenizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/grub/base.html#camelcase_and_underscore_tokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.camelcase_and_underscore_tokenizer" title="Link to this definition"></a></dt>
-<dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">camelcase_and_underscore_tokenizer</span><span class="p">(</span><span class="s1">&#39;thereIsSomething i_wanted toShow&#39;</span><span class="p">))</span>
+<dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">camelcase_and_underscore_tokenizer</span><span class="p">(</span><span class="s1">'thereIsSomething i_wanted toShow'</span><span class="p">))</span>
 <span class="go">there is something i wanted to show</span>
 </pre></div>
 </div>
@@ -381,8 +381,8 @@ words with the documents – the right default for code and docs.</p>
 <dt class="sig sig-object py" id="grub.chunk_store">
 <span class="sig-prename descclassname"><span class="pre">grub.</span></span><span class="sig-name descname"><span class="pre">chunk_store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">200</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/grub/sources.html#chunk_store"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.chunk_store" title="Link to this definition"></a></dt>
 <dd><p>Chunk every value of <code class="docutils literal notranslate"><span class="pre">store</span></code>; keys become <code class="docutils literal notranslate"><span class="pre">&quot;{key}#{n}&quot;</span></code>.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">chunk_store</span><span class="p">({</span><span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;abcdef&quot;</span><span class="p">},</span> <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-<span class="go">[&#39;doc#0&#39;, &#39;doc#1&#39;]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">chunk_store</span><span class="p">({</span><span class="s2">"doc"</span><span class="p">:</span> <span class="s2">"abcdef"</span><span class="p">},</span> <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="go">['doc#0', 'doc#1']</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -393,10 +393,10 @@ words with the documents – the right default for code and docs.</p>
 <dd><p>Split <code class="docutils literal notranslate"><span class="pre">text</span></code> into overlapping character windows.</p>
 <p>Long documents search better in pieces: a hit then points at a
 passage instead of a whole file.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">chunk_text</span><span class="p">(</span><span class="s2">&quot;abcdefghij&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="go">[&#39;abcd&#39;, &#39;defg&#39;, &#39;ghij&#39;, &#39;j&#39;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">chunk_text</span><span class="p">(</span><span class="s2">&quot;short&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="go">[&#39;short&#39;]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">chunk_text</span><span class="p">(</span><span class="s2">"abcdefghij"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">['abcd', 'defg', 'ghij', 'j']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chunk_text</span><span class="p">(</span><span class="s2">"short"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="go">['short']</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -410,19 +410,19 @@ URL, a dict, or a list of strings – and it builds a search engine.</p>
 <p>Called with just a <code class="docutils literal notranslate"><span class="pre">source</span></code> it returns a reusable
 <a class="reference internal" href="grub/searcher.html#grub.searcher.Searcher" title="grub.searcher.Searcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">Searcher</span></code></a>:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">docs</span> <span class="o">=</span> <span class="p">{</span>
-<span class="gp">... </span>    <span class="s1">&#39;python&#39;</span><span class="p">:</span> <span class="s1">&#39;Python is a popular programming language.&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="s1">&#39;guitar&#39;</span><span class="p">:</span> <span class="s1">&#39;A guitar is a musical instrument with strings.&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="s1">&#39;coffee&#39;</span><span class="p">:</span> <span class="s1">&#39;Coffee is a hot drink brewed from beans.&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">'python'</span><span class="p">:</span> <span class="s1">'Python is a popular programming language.'</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">'guitar'</span><span class="p">:</span> <span class="s1">'A guitar is a musical instrument with strings.'</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">'coffee'</span><span class="p">:</span> <span class="s1">'Coffee is a hot drink brewed from beans.'</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">searcher</span> <span class="o">=</span> <span class="n">grub</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">searcher</span><span class="p">(</span><span class="s1">&#39;a musical instrument&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="go">&#39;guitar&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">searcher</span><span class="p">(</span><span class="s1">'a musical instrument'</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">'guitar'</span>
 </pre></div>
 </div>
 <p>Called with a <code class="docutils literal notranslate"><span class="pre">query</span></code> too, it searches immediately and returns the
 <a class="reference internal" href="grub/results.html#grub.results.SearchResults" title="grub.results.SearchResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchResults</span></code></a>:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">grub</span><span class="p">(</span><span class="n">docs</span><span class="p">,</span> <span class="s1">&#39;hot drink brewed from beans&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="go">&#39;coffee&#39;</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">grub</span><span class="p">(</span><span class="n">docs</span><span class="p">,</span> <span class="s1">'hot drink brewed from beans'</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">'coffee'</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -451,10 +451,10 @@ return the searcher.</p></li>
 <dt class="sig sig-object py" id="grub.html_to_text">
 <span class="sig-prename descclassname"><span class="pre">grub.</span></span><span class="sig-name descname"><span class="pre">html_to_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/grub/sources.html#html_to_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.html_to_text" title="Link to this definition"></a></dt>
 <dd><p>Strip HTML tags, returning visible text only.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">html_to_text</span><span class="p">(</span><span class="s2">&quot;&lt;h1&gt;Title&lt;/h1&gt;&lt;p&gt;Hello &lt;b&gt;world&lt;/b&gt;&lt;/p&gt;&quot;</span><span class="p">)</span>
-<span class="go">&#39;Title Hello world&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">html_to_text</span><span class="p">(</span><span class="s2">&quot;&lt;style&gt;.x</span><span class="si">{}</span><span class="s2">&lt;/style&gt;&lt;p&gt;visible&lt;/p&gt;&quot;</span><span class="p">)</span>
-<span class="go">&#39;visible&#39;</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">html_to_text</span><span class="p">(</span><span class="s2">"&lt;h1&gt;Title&lt;/h1&gt;&lt;p&gt;Hello &lt;b&gt;world&lt;/b&gt;&lt;/p&gt;"</span><span class="p">)</span>
+<span class="go">'Title Hello world'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">html_to_text</span><span class="p">(</span><span class="s2">"&lt;style&gt;.x</span><span class="si">{}</span><span class="s2">&lt;/style&gt;&lt;p&gt;visible&lt;/p&gt;"</span><span class="p">)</span>
+<span class="go">'visible'</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -463,8 +463,8 @@ return the searcher.</p></li>
 <dt class="sig sig-object py" id="grub.make_backend">
 <span class="sig-prename descclassname"><span class="pre">grub.</span></span><span class="sig-name descname"><span class="pre">make_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tfidf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">camelcase_and_underscore_tokenizer&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'all-MiniLM-L6-v2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="grub/backends.html#grub.backends.Backend" title="grub.backends.Backend"><span class="pre">Backend</span></a></span></span><a class="reference internal" href="../_modules/grub/backends.html#make_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.make_backend" title="Link to this definition"></a></dt>
 <dd><p>Build a backend by name: <code class="docutils literal notranslate"><span class="pre">'tfidf'</span></code>, <code class="docutils literal notranslate"><span class="pre">'semantic'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'hybrid'</span></code>.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">make_backend</span><span class="p">(</span><span class="s2">&quot;tfidf&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">method</span>
-<span class="go">&#39;tfidf&#39;</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">make_backend</span><span class="p">(</span><span class="s2">"tfidf"</span><span class="p">)</span><span class="o">.</span><span class="n">method</span>
+<span class="go">'tfidf'</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -473,8 +473,8 @@ return the searcher.</p></li>
 <dt class="sig sig-object py" id="grub.search">
 <span class="sig-prename descclassname"><span class="pre">grub.</span></span><span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tfidf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="grub/results.html#grub.results.SearchResults" title="grub.results.SearchResults"><span class="pre">SearchResults</span></a></span></span><a class="reference internal" href="../_modules/grub/facade.html#search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.search" title="Link to this definition"></a></dt>
 <dd><p>Search <code class="docutils literal notranslate"><span class="pre">source</span></code> for <code class="docutils literal notranslate"><span class="pre">query</span></code> – a query-first alias of <a class="reference internal" href="#module-grub" title="grub"><code class="xref py py-func docutils literal notranslate"><span class="pre">grub()</span></code></a>.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">search</span><span class="p">([</span><span class="s1">&#39;apple pie&#39;</span><span class="p">,</span> <span class="s1">&#39;car engine&#39;</span><span class="p">,</span> <span class="s1">&#39;apple orchard&#39;</span><span class="p">],</span> <span class="s1">&#39;fruit apple&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="go">&#39;0&#39;</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">search</span><span class="p">([</span><span class="s1">'apple pie'</span><span class="p">,</span> <span class="s1">'car engine'</span><span class="p">,</span> <span class="s1">'apple orchard'</span><span class="p">],</span> <span class="s1">'fruit apple'</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">'0'</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -489,10 +489,10 @@ return the searcher.</p></li>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">inspect</span><span class="w"> </span><span class="kn">import</span> <span class="n">getmodule</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">containing_module</span> <span class="o">=</span> <span class="n">getmodule</span><span class="p">(</span><span class="n">search_documented_attributes</span><span class="p">)</span>  <span class="c1"># the module of this function</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">search_module</span> <span class="o">=</span> <span class="n">search_documented_attributes</span><span class="p">(</span><span class="n">containing_module</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">search_module</span><span class="p">(</span><span class="s1">&#39;documented attributes&#39;</span><span class="p">))</span>  <span class="c1"># if you get an error here, it&#39;s probably just be that the docs changed</span>
-<span class="go">[&#39;search_documented_attributes&#39;, &#39;ddir&#39;, &#39;inspect&#39;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">search_module</span><span class="p">(</span><span class="s1">&#39;documented objects&#39;</span><span class="p">))</span>  <span class="c1"># if you get an error here, it&#39;s probably just be that the docs changed</span>
-<span class="go">[&#39;search_documented_attributes&#39;, &#39;DocTestFinder&#39;, &#39;doctest_finder&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">search_module</span><span class="p">(</span><span class="s1">'documented attributes'</span><span class="p">))</span>  <span class="c1"># if you get an error here, it's probably just be that the docs changed</span>
+<span class="go">['search_documented_attributes', 'ddir', 'inspect']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">search_module</span><span class="p">(</span><span class="s1">'documented objects'</span><span class="p">))</span>  <span class="c1"># if you get an error here, it's probably just be that the docs changed</span>
+<span class="go">['search_documented_attributes', 'DocTestFinder', 'doctest_finder']</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -512,11 +512,11 @@ return the searcher.</p></li>
 <li><p>a list of strings – enumerated into <code class="docutils literal notranslate"><span class="pre">{&quot;0&quot;:</span> <span class="pre">...,</span> <span class="pre">&quot;1&quot;:</span> <span class="pre">...}</span></code></p></li>
 <li><p>an iterable of <code class="docutils literal notranslate"><span class="pre">(key,</span> <span class="pre">value)</span></code> pairs – turned into a dict</p></li>
 </ul>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">store</span> <span class="o">=</span> <span class="n">to_store</span><span class="p">({</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="s2">&quot;first doc&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="s2">&quot;second doc&quot;</span><span class="p">})</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">store</span> <span class="o">=</span> <span class="n">to_store</span><span class="p">({</span><span class="s2">"a"</span><span class="p">:</span> <span class="s2">"first doc"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="s2">"second doc"</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">dict</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
-<span class="go">{&#39;a&#39;: &#39;first doc&#39;, &#39;b&#39;: &#39;second doc&#39;}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">to_store</span><span class="p">([</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">]))</span>
-<span class="go">[&#39;0&#39;, &#39;1&#39;, &#39;2&#39;]</span>
+<span class="go">{'a': 'first doc', 'b': 'second doc'}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">to_store</span><span class="p">([</span><span class="s2">"red"</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">,</span> <span class="s2">"blue"</span><span class="p">]))</span>
+<span class="go">['0', '1', '2']</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -546,7 +546,7 @@ return the searcher.</p></li>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright NO COPYRIGHT.</p>
+    <p></p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

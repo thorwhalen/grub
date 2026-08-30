@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>grub.examples.py_object_docs &mdash; grub 0.1.7 documentation</title>
+  <title>grub.examples.py_object_docs &mdash; grub 0.1.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=ca7ad2ea"></script>
+      <script src="../../../_static/documentation_options.js?v=22607128"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -87,17 +87,17 @@
            <div itemprop="articleBody">
              
   <h1>Source code for grub.examples.py_object_docs</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Searching python object docs</span>
+<span></span><span class="sd">"""Searching python object docs</span>
 
-<span class="sd">You know when you&#39;re using a new package, you REPL a few things, and you wonder what</span>
-<span class="sd">you can do with an object you&#39;re holding in your hand.</span>
+<span class="sd">You know when you're using a new package, you REPL a few things, and you wonder what</span>
+<span class="sd">you can do with an object you're holding in your hand.</span>
 
-<span class="sd">You can go look online, but it&#39;s not always that easy to find the &quot;what can I do with</span>
-<span class="sd">this particular object&quot; answers.</span>
+<span class="sd">You can go look online, but it's not always that easy to find the "what can I do with</span>
+<span class="sd">this particular object" answers.</span>
 
-<span class="sd">You can do `help(obj)` and browse it&#39;s output.</span>
+<span class="sd">You can do `help(obj)` and browse it's output.</span>
 
-<span class="sd">... or, you can do what we&#39;re showing here.</span>
+<span class="sd">... or, you can do what we're showing here.</span>
 
 
 <span class="sd">docs_searcher: Search the docs of the attributes of the input python object.</span>
@@ -106,19 +106,19 @@
 <span class="sd">    &gt;&gt;&gt; search = docs_searcher(TfidfKnnSearcher, n_results=2)</span>
 <span class="sd">    &gt;&gt;&gt; len(search)</span>
 <span class="sd">    6</span>
-<span class="sd">    &gt;&gt;&gt; keys = search(&#39;make index&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; keys = search('make index')</span>
 <span class="sd">    &gt;&gt;&gt; [str(k) for k in keys]</span>
-<span class="sd">    [&#39;fit&#39;, &#39;fit_knn&#39;]</span>
+<span class="sd">    ['fit', 'fit_knn']</span>
 
-<span class="sd">    Those are the names of the top 2 (=n_results) methods matching the query &#39;make</span>
-<span class="sd">    index&#39;. You can see the actual docs using `[...]`:</span>
+<span class="sd">    Those are the names of the top 2 (=n_results) methods matching the query 'make</span>
+<span class="sd">    index'. You can see the actual docs using `[...]`:</span>
 
-<span class="sd">    &gt;&gt;&gt; print(search[&#39;fit&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; print(search['fit'])</span>
 <span class="sd">    Fit all models of pipeline, i.e. making a search index.</span>
 
-<span class="sd">Note: There&#39;s a similar function in `grub.pycode` called `search_documented_attributes`</span>
+<span class="sd">Note: There's a similar function in `grub.pycode` called `search_documented_attributes`</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">NearestNeighbors</span>
 
@@ -126,11 +126,11 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">not_dundered</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
-    <span class="k">return</span> <span class="ow">not</span> <span class="n">string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;__&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="ow">not</span> <span class="n">string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"__"</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">not_underscored</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
-    <span class="k">return</span> <span class="ow">not</span> <span class="n">string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="ow">not</span> <span class="n">string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"_"</span><span class="p">)</span>
 
 
 <span class="n">DFLT_ATTRNAME_FILT</span> <span class="o">=</span> <span class="n">not_underscored</span>
@@ -141,7 +141,7 @@
     <span class="k">for</span> <span class="n">attrname</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="n">attrname_filt</span><span class="p">,</span> <span class="nb">dir</span><span class="p">(</span><span class="n">obj</span><span class="p">)):</span>
         <span class="n">attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">attrname</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">attr_filt</span><span class="p">(</span><span class="n">attr</span><span class="p">):</span>
-            <span class="n">doc</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="s2">&quot;__doc__&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="s2">"__doc__"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">doc</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="n">attrname</span><span class="p">,</span> <span class="n">doc</span>
 
@@ -151,25 +151,25 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">docs_searcher</span><span class="p">(</span>
     <span class="n">obj</span><span class="p">,</span> <span class="n">n_results</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">attrname_filt</span><span class="o">=</span><span class="n">DFLT_ATTRNAME_FILT</span><span class="p">,</span> <span class="n">attr_filt</span><span class="o">=</span><span class="n">DFLT_ATTR_FILT</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Search the docs of the attributes of the input python object.</span>
+<span class="w">    </span><span class="sd">"""Search the docs of the attributes of the input python object.</span>
 
 <span class="sd">    &gt;&gt;&gt; from grub import TfidfKnnSearcher</span>
 <span class="sd">    &gt;&gt;&gt; search = docs_searcher(TfidfKnnSearcher, n_results=2)</span>
 <span class="sd">    &gt;&gt;&gt; len(search)</span>
 <span class="sd">    6</span>
-<span class="sd">    &gt;&gt;&gt; keys = search(&#39;make index&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; keys = search('make index')</span>
 <span class="sd">    &gt;&gt;&gt; [str(k) for k in keys]</span>
-<span class="sd">    [&#39;fit&#39;, &#39;fit_knn&#39;]</span>
+<span class="sd">    ['fit', 'fit_knn']</span>
 
-<span class="sd">    Those are the names of the top 2 (=n_results) methods matching the query &#39;make</span>
-<span class="sd">    index&#39;. You can see the actual docs using `[...]`:</span>
+<span class="sd">    Those are the names of the top 2 (=n_results) methods matching the query 'make</span>
+<span class="sd">    index'. You can see the actual docs using `[...]`:</span>
 
-<span class="sd">    &gt;&gt;&gt; print(search[&#39;fit&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; print(search['fit'])</span>
 <span class="sd">    Fit all models of pipeline, i.e. making a search index.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">docs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">attr_docs</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">attrname_filt</span><span class="p">,</span> <span class="n">attr_filt</span><span class="p">))</span>
-    <span class="n">knn</span> <span class="o">=</span> <span class="n">NearestNeighbors</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">n_results</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;cosine&quot;</span><span class="p">)</span>
+    <span class="n">knn</span> <span class="o">=</span> <span class="n">NearestNeighbors</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">n_results</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">"cosine"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">TfidfKnnSearcher</span><span class="p">(</span><span class="n">docs</span><span class="p">,</span> <span class="n">knn</span><span class="o">=</span><span class="n">knn</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span></div>
 
 </pre></div>
@@ -181,7 +181,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright NO COPYRIGHT.</p>
+    <p></p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

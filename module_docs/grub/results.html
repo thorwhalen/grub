@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>grub.results &mdash; grub 0.1.7 documentation</title>
+  <title>grub.results &mdash; grub 0.1.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=ca7ad2ea"></script>
+      <script src="../../_static/documentation_options.js?v=22607128"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -128,19 +128,19 @@ snippet showing <em>why</em> the document matched.</p>
 <dd><p>An ordered list of <a class="reference internal" href="#grub.results.SearchResult" title="grub.results.SearchResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchResult</span></code></a>, best match first.</p>
 <p>It <em>is</em> a list, so it indexes, slices, and iterates as you’d expect:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">SearchResults</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="p">[</span><span class="n">SearchResult</span><span class="p">(</span><span class="s2">&quot;guitar&quot;</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="s2">&quot;a string instrument&quot;</span><span class="p">),</span>
-<span class="gp">... </span>     <span class="n">SearchResult</span><span class="p">(</span><span class="s2">&quot;piano&quot;</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="s2">&quot;a keyboard instrument&quot;</span><span class="p">)],</span>
-<span class="gp">... </span>    <span class="n">query</span><span class="o">=</span><span class="s2">&quot;instrument&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="n">SearchResult</span><span class="p">(</span><span class="s2">"guitar"</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="s2">"a string instrument"</span><span class="p">),</span>
+<span class="gp">... </span>     <span class="n">SearchResult</span><span class="p">(</span><span class="s2">"piano"</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="s2">"a keyboard instrument"</span><span class="p">)],</span>
+<span class="gp">... </span>    <span class="n">query</span><span class="o">=</span><span class="s2">"instrument"</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
 <span class="go">2</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">key</span>
-<span class="go">&#39;guitar&#39;</span>
+<span class="go">'guitar'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">results</span><span class="o">.</span><span class="n">keys</span>
-<span class="go">[&#39;guitar&#39;, &#39;piano&#39;]</span>
+<span class="go">['guitar', 'piano']</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">scores</span><span class="p">]</span>
 <span class="go">[0.9, 0.4]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;guitar&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">'guitar'</span><span class="p">]</span>
 <span class="go">0.9</span>
 </pre></div>
 </div>
@@ -189,7 +189,7 @@ snippet showing <em>why</em> the document matched.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright NO COPYRIGHT.</p>
+    <p></p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>grub.sources &mdash; grub 0.1.7 documentation</title>
+  <title>grub.sources &mdash; grub 0.1.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=ca7ad2ea"></script>
+      <script src="../../_static/documentation_options.js?v=22607128"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -113,8 +113,8 @@ there when you want to be explicit.</p>
 <dt class="sig sig-object py" id="grub.sources.chunk_store">
 <span class="sig-prename descclassname"><span class="pre">grub.sources.</span></span><span class="sig-name descname"><span class="pre">chunk_store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">200</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../../_modules/grub/sources.html#chunk_store"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.sources.chunk_store" title="Link to this definition"></a></dt>
 <dd><p>Chunk every value of <code class="docutils literal notranslate"><span class="pre">store</span></code>; keys become <code class="docutils literal notranslate"><span class="pre">&quot;{key}#{n}&quot;</span></code>.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">chunk_store</span><span class="p">({</span><span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;abcdef&quot;</span><span class="p">},</span> <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-<span class="go">[&#39;doc#0&#39;, &#39;doc#1&#39;]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">chunk_store</span><span class="p">({</span><span class="s2">"doc"</span><span class="p">:</span> <span class="s2">"abcdef"</span><span class="p">},</span> <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="go">['doc#0', 'doc#1']</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -125,10 +125,10 @@ there when you want to be explicit.</p>
 <dd><p>Split <code class="docutils literal notranslate"><span class="pre">text</span></code> into overlapping character windows.</p>
 <p>Long documents search better in pieces: a hit then points at a
 passage instead of a whole file.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">chunk_text</span><span class="p">(</span><span class="s2">&quot;abcdefghij&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="go">[&#39;abcd&#39;, &#39;defg&#39;, &#39;ghij&#39;, &#39;j&#39;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">chunk_text</span><span class="p">(</span><span class="s2">&quot;short&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="go">[&#39;short&#39;]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">chunk_text</span><span class="p">(</span><span class="s2">"abcdefghij"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">['abcd', 'defg', 'ghij', 'j']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chunk_text</span><span class="p">(</span><span class="s2">"short"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="go">['short']</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -158,8 +158,8 @@ passage instead of a whole file.</p>
 <dt class="sig sig-object py" id="grub.sources.from_strings">
 <span class="sig-prename descclassname"><span class="pre">grub.sources.</span></span><span class="sig-name descname"><span class="pre">from_strings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../../_modules/grub/sources.html#from_strings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.sources.from_strings" title="Link to this definition"></a></dt>
 <dd><p>Enumerate strings into a <code class="docutils literal notranslate"><span class="pre">{index:</span> <span class="pre">string}</span></code> dict.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">from_strings</span><span class="p">([</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">])</span>
-<span class="go">{&#39;0&#39;: &#39;alpha&#39;, &#39;1&#39;: &#39;beta&#39;}</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">from_strings</span><span class="p">([</span><span class="s2">"alpha"</span><span class="p">,</span> <span class="s2">"beta"</span><span class="p">])</span>
+<span class="go">{'0': 'alpha', '1': 'beta'}</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -175,10 +175,10 @@ passage instead of a whole file.</p>
 <dt class="sig sig-object py" id="grub.sources.html_to_text">
 <span class="sig-prename descclassname"><span class="pre">grub.sources.</span></span><span class="sig-name descname"><span class="pre">html_to_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/grub/sources.html#html_to_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.sources.html_to_text" title="Link to this definition"></a></dt>
 <dd><p>Strip HTML tags, returning visible text only.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">html_to_text</span><span class="p">(</span><span class="s2">&quot;&lt;h1&gt;Title&lt;/h1&gt;&lt;p&gt;Hello &lt;b&gt;world&lt;/b&gt;&lt;/p&gt;&quot;</span><span class="p">)</span>
-<span class="go">&#39;Title Hello world&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">html_to_text</span><span class="p">(</span><span class="s2">&quot;&lt;style&gt;.x</span><span class="si">{}</span><span class="s2">&lt;/style&gt;&lt;p&gt;visible&lt;/p&gt;&quot;</span><span class="p">)</span>
-<span class="go">&#39;visible&#39;</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">html_to_text</span><span class="p">(</span><span class="s2">"&lt;h1&gt;Title&lt;/h1&gt;&lt;p&gt;Hello &lt;b&gt;world&lt;/b&gt;&lt;/p&gt;"</span><span class="p">)</span>
+<span class="go">'Title Hello world'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">html_to_text</span><span class="p">(</span><span class="s2">"&lt;style&gt;.x</span><span class="si">{}</span><span class="s2">&lt;/style&gt;&lt;p&gt;visible&lt;/p&gt;"</span><span class="p">)</span>
+<span class="go">'visible'</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -198,11 +198,11 @@ passage instead of a whole file.</p>
 <li><p>a list of strings – enumerated into <code class="docutils literal notranslate"><span class="pre">{&quot;0&quot;:</span> <span class="pre">...,</span> <span class="pre">&quot;1&quot;:</span> <span class="pre">...}</span></code></p></li>
 <li><p>an iterable of <code class="docutils literal notranslate"><span class="pre">(key,</span> <span class="pre">value)</span></code> pairs – turned into a dict</p></li>
 </ul>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">store</span> <span class="o">=</span> <span class="n">to_store</span><span class="p">({</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="s2">&quot;first doc&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="s2">&quot;second doc&quot;</span><span class="p">})</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">store</span> <span class="o">=</span> <span class="n">to_store</span><span class="p">({</span><span class="s2">"a"</span><span class="p">:</span> <span class="s2">"first doc"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="s2">"second doc"</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">dict</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
-<span class="go">{&#39;a&#39;: &#39;first doc&#39;, &#39;b&#39;: &#39;second doc&#39;}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">to_store</span><span class="p">([</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">]))</span>
-<span class="go">[&#39;0&#39;, &#39;1&#39;, &#39;2&#39;]</span>
+<span class="go">{'a': 'first doc', 'b': 'second doc'}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">to_store</span><span class="p">([</span><span class="s2">"red"</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">,</span> <span class="s2">"blue"</span><span class="p">]))</span>
+<span class="go">['0', '1', '2']</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -232,7 +232,7 @@ passage instead of a whole file.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright NO COPYRIGHT.</p>
+    <p></p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

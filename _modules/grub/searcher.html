@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>grub.searcher &mdash; grub 0.1.7 documentation</title>
+  <title>grub.searcher &mdash; grub 0.1.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=ca7ad2ea"></script>
+      <script src="../../_static/documentation_options.js?v=22607128"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -87,7 +87,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for grub.searcher</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;The :class:`Searcher` -- grub&#39;s unified, modern search object.</span>
+<span></span><span class="sd">"""The :class:`Searcher` -- grub's unified, modern search object.</span>
 
 <span class="sd">A :class:`Searcher` wraps three things behind one friendly interface:</span>
 
@@ -98,7 +98,7 @@
 <span class="sd">You rarely build one by hand -- :func:`grub.grub` is the front door --</span>
 <span class="sd">but the class is here when you want full control, persistence, or to</span>
 <span class="sd">plug in your own backend.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -110,44 +110,44 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">grub.sources</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_store</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">grub.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">best_snippet</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Searcher&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Searcher"</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="Searcher">
 <a class="viewcode-back" href="../../module_docs/grub/searcher.html#grub.Searcher">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Searcher</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Index any source and search it.</span>
+<span class="w">    </span><span class="sd">"""Index any source and search it.</span>
 
 <span class="sd">    &gt;&gt;&gt; docs = {</span>
-<span class="sd">    ...     &#39;python&#39;: &#39;Python is a popular high level programming language.&#39;,</span>
-<span class="sd">    ...     &#39;guitar&#39;: &#39;A guitar is a musical instrument with six strings.&#39;,</span>
-<span class="sd">    ...     &#39;coffee&#39;: &#39;Coffee is a hot drink brewed from roasted beans.&#39;,</span>
+<span class="sd">    ...     'python': 'Python is a popular high level programming language.',</span>
+<span class="sd">    ...     'guitar': 'A guitar is a musical instrument with six strings.',</span>
+<span class="sd">    ...     'coffee': 'Coffee is a hot drink brewed from roasted beans.',</span>
 <span class="sd">    ... }</span>
 <span class="sd">    &gt;&gt;&gt; searcher = Searcher(docs)</span>
 <span class="sd">    &gt;&gt;&gt; searcher</span>
 <span class="sd">    &lt;Searcher: tfidf index over 3 documents&gt;</span>
-<span class="sd">    &gt;&gt;&gt; results = searcher(&#39;a musical instrument&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; results = searcher('a musical instrument')</span>
 <span class="sd">    &gt;&gt;&gt; results.keys[0]</span>
-<span class="sd">    &#39;guitar&#39;</span>
-<span class="sd">    &gt;&gt;&gt; searcher(&#39;hot drink brewed from beans&#39;).keys[0]</span>
-<span class="sd">    &#39;coffee&#39;</span>
+<span class="sd">    'guitar'</span>
+<span class="sd">    &gt;&gt;&gt; searcher('hot drink brewed from beans').keys[0]</span>
+<span class="sd">    'coffee'</span>
 
 <span class="sd">    Each result carries a score and a snippet explaining the match:</span>
 
 <span class="sd">    &gt;&gt;&gt; hit = results[0]</span>
 <span class="sd">    &gt;&gt;&gt; hit.key</span>
-<span class="sd">    &#39;guitar&#39;</span>
+<span class="sd">    'guitar'</span>
 <span class="sd">    &gt;&gt;&gt; hit.score &gt; 0</span>
 <span class="sd">    True</span>
-<span class="sd">    &gt;&gt;&gt; &#39;musical instrument&#39; in hit.snippet</span>
+<span class="sd">    &gt;&gt;&gt; 'musical instrument' in hit.snippet</span>
 <span class="sd">    True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">source</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
-        <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;tfidf&quot;</span><span class="p">,</span>
+        <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"tfidf"</span><span class="p">,</span>
         <span class="n">n_results</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
         <span class="n">tokenizer</span><span class="o">=</span><span class="n">camelcase_and_underscore_tokenizer</span><span class="p">,</span>
         <span class="n">embed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -158,16 +158,16 @@
         <span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">source_kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Index ``source`` so it can be searched.</span>
+<span class="w">        </span><span class="sd">"""Index ``source`` so it can be searched.</span>
 
 <span class="sd">        :param source: anything :func:`grub.sources.to_store` understands --</span>
 <span class="sd">            a folder, glob, module, URL, dict, or list of strings.</span>
-<span class="sd">        :param method: ``&#39;tfidf&#39;`` (lexical), ``&#39;semantic&#39;`` (embeddings),</span>
-<span class="sd">            or ``&#39;hybrid&#39;`` (a blend).</span>
+<span class="sd">        :param method: ``'tfidf'`` (lexical), ``'semantic'`` (embeddings),</span>
+<span class="sd">            or ``'hybrid'`` (a blend).</span>
 <span class="sd">        :param n_results: default number of results per search.</span>
 <span class="sd">        :param tokenizer: splits text into tokens (lexical methods).</span>
 <span class="sd">        :param embed: optional ``list[str] -&gt; matrix`` embedding function;</span>
-<span class="sd">            lets ``&#39;semantic&#39;`` use any provider you like.</span>
+<span class="sd">            lets ``'semantic'`` use any provider you like.</span>
 <span class="sd">        :param model: sentence-transformers model name (semantic method).</span>
 <span class="sd">        :param alpha: lexical weight for the hybrid method (``0``-``1``).</span>
 <span class="sd">        :param chunk: split long documents into windows -- an int size or</span>
@@ -175,8 +175,8 @@
 <span class="sd">        :param snippets: attach match-explaining snippets to results.</span>
 <span class="sd">        :param backend: a ready-made backend, overriding ``method``.</span>
 <span class="sd">        :param source_kwargs: forwarded to :func:`grub.sources.to_store`</span>
-<span class="sd">            (e.g. ``recursive=False``, ``extensions=[&#39;.py&#39;]``).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            (e.g. ``recursive=False``, ``extensions=['.py']``).</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">store</span> <span class="o">=</span> <span class="n">to_store</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">chunk</span><span class="o">=</span><span class="n">chunk</span><span class="p">,</span> <span class="o">**</span><span class="n">source_kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="n">method</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_results</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_results</span><span class="p">)</span>
@@ -192,8 +192,8 @@
 
 <div class="viewcode-block" id="Searcher.fit">
 <a class="viewcode-back" href="../../module_docs/grub/searcher.html#grub.Searcher.fit">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Searcher&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build the search index. Called automatically on first search.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Searcher"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Build the search index. Called automatically on first search."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="p">)</span>
         <span class="n">docs</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keys</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
@@ -203,7 +203,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether the index has been built.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Whether the index has been built."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fitted</span>
 
     <span class="c1"># -- searching ----------------------------------------------------------</span>
@@ -211,7 +211,7 @@
 <div class="viewcode-block" id="Searcher.search">
 <a class="viewcode-back" href="../../module_docs/grub/searcher.html#grub.Searcher.search">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResults</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the :class:`~grub.results.SearchResults` for ``query``.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the :class:`~grub.results.SearchResults` for ``query``."""</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fitted</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
         <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_results</span> <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
@@ -228,21 +228,21 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResults</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Alias for :meth:`search` -- a searcher *is* callable.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Alias for :meth:`search` -- a searcher *is* callable."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_snippet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">snippets</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">return</span> <span class="s2">""</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">best_snippet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">query</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># noqa: BLE001 - a snippet is never worth a crash</span>
-            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">return</span> <span class="s2">""</span>
 
     <span class="c1"># -- store delegation ---------------------------------------------------</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The original text of a document, by key.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""The original text of a document, by key."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -259,13 +259,13 @@
 <div class="viewcode-block" id="Searcher.save">
 <a class="viewcode-back" href="../../module_docs/grub/searcher.html#grub.Searcher.save">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pickle this searcher (index included) to ``path``.</span>
+<span class="w">        </span><span class="sd">"""Pickle this searcher (index included) to ``path``.</span>
 
 <span class="sd">        :returns: the path written to.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fitted</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">stream</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">stream</span><span class="p">:</span>
             <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">path</span></div>
 
@@ -273,12 +273,12 @@
 <div class="viewcode-block" id="Searcher.load">
 <a class="viewcode-back" href="../../module_docs/grub/searcher.html#grub.Searcher.load">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Searcher&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load a searcher previously written by :meth:`save`.&quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">stream</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Searcher"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Load a searcher previously written by :meth:`save`."""</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">stream</span><span class="p">:</span>
             <span class="n">searcher</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">searcher</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">!r}</span><span class="s2"> does not contain a Searcher.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">path</span><span class="si">!r}</span><span class="s2"> does not contain a Searcher."</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">searcher</span></div>
 
 
@@ -288,8 +288,8 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>  <span class="c1"># pragma: no cover - exotic lazy stores</span>
-            <span class="n">size</span> <span class="o">=</span> <span class="s2">&quot;?&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;Searcher: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="si">}</span><span class="s2"> index over </span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s2"> documents&gt;&quot;</span></div>
+            <span class="n">size</span> <span class="o">=</span> <span class="s2">"?"</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"&lt;Searcher: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="si">}</span><span class="s2"> index over </span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s2"> documents&gt;"</span></div>
 
 </pre></div>
 
@@ -300,7 +300,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright NO COPYRIGHT.</p>
+    <p></p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

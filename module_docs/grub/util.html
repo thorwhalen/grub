@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>grub.util &mdash; grub 0.1.7 documentation</title>
+  <title>grub.util &mdash; grub 0.1.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=ca7ad2ea"></script>
+      <script src="../../_static/documentation_options.js?v=22607128"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -106,14 +106,14 @@ heavy dependencies and are safe to import anywhere.</p>
 <dd><p>Return a short excerpt of <code class="docutils literal notranslate"><span class="pre">text</span></code> that best matches <code class="docutils literal notranslate"><span class="pre">query</span></code>.</p>
 <p>The excerpt is the single line sharing the most tokens with the
 query – a cheap way to show <em>why</em> a document matched.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">doc</span> <span class="o">=</span> <span class="s2">&quot;Intro line.</span><span class="se">\n</span><span class="s2">The quick brown fox jumps over.</span><span class="se">\n</span><span class="s2">Trailing words.&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">best_snippet</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="s2">&quot;quick brown fox&quot;</span><span class="p">)</span>
-<span class="go">&#39;The quick brown fox jumps over.&#39;</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">doc</span> <span class="o">=</span> <span class="s2">"Intro line.</span><span class="se">\n</span><span class="s2">The quick brown fox jumps over.</span><span class="se">\n</span><span class="s2">Trailing words."</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">best_snippet</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="s2">"quick brown fox"</span><span class="p">)</span>
+<span class="go">'The quick brown fox jumps over.'</span>
 </pre></div>
 </div>
 <p>With no overlap at all it falls back to the start of the text:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">best_snippet</span><span class="p">(</span><span class="s2">&quot;alpha beta gamma&quot;</span><span class="p">,</span> <span class="s2">&quot;nothing matches here&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
-<span class="go">&#39;alpha beta gamma&#39;</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">best_snippet</span><span class="p">(</span><span class="s2">"alpha beta gamma"</span><span class="p">,</span> <span class="s2">"nothing matches here"</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+<span class="go">'alpha beta gamma'</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -138,9 +138,9 @@ documents; this keeps requests in range.</p>
 <dt class="sig sig-object py" id="grub.util.is_url">
 <span class="sig-prename descclassname"><span class="pre">grub.util.</span></span><span class="sig-name descname"><span class="pre">is_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../_modules/grub/util.html#is_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.util.is_url" title="Link to this definition"></a></dt>
 <dd><p>Whether <code class="docutils literal notranslate"><span class="pre">value</span></code> looks like a fetchable URL.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">is_url</span><span class="p">(</span><span class="s2">&quot;https://example.com&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">is_url</span><span class="p">(</span><span class="s2">"https://example.com"</span><span class="p">)</span>
 <span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">is_url</span><span class="p">(</span><span class="s2">&quot;./local/path&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_url</span><span class="p">(</span><span class="s2">"./local/path"</span><span class="p">)</span>
 <span class="go">False</span>
 </pre></div>
 </div>
@@ -150,8 +150,8 @@ documents; this keeps requests in range.</p>
 <dt class="sig sig-object py" id="grub.util.simple_tokenizer">
 <span class="sig-prename descclassname"><span class="pre">grub.util.</span></span><span class="sig-name descname"><span class="pre">simple_tokenizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/grub/util.html#simple_tokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.util.simple_tokenizer" title="Link to this definition"></a></dt>
 <dd><p>Lower-cased word tokens of a string.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">simple_tokenizer</span><span class="p">(</span><span class="s2">&quot;Hello, World! Version 2&quot;</span><span class="p">)</span>
-<span class="go">[&#39;hello&#39;, &#39;world&#39;, &#39;version&#39;, &#39;2&#39;]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">simple_tokenizer</span><span class="p">(</span><span class="s2">"Hello, World! Version 2"</span><span class="p">)</span>
+<span class="go">['hello', 'world', 'version', '2']</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -160,10 +160,10 @@ documents; this keeps requests in range.</p>
 <dt class="sig sig-object py" id="grub.util.truncate">
 <span class="sig-prename descclassname"><span class="pre">grub.util.</span></span><span class="sig-name descname"><span class="pre">truncate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">240</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/grub/util.html#truncate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.util.truncate" title="Link to this definition"></a></dt>
 <dd><p>Collapse whitespace and truncate <code class="docutils literal notranslate"><span class="pre">text</span></code> to at most <code class="docutils literal notranslate"><span class="pre">width</span></code> chars.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">truncate</span><span class="p">(</span><span class="s2">&quot;  lots   of   space  &quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
-<span class="go">&#39;lots of space&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">truncate</span><span class="p">(</span><span class="s2">&quot;abcdefghij&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-<span class="go">&#39;abcd…&#39;</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">truncate</span><span class="p">(</span><span class="s2">"  lots   of   space  "</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+<span class="go">'lots of space'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">truncate</span><span class="p">(</span><span class="s2">"abcdefghij"</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">'abcd…'</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -180,7 +180,7 @@ documents; this keeps requests in range.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright NO COPYRIGHT.</p>
+    <p></p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>grub.examples.py_object_docs &mdash; grub 0.1.7 documentation</title>
+  <title>grub.examples.py_object_docs &mdash; grub 0.1.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=ca7ad2ea"></script>
+      <script src="../../../_static/documentation_options.js?v=22607128"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -107,14 +107,14 @@ this particular object” answers.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">search</span> <span class="o">=</span> <span class="n">docs_searcher</span><span class="p">(</span><span class="n">TfidfKnnSearcher</span><span class="p">,</span> <span class="n">n_results</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">search</span><span class="p">)</span>
 <span class="go">6</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">keys</span> <span class="o">=</span> <span class="n">search</span><span class="p">(</span><span class="s1">&#39;make index&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">keys</span> <span class="o">=</span> <span class="n">search</span><span class="p">(</span><span class="s1">'make index'</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]</span>
-<span class="go">[&#39;fit&#39;, &#39;fit_knn&#39;]</span>
+<span class="go">['fit', 'fit_knn']</span>
 </pre></div>
 </div>
 <p>Those are the names of the top 2 (=n_results) methods matching the query ‘make
 index’. You can see the actual docs using <cite>[…]</cite>:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">search</span><span class="p">[</span><span class="s1">&#39;fit&#39;</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">search</span><span class="p">[</span><span class="s1">'fit'</span><span class="p">])</span>
 <span class="go">Fit all models of pipeline, i.e. making a search index.</span>
 </pre></div>
 </div>
@@ -128,14 +128,14 @@ index’. You can see the actual docs using <cite>[…]</cite>:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">search</span> <span class="o">=</span> <span class="n">docs_searcher</span><span class="p">(</span><span class="n">TfidfKnnSearcher</span><span class="p">,</span> <span class="n">n_results</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">search</span><span class="p">)</span>
 <span class="go">6</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">keys</span> <span class="o">=</span> <span class="n">search</span><span class="p">(</span><span class="s1">&#39;make index&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">keys</span> <span class="o">=</span> <span class="n">search</span><span class="p">(</span><span class="s1">'make index'</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]</span>
-<span class="go">[&#39;fit&#39;, &#39;fit_knn&#39;]</span>
+<span class="go">['fit', 'fit_knn']</span>
 </pre></div>
 </div>
 <p>Those are the names of the top 2 (=n_results) methods matching the query ‘make
 index’. You can see the actual docs using <cite>[…]</cite>:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">search</span><span class="p">[</span><span class="s1">&#39;fit&#39;</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">search</span><span class="p">[</span><span class="s1">'fit'</span><span class="p">])</span>
 <span class="go">Fit all models of pipeline, i.e. making a search index.</span>
 </pre></div>
 </div>
@@ -154,7 +154,7 @@ index’. You can see the actual docs using <cite>[…]</cite>:</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright NO COPYRIGHT.</p>
+    <p></p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

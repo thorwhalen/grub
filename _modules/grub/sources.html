@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>grub.sources &mdash; grub 0.1.7 documentation</title>
+  <title>grub.sources &mdash; grub 0.1.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=ca7ad2ea"></script>
+      <script src="../../_static/documentation_options.js?v=22607128"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -87,16 +87,16 @@
            <div itemprop="articleBody">
              
   <h1>Source code for grub.sources</h1><div class="highlight"><pre>
-<span></span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Source adapters: turn *anything* into a searchable store.</span>
+<span></span><span class="sa">r</span><span class="sd">"""Source adapters: turn *anything* into a searchable store.</span>
 
-<span class="sd">A &quot;store&quot; here is just a ``Mapping`` whose values are text. Everything</span>
+<span class="sd">A "store" here is just a ``Mapping`` whose values are text. Everything</span>
 <span class="sd">grub can search -- a folder, a glob, a Python package, a website, a list</span>
 <span class="sd">of strings, a plain dict -- is funnelled through :func:`to_store`, which</span>
 <span class="sd">detects the kind of source and returns a uniform mapping.</span>
 
 <span class="sd">The single entry point is :func:`to_store`. The ``from_*`` helpers are</span>
 <span class="sd">there when you want to be explicit.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -111,42 +111,42 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">grub.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_url</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;to_store&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;from_dir&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;from_files&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;from_module&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;from_strings&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;from_urls&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;chunk_text&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;chunk_store&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;html_to_text&quot;</span><span class="p">,</span>
+    <span class="s2">"to_store"</span><span class="p">,</span>
+    <span class="s2">"from_dir"</span><span class="p">,</span>
+    <span class="s2">"from_files"</span><span class="p">,</span>
+    <span class="s2">"from_module"</span><span class="p">,</span>
+    <span class="s2">"from_strings"</span><span class="p">,</span>
+    <span class="s2">"from_urls"</span><span class="p">,</span>
+    <span class="s2">"chunk_text"</span><span class="p">,</span>
+    <span class="s2">"chunk_store"</span><span class="p">,</span>
+    <span class="s2">"html_to_text"</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="c1">#: Directory names skipped when walking a folder.</span>
 <span class="n">DFLT_SKIP_DIRS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span>
     <span class="p">{</span>
-        <span class="s2">&quot;.git&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;.hg&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;.svn&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;__pycache__&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;.venv&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;venv&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;node_modules&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;.idea&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;.vscode&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;.mypy_cache&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;.pytest_cache&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;.ruff_cache&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;build&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;dist&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;.eggs&quot;</span><span class="p">,</span>
+        <span class="s2">".git"</span><span class="p">,</span>
+        <span class="s2">".hg"</span><span class="p">,</span>
+        <span class="s2">".svn"</span><span class="p">,</span>
+        <span class="s2">"__pycache__"</span><span class="p">,</span>
+        <span class="s2">".venv"</span><span class="p">,</span>
+        <span class="s2">"venv"</span><span class="p">,</span>
+        <span class="s2">"node_modules"</span><span class="p">,</span>
+        <span class="s2">".idea"</span><span class="p">,</span>
+        <span class="s2">".vscode"</span><span class="p">,</span>
+        <span class="s2">".mypy_cache"</span><span class="p">,</span>
+        <span class="s2">".pytest_cache"</span><span class="p">,</span>
+        <span class="s2">".ruff_cache"</span><span class="p">,</span>
+        <span class="s2">"build"</span><span class="p">,</span>
+        <span class="s2">"dist"</span><span class="p">,</span>
+        <span class="s2">".eggs"</span><span class="p">,</span>
     <span class="p">}</span>
 <span class="p">)</span>
 
 <span class="c1">#: Files larger than this (bytes) are skipped by directory walks.</span>
 <span class="n">DFLT_MAX_BYTES</span> <span class="o">=</span> <span class="mi">1_000_000</span>
 
-<span class="n">_GLOB_CHARS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;*?[&quot;</span><span class="p">)</span>
+<span class="n">_GLOB_CHARS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">"*?["</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="to_store">
@@ -157,35 +157,35 @@
     <span class="n">recursive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">extensions</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">chunk</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
+    <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"utf-8"</span><span class="p">,</span>
     <span class="n">max_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DFLT_MAX_BYTES</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Coerce ``source`` into a ``Mapping[str, str]`` ready to be searched.</span>
+<span class="w">    </span><span class="sd">"""Coerce ``source`` into a ``Mapping[str, str]`` ready to be searched.</span>
 
 <span class="sd">    ``source`` may be:</span>
 
 <span class="sd">    * a ``Mapping`` -- used as-is</span>
 <span class="sd">    * a folder path -- every (decodable) text file under it</span>
 <span class="sd">    * a glob pattern -- every matching file</span>
-<span class="sd">    * a ``&quot;path/{}.ext&quot;`` format -- a lazy ``py2store`` text store</span>
+<span class="sd">    * a ``"path/{}.ext"`` format -- a lazy ``py2store`` text store</span>
 <span class="sd">    * a Python module/package -- its ``.py`` source files</span>
 <span class="sd">    * a URL (or list of URLs) -- fetched and stripped to text</span>
-<span class="sd">    * a list of strings -- enumerated into ``{&quot;0&quot;: ..., &quot;1&quot;: ...}``</span>
+<span class="sd">    * a list of strings -- enumerated into ``{"0": ..., "1": ...}``</span>
 <span class="sd">    * an iterable of ``(key, value)`` pairs -- turned into a dict</span>
 
-<span class="sd">    &gt;&gt;&gt; store = to_store({&quot;a&quot;: &quot;first doc&quot;, &quot;b&quot;: &quot;second doc&quot;})</span>
+<span class="sd">    &gt;&gt;&gt; store = to_store({"a": "first doc", "b": "second doc"})</span>
 <span class="sd">    &gt;&gt;&gt; dict(store)</span>
-<span class="sd">    {&#39;a&#39;: &#39;first doc&#39;, &#39;b&#39;: &#39;second doc&#39;}</span>
-<span class="sd">    &gt;&gt;&gt; sorted(to_store([&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;]))</span>
-<span class="sd">    [&#39;0&#39;, &#39;1&#39;, &#39;2&#39;]</span>
+<span class="sd">    {'a': 'first doc', 'b': 'second doc'}</span>
+<span class="sd">    &gt;&gt;&gt; sorted(to_store(["red", "green", "blue"]))</span>
+<span class="sd">    ['0', '1', '2']</span>
 
 <span class="sd">    :param recursive: walk sub-directories (folder sources only).</span>
-<span class="sd">    :param extensions: keep only files with these extensions, e.g. ``[&quot;.py&quot;]``.</span>
+<span class="sd">    :param extensions: keep only files with these extensions, e.g. ``[".py"]``.</span>
 <span class="sd">    :param chunk: split values into overlapping windows -- an int size or a</span>
 <span class="sd">        ``(size, overlap)`` pair. Handy for long documents.</span>
 <span class="sd">    :param encoding: text encoding for files.</span>
 <span class="sd">    :param max_bytes: skip files larger than this (folder/glob sources).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">store</span> <span class="o">=</span> <span class="n">_route</span><span class="p">(</span>
         <span class="n">source</span><span class="p">,</span>
         <span class="n">recursive</span><span class="o">=</span><span class="n">recursive</span><span class="p">,</span>
@@ -201,7 +201,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_route</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">recursive</span><span class="p">,</span> <span class="n">extensions</span><span class="p">,</span> <span class="n">encoding</span><span class="p">,</span> <span class="n">max_bytes</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dispatch ``source`` to the right adapter (no chunking).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Dispatch ``source`` to the right adapter (no chunking)."""</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">source</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">ModuleType</span><span class="p">):</span>
@@ -217,17 +217,17 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">_route_iterable</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;Don&#39;t know how to search a </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">source</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">. Give grub a &quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;folder, glob, module, URL, dict, or list of strings.&quot;</span>
+        <span class="sa">f</span><span class="s2">"Don't know how to search a </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">source</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">. Give grub a "</span>
+        <span class="sa">f</span><span class="s2">"folder, glob, module, URL, dict, or list of strings."</span>
     <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_route_path</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">recursive</span><span class="p">,</span> <span class="n">extensions</span><span class="p">,</span> <span class="n">encoding</span><span class="p">,</span> <span class="n">max_bytes</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve a string/Path source.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Resolve a string/Path source."""</span>
     <span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">is_url</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">from_urls</span><span class="p">([</span><span class="n">text</span><span class="p">],</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">"</span><span class="si">{}</span><span class="s2">"</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">py2store</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalTextStore</span>
 
         <span class="k">return</span> <span class="n">LocalTextStore</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
@@ -247,13 +247,13 @@
             <span class="n">text</span><span class="p">,</span> <span class="n">extensions</span><span class="o">=</span><span class="n">extensions</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span> <span class="n">max_bytes</span><span class="o">=</span><span class="n">max_bytes</span>
         <span class="p">)</span>
     <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;No such file, folder, or glob: </span><span class="si">{</span><span class="n">text</span><span class="si">!r}</span><span class="s2">. Pass an existing path, a &quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;glob like &#39;docs/*.md&#39;, a &#39;dir/</span><span class="se">{{}}</span><span class="s2">.py&#39; format, a module, or a dict.&quot;</span>
+        <span class="sa">f</span><span class="s2">"No such file, folder, or glob: </span><span class="si">{</span><span class="n">text</span><span class="si">!r}</span><span class="s2">. Pass an existing path, a "</span>
+        <span class="sa">f</span><span class="s2">"glob like 'docs/*.md', a 'dir/</span><span class="se">{{}}</span><span class="s2">.py' format, a module, or a dict."</span>
     <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_route_iterable</span><span class="p">(</span><span class="n">source</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve a list/tuple/generator source.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Resolve a list/tuple/generator source."""</span>
     <span class="n">items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">{}</span>
@@ -263,7 +263,7 @@
         <span class="k">return</span> <span class="n">from_strings</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">it</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">items</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">):</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">items</span><span class="p">}</span>
-    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;An iterable source must be all strings or all (key, value) pairs.&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"An iterable source must be all strings or all (key, value) pairs."</span><span class="p">)</span>
 
 
 <span class="c1"># -- explicit adapters ------------------------------------------------------</span>
@@ -272,11 +272,11 @@
 <div class="viewcode-block" id="from_strings">
 <a class="viewcode-back" href="../../module_docs/grub/sources.html#grub.from_strings">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_strings</span><span class="p">(</span><span class="n">strings</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enumerate strings into a ``{index: string}`` dict.</span>
+<span class="w">    </span><span class="sd">"""Enumerate strings into a ``{index: string}`` dict.</span>
 
-<span class="sd">    &gt;&gt;&gt; from_strings([&quot;alpha&quot;, &quot;beta&quot;])</span>
-<span class="sd">    {&#39;0&#39;: &#39;alpha&#39;, &#39;1&#39;: &#39;beta&#39;}</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; from_strings(["alpha", "beta"])</span>
+<span class="sd">    {'0': 'alpha', '1': 'beta'}</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">):</span> <span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">strings</span><span class="p">)}</span></div>
 
 
@@ -284,18 +284,18 @@
 <div class="viewcode-block" id="from_module">
 <a class="viewcode-back" href="../../module_docs/grub/sources.html#grub.from_module">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_module</span><span class="p">(</span><span class="n">module</span><span class="p">:</span> <span class="n">ModuleType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The ``.py`` source files of a Python module or package.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The ``.py`` source files of a Python module or package."""</span>
     <span class="k">return</span> <span class="n">get_py_files_store</span><span class="p">(</span><span class="n">module</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="from_files">
 <a class="viewcode-back" href="../../module_docs/grub/sources.html#grub.from_files">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">from_files</span><span class="p">(</span><span class="n">paths</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">PathLike</span> <span class="o">|</span> <span class="nb">str</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read the given files into a ``{name: content}`` dict.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">from_files</span><span class="p">(</span><span class="n">paths</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">PathLike</span> <span class="o">|</span> <span class="nb">str</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"utf-8"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Read the given files into a ``{name: content}`` dict.</span>
 
 <span class="sd">    Keys are file names; if names collide the relative path is used.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">]</span>
     <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">]</span>
     <span class="n">use_full</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">names</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
@@ -303,7 +303,7 @@
     <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">:</span>
         <span class="n">key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">if</span> <span class="n">use_full</span> <span class="k">else</span> <span class="n">path</span><span class="o">.</span><span class="n">name</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;strict&quot;</span><span class="p">)</span>
+            <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"strict"</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">UnicodeDecodeError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">):</span>
             <span class="k">continue</span>
     <span class="k">return</span> <span class="n">out</span></div>
@@ -317,25 +317,25 @@
     <span class="o">*</span><span class="p">,</span>
     <span class="n">recursive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">extensions</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
+    <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"utf-8"</span><span class="p">,</span>
     <span class="n">max_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DFLT_MAX_BYTES</span><span class="p">,</span>
     <span class="n">skip_dirs</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">DFLT_SKIP_DIRS</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Every decodable text file under ``directory``, keyed by relative path.</span>
+<span class="w">    </span><span class="sd">"""Every decodable text file under ``directory``, keyed by relative path.</span>
 
 <span class="sd">    Binary files, oversized files, and noise directories (``.git``,</span>
 <span class="sd">    ``__pycache__``, ``node_modules``, ...) are skipped automatically.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
     <span class="n">exts</span> <span class="o">=</span> <span class="n">_normalize_extensions</span><span class="p">(</span><span class="n">extensions</span><span class="p">)</span>
     <span class="n">skip</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">skip_dirs</span><span class="p">)</span>
     <span class="n">out</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">dirpath</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
-        <span class="n">dirnames</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dirnames</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">skip</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">d</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)]</span>
+        <span class="n">dirnames</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dirnames</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">skip</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">d</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"."</span><span class="p">)]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">recursive</span><span class="p">:</span>
             <span class="n">dirnames</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">filenames</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"."</span><span class="p">):</span>
                 <span class="k">continue</span>
             <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span> <span class="o">/</span> <span class="n">filename</span>
             <span class="k">if</span> <span class="n">exts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">path</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">exts</span><span class="p">:</span>
@@ -350,22 +350,22 @@
 <div class="viewcode-block" id="from_urls">
 <a class="viewcode-back" href="../../module_docs/grub/sources.html#grub.from_urls">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_urls</span><span class="p">(</span>
-    <span class="n">urls</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">30.0</span>
+    <span class="n">urls</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"utf-8"</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">30.0</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fetch URLs and return ``{url: text}`` with HTML stripped to text.</span>
+<span class="w">    </span><span class="sd">"""Fetch URLs and return ``{url: text}`` with HTML stripped to text.</span>
 
 <span class="sd">    Uses only the standard library. Unreachable URLs are skipped.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.request</span><span class="w"> </span><span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
 
     <span class="n">out</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">urls</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="s2">&quot;grub-search&quot;</span><span class="p">})</span>
+            <span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"User-Agent"</span><span class="p">:</span> <span class="s2">"grub-search"</span><span class="p">})</span>
             <span class="k">with</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
                 <span class="n">raw</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-            <span class="n">out</span><span class="p">[</span><span class="n">url</span><span class="p">]</span> <span class="o">=</span> <span class="n">html_to_text</span><span class="p">(</span><span class="n">raw</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">))</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># noqa: BLE001 -- a bad URL shouldn&#39;t kill the batch</span>
+            <span class="n">out</span><span class="p">[</span><span class="n">url</span><span class="p">]</span> <span class="o">=</span> <span class="n">html_to_text</span><span class="p">(</span><span class="n">raw</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"replace"</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># noqa: BLE001 -- a bad URL shouldn't kill the batch</span>
             <span class="k">continue</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
@@ -377,16 +377,16 @@
 <div class="viewcode-block" id="chunk_text">
 <a class="viewcode-back" href="../../module_docs/grub/sources.html#grub.chunk_text">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">chunk_text</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1500</span><span class="p">,</span> <span class="n">overlap</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Split ``text`` into overlapping character windows.</span>
+<span class="w">    </span><span class="sd">"""Split ``text`` into overlapping character windows.</span>
 
 <span class="sd">    Long documents search better in pieces: a hit then points at a</span>
 <span class="sd">    passage instead of a whole file.</span>
 
-<span class="sd">    &gt;&gt;&gt; chunk_text(&quot;abcdefghij&quot;, size=4, overlap=1)</span>
-<span class="sd">    [&#39;abcd&#39;, &#39;defg&#39;, &#39;ghij&#39;, &#39;j&#39;]</span>
-<span class="sd">    &gt;&gt;&gt; chunk_text(&quot;short&quot;, size=100)</span>
-<span class="sd">    [&#39;short&#39;]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; chunk_text("abcdefghij", size=4, overlap=1)</span>
+<span class="sd">    ['abcd', 'defg', 'ghij', 'j']</span>
+<span class="sd">    &gt;&gt;&gt; chunk_text("short", size=100)</span>
+<span class="sd">    ['short']</span>
+<span class="sd">    """</span>
     <span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">size</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">text</span><span class="p">]</span>
@@ -398,11 +398,11 @@
 <div class="viewcode-block" id="chunk_store">
 <a class="viewcode-back" href="../../module_docs/grub/sources.html#grub.chunk_store">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">chunk_store</span><span class="p">(</span><span class="n">store</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1500</span><span class="p">,</span> <span class="n">overlap</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Chunk every value of ``store``; keys become ``&quot;{key}#{n}&quot;``.</span>
+<span class="w">    </span><span class="sd">"""Chunk every value of ``store``; keys become ``"{key}#{n}"``.</span>
 
-<span class="sd">    &gt;&gt;&gt; sorted(chunk_store({&quot;doc&quot;: &quot;abcdef&quot;}, size=3, overlap=0))</span>
-<span class="sd">    [&#39;doc#0&#39;, &#39;doc#1&#39;]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; sorted(chunk_store({"doc": "abcdef"}, size=3, overlap=0))</span>
+<span class="sd">    ['doc#0', 'doc#1']</span>
+<span class="sd">    """</span>
     <span class="n">out</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">store</span><span class="p">:</span>
         <span class="n">chunks</span> <span class="o">=</span> <span class="n">chunk_text</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">store</span><span class="p">[</span><span class="n">key</span><span class="p">]),</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="n">overlap</span><span class="p">)</span>
@@ -410,7 +410,7 @@
             <span class="n">out</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span> <span class="o">=</span> <span class="n">chunks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">chunks</span><span class="p">):</span>
-                <span class="n">out</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">#</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chunk</span>
+                <span class="n">out</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">#</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">chunk</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
 
@@ -419,9 +419,9 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_TextExtractor</span><span class="p">(</span><span class="n">HTMLParser</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Collect visible text from HTML, dropping script/style content.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Collect visible text from HTML, dropping script/style content."""</span>
 
-    <span class="n">_skip</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;script&quot;</span><span class="p">,</span> <span class="s2">&quot;style&quot;</span><span class="p">,</span> <span class="s2">&quot;head&quot;</span><span class="p">,</span> <span class="s2">&quot;noscript&quot;</span><span class="p">}</span>
+    <span class="n">_skip</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"script"</span><span class="p">,</span> <span class="s2">"style"</span><span class="p">,</span> <span class="s2">"head"</span><span class="p">,</span> <span class="s2">"noscript"</span><span class="p">}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -442,19 +442,19 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parts</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parts</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="html_to_text">
 <a class="viewcode-back" href="../../module_docs/grub/sources.html#grub.html_to_text">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">html_to_text</span><span class="p">(</span><span class="n">html</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Strip HTML tags, returning visible text only.</span>
+<span class="w">    </span><span class="sd">"""Strip HTML tags, returning visible text only.</span>
 
-<span class="sd">    &gt;&gt;&gt; html_to_text(&quot;&lt;h1&gt;Title&lt;/h1&gt;&lt;p&gt;Hello &lt;b&gt;world&lt;/b&gt;&lt;/p&gt;&quot;)</span>
-<span class="sd">    &#39;Title Hello world&#39;</span>
-<span class="sd">    &gt;&gt;&gt; html_to_text(&quot;&lt;style&gt;.x{}&lt;/style&gt;&lt;p&gt;visible&lt;/p&gt;&quot;)</span>
-<span class="sd">    &#39;visible&#39;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; html_to_text("&lt;h1&gt;Title&lt;/h1&gt;&lt;p&gt;Hello &lt;b&gt;world&lt;/b&gt;&lt;/p&gt;")</span>
+<span class="sd">    'Title Hello world'</span>
+<span class="sd">    &gt;&gt;&gt; html_to_text("&lt;style&gt;.x{}&lt;/style&gt;&lt;p&gt;visible&lt;/p&gt;")</span>
+<span class="sd">    'visible'</span>
+<span class="sd">    """</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">_TextExtractor</span><span class="p">()</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">feed</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">text</span></div>
@@ -467,14 +467,14 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_normalize_extensions</span><span class="p">(</span><span class="n">extensions</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">extensions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-    <span class="k">return</span> <span class="p">{(</span><span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">extensions</span><span class="p">}</span>
+    <span class="k">return</span> <span class="p">{(</span><span class="s2">"."</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">"."</span><span class="p">))</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">extensions</span><span class="p">}</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_read_text_file</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">max_bytes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span> <span class="o">&gt;</span> <span class="n">max_bytes</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="n">path</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;strict&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">path</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"strict"</span><span class="p">)</span>
     <span class="k">except</span> <span class="p">(</span><span class="ne">UnicodeDecodeError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">None</span>
 
@@ -497,12 +497,12 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_chunk_params</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chunk</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;chunk must be an int size or a (size, overlap) pair&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"chunk must be an int size or a (size, overlap) pair"</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chunk</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">chunk</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">chunk</span> <span class="o">//</span> <span class="mi">8</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chunk</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">chunk</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">chunk</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;chunk must be an int size or a (size, overlap) pair&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"chunk must be an int size or a (size, overlap) pair"</span><span class="p">)</span>
 </pre></div>
 
            </div>
@@ -512,7 +512,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright NO COPYRIGHT.</p>
+    <p></p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

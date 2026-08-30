@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>grub.pycode &mdash; grub 0.1.7 documentation</title>
+  <title>grub.pycode &mdash; grub 0.1.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=ca7ad2ea"></script>
+      <script src="../../_static/documentation_options.js?v=22607128"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -130,21 +130,21 @@
 <span class="sig-prename descclassname"><span class="pre">grub.pycode.</span></span><span class="sig-name descname"><span class="pre">non_doctest_lines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/grub/pycode.html#non_doctest_lines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.pycode.non_doctest_lines" title="Link to this definition"></a></dt>
 <dd><p>Generator of lines of the doc string that are not in a doctest scope.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">_test_func</span><span class="p">():</span>
-<span class="gp">... </span><span class="w">    </span><span class="sd">&#39;&#39;&#39;Line 1</span>
+<span class="gp">... </span><span class="w">    </span><span class="sd">'''Line 1</span>
 <span class="gp">... </span><span class="sd">    Another</span>
 <span class="gp">... </span><span class="sd">    &gt;&gt;&gt; doctest_1</span>
 <span class="gp">... </span><span class="sd">    &gt;&gt;&gt; doctest_2</span>
 <span class="gp">... </span><span class="sd">    line_after_a_doc_test</span>
 <span class="gp">... </span><span class="sd">    another_line_that_is_in_the_doc_test scope</span>
 <span class="gp">...</span>
-<span class="gp">... </span><span class="sd">    But now we&#39;re out of a doctest&#39;s scope</span>
+<span class="gp">... </span><span class="sd">    But now we're out of a doctest's scope</span>
 <span class="gp">...</span>
 <span class="gp">... </span><span class="sd">    &gt;&gt;&gt; Oh no, another doctest!</span>
-<span class="gp">... </span><span class="sd">    &#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="sd">    '''</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">inspect</span><span class="w"> </span><span class="kn">import</span> <span class="n">getdoc</span>
 <span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">non_doctest_lines</span><span class="p">(</span><span class="n">getdoc</span><span class="p">(</span><span class="n">_test_func</span><span class="p">)))</span>
-<span class="go">[&#39;Line 1&#39;, &#39;Another&#39;, &quot;But now we&#39;re out of a doctest&#39;s scope&quot;, &#39;&#39;]</span>
+<span class="go">['Line 1', 'Another', "But now we're out of a doctest's scope", '']</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -167,10 +167,10 @@
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">inspect</span><span class="w"> </span><span class="kn">import</span> <span class="n">getmodule</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">containing_module</span> <span class="o">=</span> <span class="n">getmodule</span><span class="p">(</span><span class="n">search_documented_attributes</span><span class="p">)</span>  <span class="c1"># the module of this function</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">search_module</span> <span class="o">=</span> <span class="n">search_documented_attributes</span><span class="p">(</span><span class="n">containing_module</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">search_module</span><span class="p">(</span><span class="s1">&#39;documented attributes&#39;</span><span class="p">))</span>  <span class="c1"># if you get an error here, it&#39;s probably just be that the docs changed</span>
-<span class="go">[&#39;search_documented_attributes&#39;, &#39;ddir&#39;, &#39;inspect&#39;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">search_module</span><span class="p">(</span><span class="s1">&#39;documented objects&#39;</span><span class="p">))</span>  <span class="c1"># if you get an error here, it&#39;s probably just be that the docs changed</span>
-<span class="go">[&#39;search_documented_attributes&#39;, &#39;DocTestFinder&#39;, &#39;doctest_finder&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">search_module</span><span class="p">(</span><span class="s1">'documented attributes'</span><span class="p">))</span>  <span class="c1"># if you get an error here, it's probably just be that the docs changed</span>
+<span class="go">['search_documented_attributes', 'ddir', 'inspect']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">search_module</span><span class="p">(</span><span class="s1">'documented objects'</span><span class="p">))</span>  <span class="c1"># if you get an error here, it's probably just be that the docs changed</span>
+<span class="go">['search_documented_attributes', 'DocTestFinder', 'doctest_finder']</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -188,7 +188,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright NO COPYRIGHT.</p>
+    <p></p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
