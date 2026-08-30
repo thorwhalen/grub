@@ -26,12 +26,14 @@ from grub import grub
 
 client = OpenAI()
 
+
 def embed(texts):
-    resp = client.embeddings.create(model='text-embedding-3-small', input=texts)
+    resp = client.embeddings.create(model="text-embedding-3-small", input=texts)
     return [d.embedding for d in resp.data]
 
-search = grub('./docs', method='semantic', embed=embed)
-search('how do I roll back a migration')
+
+search = grub("./docs", method="semantic", embed=embed)
+search("how do I roll back a migration")
 ```
 
 The same shape works for Cohere, Voyage, a local `sentence-transformers`
@@ -48,17 +50,18 @@ import numpy as np
 from grub.backends import Backend
 from grub import Searcher
 
+
 class KeywordCountBackend(Backend):
-    method = 'keyword-count'
+    method = "keyword-count"
 
     def index(self, docs):
         self.docs = [d.lower() for d in docs]
         return self
 
-    def scores(self, query):           # one score per document
+    def scores(self, query):  # one score per document
         q = query.lower().split()
-        return np.array([sum(d.count(w) for w in q) for d in self.docs],
-                        dtype=float)
+        return np.array([sum(d.count(w) for w in q) for d in self.docs], dtype=float)
+
 
 search = Searcher(my_store, backend=KeywordCountBackend())
 ```
@@ -74,13 +77,15 @@ from grub import grub
 from grub.util import simple_tokenizer
 
 # A plain word tokenizer instead of the default camelCase-aware one:
-grub('./docs', tokenizer=simple_tokenizer)
+grub("./docs", tokenizer=simple_tokenizer)
 
 # Or build the backend yourself to reach sklearn's TfidfVectorizer knobs:
 from grub.backends import TfidfBackend
 from grub import Searcher
-backend = TfidfBackend(tokenizer=simple_tokenizer, ngram_range=(1, 2),
-                       min_df=2, sublinear_tf=True)
+
+backend = TfidfBackend(
+    tokenizer=simple_tokenizer, ngram_range=(1, 2), min_df=2, sublinear_tf=True
+)
 Searcher(my_store, backend=backend)
 ```
 
@@ -96,11 +101,13 @@ that returns such a mapping and pass its result straight to `grub()`:
 ```python
 def from_sqlite(db_path, table, key_col, text_col):
     import sqlite3
+
     con = sqlite3.connect(db_path)
-    rows = con.execute(f'SELECT {key_col}, {text_col} FROM {table}')
+    rows = con.execute(f"SELECT {key_col}, {text_col} FROM {table}")
     return {str(k): str(v) for k, v in rows}
 
-grub(from_sqlite('app.db', 'articles', 'id', 'body'), 'search query')
+
+grub(from_sqlite("app.db", "articles", "id", "body"), "search query")
 ```
 
 Existing adapters in `grub/sources.py` worth reusing: `from_dir`,
@@ -110,7 +117,7 @@ Existing adapters in `grub/sources.py` worth reusing: `from_dir`,
 ## Tune the hybrid blend
 
 ```python
-grub('./docs', method='hybrid', alpha=0.7, embed=my_embed)
+grub("./docs", method="hybrid", alpha=0.7, embed=my_embed)
 # alpha = lexical weight: 1.0 pure TF-IDF, 0.0 pure semantic, 0.5 default
 ```
 

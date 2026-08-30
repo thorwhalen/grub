@@ -13,7 +13,7 @@ pip install grub
 ```python
 from grub import grub
 
-grub('./my_notes', 'where did I write about retirement savings')
+grub("./my_notes", "where did I write about retirement savings")
 ```
 
 ---
@@ -92,33 +92,33 @@ path. The Python API is built to be a pleasure to use directly.
 ```python
 from grub import grub
 
-search = grub('./docs')                     # build a searcher
-results = grub('./docs', 'how to deploy')    # ...or search in one call
+search = grub("./docs")  # build a searcher
+results = grub("./docs", "how to deploy")  # ...or search in one call
 ```
 
 `grub()` figures out what you handed it:
 
 ```python
-grub('./docs')                       # a folder of files
-grub('src/**/*.py')                  # a glob
-grub(some_module)                    # a Python package's source
-grub('https://example.com/guide')    # a web page (HTML stripped to text)
-grub({'intro': '...', 'faq': '...'}) # a dict of documents
-grub(['first doc', 'second doc'])    # a list of strings
+grub("./docs")  # a folder of files
+grub("src/**/*.py")  # a glob
+grub(some_module)  # a Python package's source
+grub("https://example.com/guide")  # a web page (HTML stripped to text)
+grub({"intro": "...", "faq": "..."})  # a dict of documents
+grub(["first doc", "second doc"])  # a list of strings
 ```
 
 ### Results that explain themselves
 
 ```python
-results = grub('./docs', 'configure logging')
+results = grub("./docs", "configure logging")
 
 for hit in results:
     print(hit.score, hit.key, hit.snippet)
 
-results.keys        # ['logging.md', 'setup.md', ...]  best-first
-results.scores      # [0.71, 0.33, ...]
-print(results.show())            # a tidy ranked rendering
-print(search['logging.md'])      # the full original text of a hit
+results.keys  # ['logging.md', 'setup.md', ...]  best-first
+results.scores  # [0.71, 0.33, ...]
+print(results.show())  # a tidy ranked rendering
+print(search["logging.md"])  # the full original text of a hit
 ```
 
 Every hit carries a **score** and a **snippet** — the line that shows you
@@ -127,9 +127,9 @@ Every hit carries a **score** and a **snippet** — the line that shows you
 ### Three ways to search
 
 ```python
-grub(src, query, method='tfidf')     # lexical: shared words (default, fast)
-grub(src, query, method='semantic')  # embeddings: shared *meaning*
-grub(src, query, method='hybrid')    # a blend of both
+grub(src, query, method="tfidf")  # lexical: shared words (default, fast)
+grub(src, query, method="semantic")  # embeddings: shared *meaning*
+grub(src, query, method="hybrid")  # a blend of both
 ```
 
 Semantic search finds "automobile" when you searched "car". It needs
@@ -137,18 +137,19 @@ embeddings — either `pip install 'grub[semantic]'` (a local
 sentence-transformers model) or your own provider:
 
 ```python
-grub('./docs', method='semantic', embed=my_openai_embedding_function)
+grub("./docs", method="semantic", embed=my_openai_embedding_function)
 ```
 
 ### Long documents, chunking, and persistence
 
 ```python
-grub('./book.txt', chunk=1500)       # split into passages, not whole files
-grub('./src', extensions=['.py'])    # filter what gets indexed
+grub("./book.txt", chunk=1500)  # split into passages, not whole files
+grub("./src", extensions=[".py"])  # filter what gets indexed
 
 from grub import Searcher
-grub('./big_codebase').save('code.grub')   # build once
-Searcher.load('code.grub')                 # reload instantly
+
+grub("./big_codebase").save("code.grub")  # build once
+Searcher.load("code.grub")  # reload instantly
 ```
 
 ### From the command line
@@ -169,8 +170,9 @@ so existing code keeps running:
 from grub import SearchStore
 
 import sklearn, os
-search = SearchStore(os.path.dirname(sklearn.__file__) + '/{}.py')
-search('how to calibrate the estimates of my classifier')
+
+search = SearchStore(os.path.dirname(sklearn.__file__) + "/{}.py")
+search("how to calibrate the estimates of my classifier")
 ```
 
 ---

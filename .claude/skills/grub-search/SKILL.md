@@ -15,8 +15,8 @@ from grub import grub
 ## The one function you need: `grub()`
 
 ```python
-grub(source)            # -> a reusable Searcher
-grub(source, query)     # -> SearchResults, searched immediately
+grub(source)  # -> a reusable Searcher
+grub(source, query)  # -> SearchResults, searched immediately
 ```
 
 `source` can be any of:
@@ -38,17 +38,17 @@ Folder walks skip binary files and noise dirs (`.git`, `node_modules`,
 ## Searching and reading results
 
 ```python
-search = grub('./docs')
-results = search('how do I configure logging')
+search = grub("./docs")
+results = search("how do I configure logging")
 
 for hit in results:
     print(hit.score, hit.key, hit.snippet)
 
-results.keys      # ['logging.md', 'setup.md', ...]  ranked best-first
-results.scores    # [0.71, 0.33, ...]
-results.as_dict() # {'logging.md': 0.71, ...}
-print(results.show())          # pretty multi-line rendering
-print(search['logging.md'])    # the full original text of a hit
+results.keys  # ['logging.md', 'setup.md', ...]  ranked best-first
+results.scores  # [0.71, 0.33, ...]
+results.as_dict()  # {'logging.md': 0.71, ...}
+print(results.show())  # pretty multi-line rendering
+print(search["logging.md"])  # the full original text of a hit
 ```
 
 Each `SearchResult` has `.key`, `.score` (0-1, higher is better), and
@@ -57,9 +57,9 @@ Each `SearchResult` has `.key`, `.score` (0-1, higher is better), and
 ## Choosing a search method
 
 ```python
-grub(source, query, method='tfidf')     # lexical — shared words (default)
-grub(source, query, method='semantic')  # embeddings — shared *meaning*
-grub(source, query, method='hybrid')    # a blend of both
+grub(source, query, method="tfidf")  # lexical — shared words (default)
+grub(source, query, method="semantic")  # embeddings — shared *meaning*
+grub(source, query, method="hybrid")  # a blend of both
 ```
 
 - **tfidf** — fast, no extra install, best when the query uses the same
@@ -73,11 +73,11 @@ grub(source, query, method='hybrid')    # a blend of both
 ## Useful options (keyword args to `grub()`)
 
 ```python
-grub('./src', extensions=['.py'])   # only these file types
-grub('./book.txt', chunk=1500)      # split long docs into 1500-char windows
-grub('./docs', n=20)                # number of results
-grub('./docs', recursive=False)     # don't descend into sub-folders
-grub('./docs', snippets=False)      # skip snippet extraction (faster)
+grub("./src", extensions=[".py"])  # only these file types
+grub("./book.txt", chunk=1500)  # split long docs into 1500-char windows
+grub("./docs", n=20)  # number of results
+grub("./docs", recursive=False)  # don't descend into sub-folders
+grub("./docs", snippets=False)  # skip snippet extraction (faster)
 ```
 
 `chunk=` is important for **long documents**: it splits each document so a
@@ -91,9 +91,9 @@ Building the index is the slow part — do it once, reuse it.
 ```python
 from grub import Searcher
 
-grub('./big_codebase').save('code.grub')   # build + persist
-search = Searcher.load('code.grub')        # instant reload
-search('database connection retry')
+grub("./big_codebase").save("code.grub")  # build + persist
+search = Searcher.load("code.grub")  # instant reload
+search("database connection retry")
 ```
 
 ## Command line
@@ -115,22 +115,22 @@ Flags: `--method`, `-n`, `--snippets`, `--semantic`, `--hybrid`,
 
 **Search a codebase for a concept:**
 ```python
-grub('./myproject', extensions=['.py'], query='where is auth handled')
+grub("./myproject", extensions=[".py"], query="where is auth handled")
 ```
 
 **Find which doc answers a question:**
 ```python
-grub('./docs', 'can I use this offline').keys[0]
+grub("./docs", "can I use this offline").keys[0]
 ```
 
 **Search a long PDF/book (after extracting its text):**
 ```python
-grub({'book': long_text}, chunk=2000)('what happens in chapter 3')
+grub({"book": long_text}, chunk=2000)("what happens in chapter 3")
 ```
 
 **Search live web pages:**
 ```python
-grub(['https://site.com/a', 'https://site.com/b'], 'pricing tiers')
+grub(["https://site.com/a", "https://site.com/b"], "pricing tiers")
 ```
 
 ## Gotchas
