@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import sys
 
-import argh
+from cw import compat as argh
 
 from grub.searcher import Searcher
 
