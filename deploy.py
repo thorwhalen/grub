@@ -14,10 +14,10 @@ UPLOAD_COMMAND = (sys.executable, "-m", "twine", "upload", "dist/*")
 def main():
     # TODO: Both of these are python. Change to use python objects directly.
     print("--------------------------- setup_output ---------------------------")
-    subprocess.run(BUILD_COMMAND)
+    subprocess.run(BUILD_COMMAND, check=True)
 
     print("--------------------------- upload_output ---------------------------")
-    subprocess.run(UPLOAD_COMMAND)
+    subprocess.run(UPLOAD_COMMAND, check=True)
 
 
 if __name__ == "__main__":
