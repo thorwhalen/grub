@@ -1,4 +1,0 @@
-grub.sources
-============
-.. automodule:: grub.sources
-   :members:

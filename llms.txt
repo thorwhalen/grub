@@ -1,0 +1,29 @@
+# grub
+
+> A ridiculously simple search engine factory
+
+
+## Pages
+
+- [grub](index.html.md): &#42;&#42;A ridiculously simple search engine factory.&#42;&#42;
+- [API reference](api.html.md): | &#96;grub&#96;   | grub -- a ridiculously simple search engine factory.   |
+- [grub](_autosummary/grub.html.md): grub – a ridiculously simple search engine factory.
+- [grub.backends](_autosummary/grub.backends.html.md): Search backends: the engines that score documents against a query.
+- [grub.base](_autosummary/grub.base.html.md): Base functionality
+- [grub.cli](_autosummary/grub.cli.html.md): Command-line interface for grub: &#96;grub SOURCE &#91;QUERY ...&#93;&#96;.
+- [grub.facade](_autosummary/grub.facade.html.md): The one-line front door to grub: &#96;grub()&#96; (and its alias &#96;search()&#96;).
+- [grub.pycode](_autosummary/grub.pycode.html.md): Searching python code
+- [grub.results](_autosummary/grub.results.html.md): Rich search results: keys, scores, and snippets that explain a match.
+- [grub.searcher](_autosummary/grub.searcher.html.md): The &#96;Searcher&#96; – grub’s unified, modern search object.
+- [grub.sources](_autosummary/grub.sources.html.md): Source adapters: turn &#42;anything&#42; into a searchable store.
+- [grub.util](_autosummary/grub.util.html.md): Small shared utilities for grub: tokenizing, clamping, snippet extraction.
+- [For AI agents](ai-agents.html.md): &#96;grub&#96; ships artifacts for coding agents alongside its code. This page lists
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-10-13 03:57 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
+
+## Optional
+
+- [grub.md](grub.md): Complete documentation in a single file.
+
+## Build
+
+- [build_info.json](build_info.json): build provenance (commit, version, tool versions, whether the docs match the package)

@@ -1,0 +1,13 @@
+grub.results
+============
+
+.. automodule:: grub.results
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      SearchResult
+      SearchResults
+   

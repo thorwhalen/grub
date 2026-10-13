@@ -1,4 +1,0 @@
-grub.facade
-===========
-.. automodule:: grub.facade
-   :members:

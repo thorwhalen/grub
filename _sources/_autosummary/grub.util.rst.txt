@@ -1,0 +1,16 @@
+grub.util
+=========
+
+.. automodule:: grub.util
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      simple_tokenizer
+      clamp_n
+      best_snippet
+      is_url
+      truncate
+   

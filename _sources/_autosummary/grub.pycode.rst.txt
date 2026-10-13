@@ -1,0 +1,29 @@
+grub.pycode
+===========
+
+.. automodule:: grub.pycode
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      argnames
+      call_and_return_none_on_exception
+      ddir
+      func_key_info
+      func_semantic_info
+      gather_objs
+      import_module_from_filepath
+      non_doctest_lines
+      objs_from_store
+      pyobj_semantics_dict
+      search_documented_attributes
+      tokenize_for_code
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      PyCodeSearcherBase
+   

@@ -1,0 +1,21 @@
+# grub
+
+> A ridiculously simple search engine factory
+
+
+## Pages in this subsection
+
+- [grub](grub.html.md): grub – a ridiculously simple search engine factory.
+- [grub.backends](grub.backends.html.md): Search backends: the engines that score documents against a query.
+- [grub.base](grub.base.html.md): Base functionality
+- [grub.cli](grub.cli.html.md): Command-line interface for grub: &#96;grub SOURCE &#91;QUERY ...&#93;&#96;.
+- [grub.facade](grub.facade.html.md): The one-line front door to grub: &#96;grub()&#96; (and its alias &#96;search()&#96;).
+- [grub.pycode](grub.pycode.html.md): Searching python code
+- [grub.results](grub.results.html.md): Rich search results: keys, scores, and snippets that explain a match.
+- [grub.searcher](grub.searcher.html.md): The &#96;Searcher&#96; – grub’s unified, modern search object.
+- [grub.sources](grub.sources.html.md): Source adapters: turn &#42;anything&#42; into a searchable store.
+- [grub.util](grub.util.html.md): Small shared utilities for grub: tokenizing, clamping, snippet extraction.
+
+## Optional
+
+- [Top-level llms.txt](../llms.txt): Complete documentation index.

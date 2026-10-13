@@ -1,0 +1,20 @@
+grub.sources
+============
+
+.. automodule:: grub.sources
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      to_store
+      from_dir
+      from_files
+      from_module
+      from_strings
+      from_urls
+      chunk_text
+      chunk_store
+      html_to_text
+   

@@ -1,0 +1,51 @@
+﻿grub
+====
+
+.. automodule:: grub
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      grub
+      search
+      to_store
+      chunk_text
+      chunk_store
+      html_to_text
+      make_backend
+      grubber
+      camelcase_and_underscore_tokenizer
+      search_documented_attributes
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Searcher
+      SearchResult
+      SearchResults
+      TfidfBackend
+      SemanticBackend
+      HybridBackend
+      SearchStore
+      CodeSearcher
+      TextFilesSearcher
+      TfidfKnnSearcher
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   backends
+   base
+   cli
+   facade
+   pycode
+   results
+   searcher
+   sources
+   util

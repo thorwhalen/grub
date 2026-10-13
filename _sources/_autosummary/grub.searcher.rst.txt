@@ -1,0 +1,12 @@
+grub.searcher
+=============
+
+.. automodule:: grub.searcher
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Searcher
+   

@@ -1,0 +1,27 @@
+grub.backends
+=============
+
+.. automodule:: grub.backends
+
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      DFLT_SEMANTIC_MODEL
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      make_backend
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Backend
+      TfidfBackend
+      SemanticBackend
+      HybridBackend
+   

@@ -1,4 +1,0 @@
-grub.backends
-=============
-.. automodule:: grub.backends
-   :members:

@@ -1,0 +1,31 @@
+grub.base
+=========
+
+.. automodule:: grub.base
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      camelcase_and_underscore_tokenizer
+      get_py_files_store
+      grub
+      grubber
+      iterate_values_and_accumulate_non_error_keys
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      CodeSearcher
+      CodeSearcherBase
+      DfltSearchStore
+      SearchStore
+      SearchStoreMixin
+      StoreMixin
+      TextFilesSearcher
+      TextFilesSearcherBase
+      TfidfKnnFitMixin
+      TfidfKnnSearcher
+   

@@ -1,0 +1,13 @@
+grub.facade
+===========
+
+.. automodule:: grub.facade
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      grub
+      search
+   

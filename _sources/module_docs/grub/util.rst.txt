@@ -1,4 +1,0 @@
-grub.util
-=========
-.. automodule:: grub.util
-   :members:

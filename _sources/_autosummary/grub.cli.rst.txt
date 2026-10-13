@@ -1,0 +1,13 @@
+grub.cli
+========
+
+.. automodule:: grub.cli
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      run
+      main
+   
