@@ -18,7 +18,7 @@
 - [grub.sources](_autosummary/grub.sources.html.md): Source adapters: turn &#42;anything&#42; into a searchable store.
 - [grub.util](_autosummary/grub.util.html.md): Small shared utilities for grub: tokenizing, clamping, snippet extraction.
 - [For AI agents](ai-agents.html.md): &#96;grub&#96; ships artifacts for coding agents alongside its code. This page lists
-- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-10-13 03:57 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-10-26 13:26 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
 
 ## Optional
 

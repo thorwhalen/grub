@@ -9,10 +9,11 @@
 <link rel="alternate" type="text/markdown" href="grub.facade.html.md">
 <link rel="describedby" href="llms.txt"><link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="grub.pycode" href="grub.pycode.html"><link rel="prev" title="grub.cli" href="grub.cli.html">
 
-    <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
+    <!-- Generated with Sphinx 9.1.1 and Furo 2025.12.19 -->
         <title>grub.facade - grub</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_autodoc_typehints.css?v=057ac668" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
@@ -304,7 +305,7 @@ URL, a dict, or a list of strings – and it builds a search engine.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>source</strong> – anything <a class="reference internal" href="grub.sources.html#grub.sources.to_store" title="grub.sources.to_store"><code class="xref py py-func docutils literal notranslate"><span class="pre">grub.sources.to_store()</span></code></a> understands.
 An existing <a class="reference internal" href="grub.searcher.html#grub.searcher.Searcher" title="grub.searcher.Searcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">Searcher</span></code></a> is reused as-is.</p></li>
-<li><p><strong>query</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – if given, search for it and return results; otherwise
+<li><p><strong>query</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <span class="highlight sphinx_autodoc_typehints-value"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="kc"><span class="pre">None</span></span></code></a></span></span>) – if given, search for it and return results; otherwise
 return the searcher.</p></li>
 <li><p><strong>method</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – <code class="docutils literal notranslate"><span class="pre">'tfidf'</span></code>, <code class="docutils literal notranslate"><span class="pre">'semantic'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'hybrid'</span></code>.</p></li>
 <li><p><strong>n</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – number of results.</p></li>
@@ -319,15 +320,15 @@ return the searcher.</p></li>
 <dt class="sig sig-object py" id="grub.facade.search">
 <span class="sig-prename descclassname"><span class="pre">grub.facade.</span></span><span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tfidf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/grub/facade.html#search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.facade.search" title="Link to this definition">¶</a></dt>
 <dd><p>Search <code class="docutils literal notranslate"><span class="pre">source</span></code> for <code class="docutils literal notranslate"><span class="pre">query</span></code> – a query-first alias of <a class="reference internal" href="grub.html#module-grub" title="grub"><code class="xref py py-func docutils literal notranslate"><span class="pre">grub()</span></code></a>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">search</span><span class="p">([</span><span class="s1">'apple pie'</span><span class="p">,</span> <span class="s1">'car engine'</span><span class="p">,</span> <span class="s1">'apple orchard'</span><span class="p">],</span> <span class="s1">'fruit apple'</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">'0'</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="grub.results.html#grub.results.SearchResults" title="grub.results.SearchResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchResults</span></code></a></span></p>
 </dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">search</span><span class="p">([</span><span class="s1">'apple pie'</span><span class="p">,</span> <span class="s1">'car engine'</span><span class="p">,</span> <span class="s1">'apple orchard'</span><span class="p">],</span> <span class="s1">'fruit apple'</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="go">'0'</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </section>
@@ -397,7 +398,7 @@ return the searcher.</p></li>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=dba2a9e9"></script>
+</div><script src="../_static/documentation_options.js?v=3a6d79cd"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

@@ -1,4 +1,4 @@
-> built 2026-10-13 03:57 UTC from 9c3e3ae (master) · grub 0.1.9. Details: build_info.json
+> built 2026-10-26 13:26 UTC from 7e47407 (master) · grub 0.1.10. Details: build_info.json
 
 # index.html.md
 
@@ -302,13 +302,13 @@ words with the documents – the right default for code and docs.
 
 Build a backend by name: `'tfidf'`, `'semantic'`, or `'hybrid'`.
 
-* **Return type:**
-  [`Backend`](_autosummary/grub.backends.html.md#grub.backends.Backend)
-
 ```pycon
 >>> make_backend("tfidf").method
 'tfidf'
 ```
+
+* **Return type:**
+  [`Backend`](_autosummary/grub.backends.html.md#grub.backends.Backend)
 
 
 # _autosummary/grub.base.html.md
@@ -340,13 +340,13 @@ Base functionality
 | `TfidfKnnFitMixin`()                                                                               |                                                                                           |
 | [`TfidfKnnSearcher`](_autosummary/grub.base.html.md#grub.base.TfidfKnnSearcher)([search_store, tfidf, knn])      |                                                                                           |
 
-### *class* grub.base.CodeSearcher(search_store=<factory>, tfidf='\\\\\\\\w', knn=<factory>)
+### *class* grub.base.CodeSearcher(search_store=DfltSearchStore(), tfidf='\\\\w', knn=<factory>)
 
 Bases: [`CodeSearcherBase`](_autosummary/grub.base.html.md#grub.base.CodeSearcherBase)
 
 Text searcher with fitters
 
-### *class* grub.base.CodeSearcherBase(search_store=<factory>, tfidf='\\\\\\\\w', knn=<factory>)
+### *class* grub.base.CodeSearcherBase(search_store=DfltSearchStore(), tfidf='\\\\w', knn=<factory>)
 
 Bases: [`TextFilesSearcherBase`](_autosummary/grub.base.html.md#grub.base.TextFilesSearcherBase)
 
@@ -393,17 +393,17 @@ Bases: `KvReader`
 
 Bases: [`SearchStoreMixin`](_autosummary/grub.base.html.md#grub.base.SearchStoreMixin)
 
-### *class* grub.base.TextFilesSearcher(search_store=<factory>, tfidf='\\\\\\\\w', knn=<factory>)
+### *class* grub.base.TextFilesSearcher(search_store=DfltSearchStore(), tfidf='\\\\w', knn=<factory>)
 
 Bases: [`TextFilesSearcherBase`](_autosummary/grub.base.html.md#grub.base.TextFilesSearcherBase)
 
 Fittable Text searcher with fitters
 
-### *class* grub.base.TextFilesSearcherBase(search_store=<factory>, tfidf='\\\\\\\\w', knn=<factory>)
+### *class* grub.base.TextFilesSearcherBase(search_store=DfltSearchStore(), tfidf='\\\\w', knn=<factory>)
 
 Bases: [`TfidfKnnSearcher`](_autosummary/grub.base.html.md#grub.base.TfidfKnnSearcher)
 
-### *class* grub.base.TfidfKnnSearcher(search_store=<factory>, tfidf=<factory>, knn=<factory>)
+### *class* grub.base.TfidfKnnSearcher(search_store=DfltSearchStore(), tfidf=TfidfVectorizer(), knn=<factory>)
 
 Bases: [`SearchStoreMixin`](_autosummary/grub.base.html.md#grub.base.SearchStoreMixin), `TfidfKnnFitMixin`
 
@@ -532,13 +532,13 @@ Called with a `query` too, it searches immediately and returns the
 
 Search `source` for `query` – a query-first alias of [`grub()`](_autosummary/grub.html.md#module-grub).
 
-* **Return type:**
-  [`SearchResults`](_autosummary/grub.results.html.md#grub.results.SearchResults)
-
 ```pycon
 >>> search(['apple pie', 'car engine', 'apple orchard'], 'fruit apple').keys[0]
 '0'
 ```
+
+* **Return type:**
+  [`SearchResults`](_autosummary/grub.results.html.md#grub.results.SearchResults)
 
 
 # _autosummary/grub.html.md
@@ -598,7 +598,7 @@ Three search methods are available: `'tfidf'` (lexical, the default),
 | [`TextFilesSearcher`](_autosummary/grub.html.md#grub.TextFilesSearcher)([search_store, tfidf, knn])     | Fittable Text searcher with fitters                                                                 |
 | [`TfidfKnnSearcher`](_autosummary/grub.html.md#grub.TfidfKnnSearcher)([search_store, tfidf, knn])      |                                                                                                     |
 
-### *class* grub.CodeSearcher(search_store=<factory>, tfidf='\\\\\\\\w', knn=<factory>)
+### *class* grub.CodeSearcher(search_store=DfltSearchStore(), tfidf='\\\\w', knn=<factory>)
 
 Bases: [`CodeSearcherBase`](_autosummary/grub.base.html.md#grub.base.CodeSearcherBase)
 
@@ -789,7 +789,7 @@ any provider, or leave it `None` to lazily load a local
 
 Embed `texts` into an L2-normalised matrix.
 
-### *class* grub.TextFilesSearcher(search_store=<factory>, tfidf='\\\\\\\\w', knn=<factory>)
+### *class* grub.TextFilesSearcher(search_store=DfltSearchStore(), tfidf='\\\\w', knn=<factory>)
 
 Bases: [`TextFilesSearcherBase`](_autosummary/grub.base.html.md#grub.base.TextFilesSearcherBase)
 
@@ -804,7 +804,7 @@ Lexical search via TF-IDF vectors and cosine similarity.
 Fast, dependency-light, and excellent when the query shares actual
 words with the documents – the right default for code and docs.
 
-### *class* grub.TfidfKnnSearcher(search_store=<factory>, tfidf=<factory>, knn=<factory>)
+### *class* grub.TfidfKnnSearcher(search_store=DfltSearchStore(), tfidf=TfidfVectorizer(), knn=<factory>)
 
 Bases: [`SearchStoreMixin`](_autosummary/grub.base.html.md#grub.base.SearchStoreMixin), `TfidfKnnFitMixin`
 
@@ -823,13 +823,13 @@ there is something i wanted to show
 
 Chunk every value of `store`; keys become `"{key}#{n}"`.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> sorted(chunk_store({"doc": "abcdef"}, size=3, overlap=0))
 ['doc#0', 'doc#1']
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ### grub.chunk_text(text, , size=1500, overlap=200)
 
@@ -838,15 +838,15 @@ Split `text` into overlapping character windows.
 Long documents search better in pieces: a hit then points at a
 passage instead of a whole file.
 
-* **Return type:**
-  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]
-
 ```pycon
 >>> chunk_text("abcdefghij", size=4, overlap=1)
 ['abcd', 'defg', 'ghij', 'j']
 >>> chunk_text("short", size=100)
 ['short']
 ```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]
 
 ### grub.grub(source, query=None, , method='tfidf', n=10, \*\*kwargs)
 
@@ -895,9 +895,6 @@ Computes a TF-IDF model and a KNN model for a search store.
 
 Strip HTML tags, returning visible text only.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> html_to_text("<h1>Title</h1><p>Hello <b>world</b></p>")
 'Title Hello world'
@@ -905,29 +902,32 @@ Strip HTML tags, returning visible text only.
 'visible'
 ```
 
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+
 ### grub.make_backend(method='tfidf', \*, tokenizer=<function camelcase_and_underscore_tokenizer>, embed=None, model='all-MiniLM-L6-v2', alpha=0.5)
 
 Build a backend by name: `'tfidf'`, `'semantic'`, or `'hybrid'`.
-
-* **Return type:**
-  [`Backend`](_autosummary/grub.backends.html.md#grub.backends.Backend)
 
 ```pycon
 >>> make_backend("tfidf").method
 'tfidf'
 ```
 
+* **Return type:**
+  [`Backend`](_autosummary/grub.backends.html.md#grub.backends.Backend)
+
 ### grub.search(source, query, , method='tfidf', n=10, \*\*kwargs)
 
 Search `source` for `query` – a query-first alias of [`grub()`](_autosummary/grub.html.md#module-grub).
-
-* **Return type:**
-  [`SearchResults`](_autosummary/grub.results.html.md#grub.results.SearchResults)
 
 ```pycon
 >>> search(['apple pie', 'car engine', 'apple orchard'], 'fruit apple').keys[0]
 '0'
 ```
+
+* **Return type:**
+  [`SearchResults`](_autosummary/grub.results.html.md#grub.results.SearchResults)
 
 ### grub.search_documented_attributes(obj, obj_to_attrs=<function ddir>, max_results=10)
 
@@ -1023,7 +1023,7 @@ Searching python code
 | [`PyCodeSearcherBase`](_autosummary/grub.pycode.html.md#grub.pycode.PyCodeSearcherBase)([search_store, tfidf, knn])   |    |
 |---------------------------------------------------------------------------------------------------|----|
 
-### *class* grub.pycode.PyCodeSearcherBase(search_store=<factory>, tfidf='\\\\\\\\w', knn=<factory>)
+### *class* grub.pycode.PyCodeSearcherBase(search_store=DfltSearchStore(), tfidf='\\\\w', knn=<factory>)
 
 Bases: [`CodeSearcher`](_autosummary/grub.base.html.md#grub.base.CodeSearcher)
 
@@ -1300,13 +1300,13 @@ there when you want to be explicit.
 
 Chunk every value of `store`; keys become `"{key}#{n}"`.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> sorted(chunk_store({"doc": "abcdef"}, size=3, overlap=0))
 ['doc#0', 'doc#1']
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ### grub.sources.chunk_text(text, , size=1500, overlap=200)
 
@@ -1315,15 +1315,15 @@ Split `text` into overlapping character windows.
 Long documents search better in pieces: a hit then points at a
 passage instead of a whole file.
 
-* **Return type:**
-  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]
-
 ```pycon
 >>> chunk_text("abcdefghij", size=4, overlap=1)
 ['abcd', 'defg', 'ghij', 'j']
 >>> chunk_text("short", size=100)
 ['short']
 ```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]
 
 ### grub.sources.from_dir(directory, , recursive=True, extensions=None, encoding='utf-8', max_bytes=1000000, skip_dirs=frozenset({'.eggs', '.git', '.hg', '.idea', '.mypy_cache', '.pytest_cache', '.ruff_cache', '.svn', '.venv', '.vscode', '_\_pycache_\_', 'build', 'dist', 'node_modules', 'venv'}))
 
@@ -1355,13 +1355,13 @@ The `.py` source files of a Python module or package.
 
 Enumerate strings into a `{index: string}` dict.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> from_strings(["alpha", "beta"])
 {'0': 'alpha', '1': 'beta'}
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ### grub.sources.from_urls(urls, , encoding='utf-8', timeout=30.0)
 
@@ -1376,15 +1376,15 @@ Uses only the standard library. Unreachable URLs are skipped.
 
 Strip HTML tags, returning visible text only.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> html_to_text("<h1>Title</h1><p>Hello <b>world</b></p>")
 'Title Hello world'
 >>> html_to_text("<style>.x{}</style><p>visible</p>")
 'visible'
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ### grub.sources.to_store(source, , recursive=True, extensions=None, chunk=None, encoding='utf-8', max_bytes=1000000)
 
@@ -1445,9 +1445,6 @@ Return a short excerpt of `text` that best matches `query`.
 The excerpt is the single line sharing the most tokens with the
 query – a cheap way to show *why* a document matched.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> doc = "Intro line.\nThe quick brown fox jumps over.\nTrailing words."
 >>> best_snippet(doc, "quick brown fox")
@@ -1461,15 +1458,15 @@ With no overlap at all it falls back to the start of the text:
 'alpha beta gamma'
 ```
 
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+
 ### grub.util.clamp_n(n, size)
 
 Clamp a requested result count to `[1, size]`.
 
 Search backends choke when asked for more neighbours than they have
 documents; this keeps requests in range.
-
-* **Return type:**
-  [`int`](https://docs.python.org/3/builtins/functions.html#int)
 
 ```pycon
 >>> clamp_n(10, 3)
@@ -1480,12 +1477,12 @@ documents; this keeps requests in range.
 1
 ```
 
+* **Return type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
+
 ### grub.util.is_url(value)
 
 Whether `value` looks like a fetchable URL.
-
-* **Return type:**
-  [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
 
 ```pycon
 >>> is_url("https://example.com")
@@ -1494,24 +1491,24 @@ True
 False
 ```
 
+* **Return type:**
+  [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
+
 ### grub.util.simple_tokenizer(text)
 
 Lower-cased word tokens of a string.
-
-* **Return type:**
-  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]
 
 ```pycon
 >>> simple_tokenizer("Hello, World! Version 2")
 ['hello', 'world', 'version', '2']
 ```
 
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]
+
 ### grub.util.truncate(text, width=240)
 
 Collapse whitespace and truncate `text` to at most `width` chars.
-
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ```pycon
 >>> truncate("  lots   of   space  ", width=80)
@@ -1520,6 +1517,9 @@ Collapse whitespace and truncate `text` to at most `width` chars.
 'abcd…'
 ```
 
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+
 
 # about-this-build.html.md
 
@@ -1527,18 +1527,18 @@ Collapse whitespace and truncate `text` to at most `width` chars.
 
 # About this build
 
-This documentation was built on **2026-10-13 03:57 UTC** from commit <a href="https://github.com/thorwhalen/grub/commit/9c3e3aeea7d271be87c13c112644cfb913879877"><code>9c3e3ae</code></a> on branch <code>master</code>, for **grub 0.1.9** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-26 13:26 UTC** from commit <a href="https://github.com/thorwhalen/grub/commit/7e47407ae202153b17213ba5acb359765170871f"><code>7e47407</code></a> on branch <code>master</code>, for **grub 0.1.10** (from <code>pyproject.toml</code>).
 
 #### WARNING
 The documentation and the package may be misaligned:
 
-- The documented version (0.1.9) is behind the latest release on PyPI (0.1.10): `pip install grub` gives newer code than these docs describe.
+- The documented version (0.1.10) is behind the latest release on PyPI (0.1.11): `pip install grub` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                        |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/grub/commit/9c3e3aeea7d271be87c13c112644cfb913879877"><code>9c3e3aeea7d271be87c13c112644cfb913879877</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/grub/commit/7e47407ae202153b17213ba5acb359765170871f"><code>7e47407ae202153b17213ba5acb359765170871f</code></a> |
 | Branch              | <code>master</code>                                                                                                                                    |
 | Tags at this commit | none                                                                                                                                                   |
 | Working tree        | clean                                                                                                                                                  |
@@ -1549,16 +1549,16 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/grub</code>                                                               |
-| Run          | <a href="https://github.com/thorwhalen/grub/actions/runs/38344004605">38344004605</a>      |
+| Run          | <a href="https://github.com/thorwhalen/grub/actions/runs/40330297472">40330297472</a>      |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>9c3e3aeea7d271be87c13c112644cfb913879877</code> (in the history of the built commit) |
+| Event commit | <code>7e47407ae202153b17213ba5acb359765170871f</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.13  |
-| Sphinx   | 9.1.0   |
+| epythet  | 0.2.22  |
+| Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
 | Python   | 3.12.15 |
 
@@ -1576,14 +1576,14 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/grub/0.1.10/">0.1.10</a>, newer than the documented version (0.1.9).
+Latest release: <a href="https://pypi.org/project/grub/0.1.11/">0.1.11</a>, newer than the documented version (0.1.10).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/grub && cd grub
-git checkout 9c3e3aeea7d271be87c13c112644cfb913879877
-pip install "epythet==0.2.13"
+git checkout 7e47407ae202153b17213ba5acb359765170871f
+pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
 

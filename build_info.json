@@ -1,37 +1,37 @@
 {
   "schema_version": 1,
-  "built_at": "2026-10-13T03:57:51Z",
+  "built_at": "2026-10-26T13:26:39Z",
   "package": {
     "name": "grub",
-    "version": "0.1.9",
+    "version": "0.1.10",
     "display_name": "grub",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "9c3e3aeea7d271be87c13c112644cfb913879877",
-    "short_commit": "9c3e3ae",
+    "commit": "7e47407ae202153b17213ba5acb359765170871f",
+    "short_commit": "7e47407",
     "branch": "master",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/thorwhalen/grub",
-    "commit_url": "https://github.com/thorwhalen/grub/commit/9c3e3aeea7d271be87c13c112644cfb913879877",
+    "commit_url": "https://github.com/thorwhalen/grub/commit/7e47407ae202153b17213ba5acb359765170871f",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "thorwhalen/grub",
-    "sha": "9c3e3aeea7d271be87c13c112644cfb913879877",
+    "sha": "7e47407ae202153b17213ba5acb359765170871f",
     "sha_in_history": true,
     "ref": "refs/heads/master",
     "ref_name": "master",
-    "run_id": "38344004605",
-    "run_url": "https://github.com/thorwhalen/grub/actions/runs/38344004605",
+    "run_id": "40330297472",
+    "run_url": "https://github.com/thorwhalen/grub/actions/runs/40330297472",
     "server_url": "https://github.com"
   },
   "tools": {
-    "epythet": "0.2.13",
-    "sphinx": "9.1.0",
+    "epythet": "0.2.22",
+    "sphinx": "9.1.1",
     "docutils": "0.22.4",
     "python": "3.12.15"
   },
@@ -60,16 +60,16 @@
   },
   "pypi": {
     "checked": true,
-    "latest": "0.1.10",
+    "latest": "0.1.11",
     "relation": "behind",
     "error": null
   },
-  "reproduce": "git clone https://github.com/thorwhalen/grub && cd grub\ngit checkout 9c3e3aeea7d271be87c13c112644cfb913879877\npip install \"epythet==0.2.13\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/thorwhalen/grub && cd grub\ngit checkout 7e47407ae202153b17213ba5acb359765170871f\npip install \"epythet==0.2.22\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
     "aligned": false,
     "notes": [
-      "The documented version (0.1.9) is behind the latest release on PyPI (0.1.10): `pip install grub` gives newer code than these docs describe."
+      "The documented version (0.1.10) is behind the latest release on PyPI (0.1.11): `pip install grub` gives newer code than these docs describe."
     ]
   }
 }

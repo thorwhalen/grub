@@ -55,10 +55,10 @@ Called with a `query` too, it searches immediately and returns the
 
 Search `source` for `query` – a query-first alias of [`grub()`](grub.html.md#module-grub).
 
-* **Return type:**
-  [`SearchResults`](grub.results.html.md#grub.results.SearchResults)
-
 ```pycon
 >>> search(['apple pie', 'car engine', 'apple orchard'], 'fruit apple').keys[0]
 '0'
 ```
+
+* **Return type:**
+  [`SearchResults`](grub.results.html.md#grub.results.SearchResults)

@@ -53,7 +53,7 @@ Three search methods are available: `'tfidf'` (lexical, the default),
 | [`TextFilesSearcher`](#grub.TextFilesSearcher)([search_store, tfidf, knn])     | Fittable Text searcher with fitters                                                                 |
 | [`TfidfKnnSearcher`](#grub.TfidfKnnSearcher)([search_store, tfidf, knn])      |                                                                                                     |
 
-### *class* grub.CodeSearcher(search_store=<factory>, tfidf='\\\\\\\\w', knn=<factory>)
+### *class* grub.CodeSearcher(search_store=DfltSearchStore(), tfidf='\\\\w', knn=<factory>)
 
 Bases: [`CodeSearcherBase`](grub.base.html.md#grub.base.CodeSearcherBase)
 
@@ -244,7 +244,7 @@ any provider, or leave it `None` to lazily load a local
 
 Embed `texts` into an L2-normalised matrix.
 
-### *class* grub.TextFilesSearcher(search_store=<factory>, tfidf='\\\\\\\\w', knn=<factory>)
+### *class* grub.TextFilesSearcher(search_store=DfltSearchStore(), tfidf='\\\\w', knn=<factory>)
 
 Bases: [`TextFilesSearcherBase`](grub.base.html.md#grub.base.TextFilesSearcherBase)
 
@@ -259,7 +259,7 @@ Lexical search via TF-IDF vectors and cosine similarity.
 Fast, dependency-light, and excellent when the query shares actual
 words with the documents – the right default for code and docs.
 
-### *class* grub.TfidfKnnSearcher(search_store=<factory>, tfidf=<factory>, knn=<factory>)
+### *class* grub.TfidfKnnSearcher(search_store=DfltSearchStore(), tfidf=TfidfVectorizer(), knn=<factory>)
 
 Bases: [`SearchStoreMixin`](grub.base.html.md#grub.base.SearchStoreMixin), `TfidfKnnFitMixin`
 
@@ -278,13 +278,13 @@ there is something i wanted to show
 
 Chunk every value of `store`; keys become `"{key}#{n}"`.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> sorted(chunk_store({"doc": "abcdef"}, size=3, overlap=0))
 ['doc#0', 'doc#1']
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ### grub.chunk_text(text, , size=1500, overlap=200)
 
@@ -293,15 +293,15 @@ Split `text` into overlapping character windows.
 Long documents search better in pieces: a hit then points at a
 passage instead of a whole file.
 
-* **Return type:**
-  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]
-
 ```pycon
 >>> chunk_text("abcdefghij", size=4, overlap=1)
 ['abcd', 'defg', 'ghij', 'j']
 >>> chunk_text("short", size=100)
 ['short']
 ```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]
 
 ### grub.grub(source, query=None, , method='tfidf', n=10, \*\*kwargs)
 
@@ -350,9 +350,6 @@ Computes a TF-IDF model and a KNN model for a search store.
 
 Strip HTML tags, returning visible text only.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> html_to_text("<h1>Title</h1><p>Hello <b>world</b></p>")
 'Title Hello world'
@@ -360,29 +357,32 @@ Strip HTML tags, returning visible text only.
 'visible'
 ```
 
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+
 ### grub.make_backend(method='tfidf', \*, tokenizer=<function camelcase_and_underscore_tokenizer>, embed=None, model='all-MiniLM-L6-v2', alpha=0.5)
 
 Build a backend by name: `'tfidf'`, `'semantic'`, or `'hybrid'`.
-
-* **Return type:**
-  [`Backend`](grub.backends.html.md#grub.backends.Backend)
 
 ```pycon
 >>> make_backend("tfidf").method
 'tfidf'
 ```
 
+* **Return type:**
+  [`Backend`](grub.backends.html.md#grub.backends.Backend)
+
 ### grub.search(source, query, , method='tfidf', n=10, \*\*kwargs)
 
 Search `source` for `query` – a query-first alias of [`grub()`](#module-grub).
-
-* **Return type:**
-  [`SearchResults`](grub.results.html.md#grub.results.SearchResults)
 
 ```pycon
 >>> search(['apple pie', 'car engine', 'apple orchard'], 'fruit apple').keys[0]
 '0'
 ```
+
+* **Return type:**
+  [`SearchResults`](grub.results.html.md#grub.results.SearchResults)
 
 ### grub.search_documented_attributes(obj, obj_to_attrs=<function ddir>, max_results=10)
 

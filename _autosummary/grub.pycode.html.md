@@ -23,7 +23,7 @@ Searching python code
 | [`PyCodeSearcherBase`](#grub.pycode.PyCodeSearcherBase)([search_store, tfidf, knn])   |    |
 |---------------------------------------------------------------------------------------------------|----|
 
-### *class* grub.pycode.PyCodeSearcherBase(search_store=<factory>, tfidf='\\\\\\\\w', knn=<factory>)
+### *class* grub.pycode.PyCodeSearcherBase(search_store=DfltSearchStore(), tfidf='\\\\w', knn=<factory>)
 
 Bases: [`CodeSearcher`](grub.base.html.md#grub.base.CodeSearcher)
 

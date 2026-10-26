@@ -87,10 +87,10 @@ words with the documents – the right default for code and docs.
 
 Build a backend by name: `'tfidf'`, `'semantic'`, or `'hybrid'`.
 
-* **Return type:**
-  [`Backend`](#grub.backends.Backend)
-
 ```pycon
 >>> make_backend("tfidf").method
 'tfidf'
 ```
+
+* **Return type:**
+  [`Backend`](#grub.backends.Backend)

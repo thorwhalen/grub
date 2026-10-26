@@ -21,9 +21,6 @@ Return a short excerpt of `text` that best matches `query`.
 The excerpt is the single line sharing the most tokens with the
 query – a cheap way to show *why* a document matched.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> doc = "Intro line.\nThe quick brown fox jumps over.\nTrailing words."
 >>> best_snippet(doc, "quick brown fox")
@@ -37,15 +34,15 @@ With no overlap at all it falls back to the start of the text:
 'alpha beta gamma'
 ```
 
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+
 ### grub.util.clamp_n(n, size)
 
 Clamp a requested result count to `[1, size]`.
 
 Search backends choke when asked for more neighbours than they have
 documents; this keeps requests in range.
-
-* **Return type:**
-  [`int`](https://docs.python.org/3/builtins/functions.html#int)
 
 ```pycon
 >>> clamp_n(10, 3)
@@ -56,12 +53,12 @@ documents; this keeps requests in range.
 1
 ```
 
+* **Return type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
+
 ### grub.util.is_url(value)
 
 Whether `value` looks like a fetchable URL.
-
-* **Return type:**
-  [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
 
 ```pycon
 >>> is_url("https://example.com")
@@ -70,24 +67,24 @@ True
 False
 ```
 
+* **Return type:**
+  [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
+
 ### grub.util.simple_tokenizer(text)
 
 Lower-cased word tokens of a string.
-
-* **Return type:**
-  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]
 
 ```pycon
 >>> simple_tokenizer("Hello, World! Version 2")
 ['hello', 'world', 'version', '2']
 ```
 
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]
+
 ### grub.util.truncate(text, width=240)
 
 Collapse whitespace and truncate `text` to at most `width` chars.
-
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ```pycon
 >>> truncate("  lots   of   space  ", width=80)
@@ -95,3 +92,6 @@ Collapse whitespace and truncate `text` to at most `width` chars.
 >>> truncate("abcdefghij", width=5)
 'abcd…'
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)

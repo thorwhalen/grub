@@ -25,13 +25,13 @@ Base functionality
 | `TfidfKnnFitMixin`()                                                                               |                                                                                           |
 | [`TfidfKnnSearcher`](#grub.base.TfidfKnnSearcher)([search_store, tfidf, knn])      |                                                                                           |
 
-### *class* grub.base.CodeSearcher(search_store=<factory>, tfidf='\\\\\\\\w', knn=<factory>)
+### *class* grub.base.CodeSearcher(search_store=DfltSearchStore(), tfidf='\\\\w', knn=<factory>)
 
 Bases: [`CodeSearcherBase`](#grub.base.CodeSearcherBase)
 
 Text searcher with fitters
 
-### *class* grub.base.CodeSearcherBase(search_store=<factory>, tfidf='\\\\\\\\w', knn=<factory>)
+### *class* grub.base.CodeSearcherBase(search_store=DfltSearchStore(), tfidf='\\\\w', knn=<factory>)
 
 Bases: [`TextFilesSearcherBase`](#grub.base.TextFilesSearcherBase)
 
@@ -78,17 +78,17 @@ Bases: `KvReader`
 
 Bases: [`SearchStoreMixin`](#grub.base.SearchStoreMixin)
 
-### *class* grub.base.TextFilesSearcher(search_store=<factory>, tfidf='\\\\\\\\w', knn=<factory>)
+### *class* grub.base.TextFilesSearcher(search_store=DfltSearchStore(), tfidf='\\\\w', knn=<factory>)
 
 Bases: [`TextFilesSearcherBase`](#grub.base.TextFilesSearcherBase)
 
 Fittable Text searcher with fitters
 
-### *class* grub.base.TextFilesSearcherBase(search_store=<factory>, tfidf='\\\\\\\\w', knn=<factory>)
+### *class* grub.base.TextFilesSearcherBase(search_store=DfltSearchStore(), tfidf='\\\\w', knn=<factory>)
 
 Bases: [`TfidfKnnSearcher`](#grub.base.TfidfKnnSearcher)
 
-### *class* grub.base.TfidfKnnSearcher(search_store=<factory>, tfidf=<factory>, knn=<factory>)
+### *class* grub.base.TfidfKnnSearcher(search_store=DfltSearchStore(), tfidf=TfidfVectorizer(), knn=<factory>)
 
 Bases: [`SearchStoreMixin`](#grub.base.SearchStoreMixin), `TfidfKnnFitMixin`
 

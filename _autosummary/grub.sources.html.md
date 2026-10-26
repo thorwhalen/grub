@@ -27,13 +27,13 @@ there when you want to be explicit.
 
 Chunk every value of `store`; keys become `"{key}#{n}"`.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> sorted(chunk_store({"doc": "abcdef"}, size=3, overlap=0))
 ['doc#0', 'doc#1']
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ### grub.sources.chunk_text(text, , size=1500, overlap=200)
 
@@ -42,15 +42,15 @@ Split `text` into overlapping character windows.
 Long documents search better in pieces: a hit then points at a
 passage instead of a whole file.
 
-* **Return type:**
-  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]
-
 ```pycon
 >>> chunk_text("abcdefghij", size=4, overlap=1)
 ['abcd', 'defg', 'ghij', 'j']
 >>> chunk_text("short", size=100)
 ['short']
 ```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]
 
 ### grub.sources.from_dir(directory, , recursive=True, extensions=None, encoding='utf-8', max_bytes=1000000, skip_dirs=frozenset({'.eggs', '.git', '.hg', '.idea', '.mypy_cache', '.pytest_cache', '.ruff_cache', '.svn', '.venv', '.vscode', '_\_pycache_\_', 'build', 'dist', 'node_modules', 'venv'}))
 
@@ -82,13 +82,13 @@ The `.py` source files of a Python module or package.
 
 Enumerate strings into a `{index: string}` dict.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> from_strings(["alpha", "beta"])
 {'0': 'alpha', '1': 'beta'}
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ### grub.sources.from_urls(urls, , encoding='utf-8', timeout=30.0)
 
@@ -103,15 +103,15 @@ Uses only the standard library. Unreachable URLs are skipped.
 
 Strip HTML tags, returning visible text only.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> html_to_text("<h1>Title</h1><p>Hello <b>world</b></p>")
 'Title Hello world'
 >>> html_to_text("<style>.x{}</style><p>visible</p>")
 'visible'
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ### grub.sources.to_store(source, , recursive=True, extensions=None, chunk=None, encoding='utf-8', max_bytes=1000000)
 

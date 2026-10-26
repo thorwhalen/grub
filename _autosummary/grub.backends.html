@@ -9,10 +9,11 @@
 <link rel="alternate" type="text/markdown" href="grub.backends.html.md">
 <link rel="describedby" href="llms.txt"><link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="grub.base" href="grub.base.html"><link rel="prev" title="grub" href="grub.html">
 
-    <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
+    <!-- Generated with Sphinx 9.1.1 and Furo 2025.12.19 -->
         <title>grub.backends - grub</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_autodoc_typehints.css?v=057ac668" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
@@ -375,15 +376,15 @@ words with the documents – the right default for code and docs.</p>
 <dt class="sig sig-object py" id="grub.backends.make_backend">
 <span class="sig-prename descclassname"><span class="pre">grub.backends.</span></span><span class="sig-name descname"><span class="pre">make_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tfidf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">camelcase_and_underscore_tokenizer&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all-MiniLM-L6-v2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/grub/backends.html#make_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grub.backends.make_backend" title="Link to this definition">¶</a></dt>
 <dd><p>Build a backend by name: <code class="docutils literal notranslate"><span class="pre">'tfidf'</span></code>, <code class="docutils literal notranslate"><span class="pre">'semantic'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'hybrid'</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">make_backend</span><span class="p">(</span><span class="s2">"tfidf"</span><span class="p">)</span><span class="o">.</span><span class="n">method</span>
+<span class="go">'tfidf'</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#grub.backends.Backend" title="grub.backends.Backend"><code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code></a></span></p>
 </dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">make_backend</span><span class="p">(</span><span class="s2">"tfidf"</span><span class="p">)</span><span class="o">.</span><span class="n">method</span>
-<span class="go">'tfidf'</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </section>
@@ -463,7 +464,7 @@ words with the documents – the right default for code and docs.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=dba2a9e9"></script>
+</div><script src="../_static/documentation_options.js?v=3a6d79cd"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
