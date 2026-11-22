@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "built_at": "2026-11-22T18:25:18Z",
+  "built_at": "2026-11-22T20:04:42Z",
   "package": {
     "name": "grub",
     "version": "0.1.11",
@@ -9,24 +9,24 @@
   },
   "git": {
     "available": true,
-    "commit": "94d39ee25f62207178287e82ed9724ce4c8f5c68",
-    "short_commit": "94d39ee",
+    "commit": "140aefef828b8bc8259a4198d4f60c801b7a86ab",
+    "short_commit": "140aefe",
     "branch": "master",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/thorwhalen/grub",
-    "commit_url": "https://github.com/thorwhalen/grub/commit/94d39ee25f62207178287e82ed9724ce4c8f5c68",
+    "commit_url": "https://github.com/thorwhalen/grub/commit/140aefef828b8bc8259a4198d4f60c801b7a86ab",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "thorwhalen/grub",
-    "sha": "94d39ee25f62207178287e82ed9724ce4c8f5c68",
+    "sha": "140aefef828b8bc8259a4198d4f60c801b7a86ab",
     "sha_in_history": true,
     "ref": "refs/heads/master",
     "ref_name": "master",
-    "run_id": "45054787467",
-    "run_url": "https://github.com/thorwhalen/grub/actions/runs/45054787467",
+    "run_id": "45064132889",
+    "run_url": "https://github.com/thorwhalen/grub/actions/runs/45064132889",
     "server_url": "https://github.com"
   },
   "tools": {
@@ -64,7 +64,7 @@
     "relation": "same",
     "error": null
   },
-  "reproduce": "git clone https://github.com/thorwhalen/grub && cd grub\ngit checkout 94d39ee25f62207178287e82ed9724ce4c8f5c68\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/thorwhalen/grub && cd grub\ngit checkout 140aefef828b8bc8259a4198d4f60c801b7a86ab\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
     "aligned": true,

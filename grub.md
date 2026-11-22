@@ -1,4 +1,4 @@
-> built 2026-11-22 18:25 UTC from 94d39ee (master) · grub 0.1.11. Details: build_info.json
+> built 2026-11-22 20:04 UTC from 140aefe (master) · grub 0.1.11. Details: build_info.json
 
 # index.html.md
 
@@ -471,6 +471,8 @@ Search `source`; with no query, drop into an interactive prompt.
   * **chunk** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – split documents into windows of this many characters.
   * **extensions** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – comma-separated file extensions to restrict to,
     e.g. `.py,.md`.
+* **Return type:**
+  [`None`](https://docs.python.org/3/builtins/constants.html#None)
 
 
 # _autosummary/grub.facade.html.md
@@ -1527,7 +1529,7 @@ Collapse whitespace and truncate `text` to at most `width` chars.
 
 # About this build
 
-This documentation was built on **2026-11-22 18:25 UTC** from commit <a href="https://github.com/thorwhalen/grub/commit/94d39ee25f62207178287e82ed9724ce4c8f5c68"><code>94d39ee</code></a> on branch <code>master</code>, for **grub 0.1.11** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-22 20:04 UTC** from commit <a href="https://github.com/thorwhalen/grub/commit/140aefef828b8bc8259a4198d4f60c801b7a86ab"><code>140aefe</code></a> on branch <code>master</code>, for **grub 0.1.11** (from <code>pyproject.toml</code>).
 
 #### NOTE
 Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
@@ -1536,7 +1538,7 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 |                     |                                                                                                                                                        |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/grub/commit/94d39ee25f62207178287e82ed9724ce4c8f5c68"><code>94d39ee25f62207178287e82ed9724ce4c8f5c68</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/grub/commit/140aefef828b8bc8259a4198d4f60c801b7a86ab"><code>140aefef828b8bc8259a4198d4f60c801b7a86ab</code></a> |
 | Branch              | <code>master</code>                                                                                                                                    |
 | Tags at this commit | none                                                                                                                                                   |
 | Working tree        | clean                                                                                                                                                  |
@@ -1547,9 +1549,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/grub</code>                                                               |
-| Run          | <a href="https://github.com/thorwhalen/grub/actions/runs/45054787467">45054787467</a>      |
+| Run          | <a href="https://github.com/thorwhalen/grub/actions/runs/45064132889">45064132889</a>      |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>94d39ee25f62207178287e82ed9724ce4c8f5c68</code> (in the history of the built commit) |
+| Event commit | <code>140aefef828b8bc8259a4198d4f60c801b7a86ab</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -1580,7 +1582,7 @@ Latest release: <a href="https://pypi.org/project/grub/0.1.11/">0.1.11</a>, the 
 
 ```bash
 git clone https://github.com/thorwhalen/grub && cd grub
-git checkout 94d39ee25f62207178287e82ed9724ce4c8f5c68
+git checkout 140aefef828b8bc8259a4198d4f60c801b7a86ab
 pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

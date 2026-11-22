@@ -44,3 +44,5 @@ Search `source`; with no query, drop into an interactive prompt.
   * **chunk** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – split documents into windows of this many characters.
   * **extensions** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – comma-separated file extensions to restrict to,
     e.g. `.py,.md`.
+* **Return type:**
+  [`None`](https://docs.python.org/3/builtins/constants.html#None)
