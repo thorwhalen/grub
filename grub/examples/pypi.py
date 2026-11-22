@@ -78,7 +78,7 @@ class Pypi:
     def available_and_not(self, words):
         return groupby(words, key=self.is_available)
 
-    def live_is_available(self, pkg_name):
+    def live_is_available(self, pkg_name) -> bool | None:
         """Check if a package name is available,
         but live (directly on pypi, not a cache)"""
         import urllib
@@ -118,7 +118,7 @@ class Search:
         wordvec_name_in_zip="wiki-news-300d-1M-subword.vec",
         n_neighbors=37,
         verbose=False,
-    ):
+    ) -> None:
         self.wordvec_zip_filepath = wordvec_zip_filepath
         self.wordvec_name_in_zip = wordvec_name_in_zip
         self.search_words = set(search_words)

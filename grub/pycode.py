@@ -73,7 +73,7 @@ def argnames(func):
     return " ".join(inspect.signature(func).parameters)
 
 
-def tokenize_for_code(string):
+def tokenize_for_code(string) -> None:
     camelcase_and_underscore_tokenizer(string)
 
 

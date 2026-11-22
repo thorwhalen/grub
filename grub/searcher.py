@@ -66,7 +66,7 @@ class Searcher:
         snippets: bool = True,
         backend: Backend | None = None,
         **source_kwargs,
-    ):
+    ) -> None:
         """Index ``source`` so it can be searched.
 
         :param source: anything :func:`grub.sources.to_store` understands --

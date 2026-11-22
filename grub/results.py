@@ -52,7 +52,7 @@ class SearchResults(list):
         0.9
     """
 
-    def __init__(self, results=(), *, query: str | None = None):
+    def __init__(self, results=(), *, query: str | None = None) -> None:
         super().__init__(results)
         self.query = query
 
