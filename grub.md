@@ -1,4 +1,4 @@
-> built 2026-11-22 20:04 UTC from 140aefe (master) · grub 0.1.11. Details: build_info.json
+> built 2026-11-22 22:04 UTC from c3c9e30 (master) · grub 0.1.11. Details: build_info.json
 
 # index.html.md
 
@@ -16,6 +16,7 @@ line. No servers, no indexes to babysit, no configuration.
 pip install grub
 ```
 
+<!-- wads-docs: skip placeholder folder ./my_notes -->
 ```python
 from grub import grub
 
@@ -92,6 +93,7 @@ path. The Python API is built to be a pleasure to use directly.
 
 ### One function does it all
 
+<!-- wads-docs: skip placeholder folder ./docs -->
 ```python
 from grub import grub
 
@@ -112,6 +114,7 @@ grub(["first doc", "second doc"])  # a list of strings
 
 ### Results that explain themselves
 
+<!-- wads-docs: skip placeholder folder ./docs -->
 ```python
 results = grub("./docs", "configure logging")
 
@@ -129,6 +132,7 @@ Every hit carries a **score** and a **snippet** — the line that shows you
 
 ### Three ways to search
 
+<!-- wads-docs: skip fragment; src comes from a placeholder block above -->
 ```python
 grub(src, query, method="tfidf")  # lexical: shared words (default, fast)
 grub(src, query, method="semantic")  # embeddings: shared *meaning*
@@ -139,12 +143,14 @@ Semantic search finds “automobile” when you searched “car”. It needs
 embeddings — either `pip install 'grub[semantic]'` (a local
 sentence-transformers model) or your own provider:
 
+<!-- wads-docs: skip placeholder embedding function -->
 ```python
 grub("./docs", method="semantic", embed=my_openai_embedding_function)
 ```
 
 ### Long documents, chunking, and persistence
 
+<!-- wads-docs: skip placeholder file ./book.txt -->
 ```python
 grub("./book.txt", chunk=1500)  # split into passages, not whole files
 grub("./src", extensions=[".py"])  # filter what gets indexed
@@ -1529,7 +1535,7 @@ Collapse whitespace and truncate `text` to at most `width` chars.
 
 # About this build
 
-This documentation was built on **2026-11-22 20:04 UTC** from commit <a href="https://github.com/thorwhalen/grub/commit/140aefef828b8bc8259a4198d4f60c801b7a86ab"><code>140aefe</code></a> on branch <code>master</code>, for **grub 0.1.11** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-22 22:04 UTC** from commit <a href="https://github.com/thorwhalen/grub/commit/c3c9e305ecd51774bcb24c6dfad15aeca3be6e78"><code>c3c9e30</code></a> on branch <code>master</code>, for **grub 0.1.11** (from <code>pyproject.toml</code>).
 
 #### NOTE
 Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
@@ -1538,7 +1544,7 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 |                     |                                                                                                                                                        |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/grub/commit/140aefef828b8bc8259a4198d4f60c801b7a86ab"><code>140aefef828b8bc8259a4198d4f60c801b7a86ab</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/grub/commit/c3c9e305ecd51774bcb24c6dfad15aeca3be6e78"><code>c3c9e305ecd51774bcb24c6dfad15aeca3be6e78</code></a> |
 | Branch              | <code>master</code>                                                                                                                                    |
 | Tags at this commit | none                                                                                                                                                   |
 | Working tree        | clean                                                                                                                                                  |
@@ -1549,9 +1555,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/grub</code>                                                               |
-| Run          | <a href="https://github.com/thorwhalen/grub/actions/runs/45064132889">45064132889</a>      |
+| Run          | <a href="https://github.com/thorwhalen/grub/actions/runs/45075431302">45075431302</a>      |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>140aefef828b8bc8259a4198d4f60c801b7a86ab</code> (in the history of the built commit) |
+| Event commit | <code>c3c9e305ecd51774bcb24c6dfad15aeca3be6e78</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -1582,7 +1588,7 @@ Latest release: <a href="https://pypi.org/project/grub/0.1.11/">0.1.11</a>, the 
 
 ```bash
 git clone https://github.com/thorwhalen/grub && cd grub
-git checkout 140aefef828b8bc8259a4198d4f60c801b7a86ab
+git checkout c3c9e305ecd51774bcb24c6dfad15aeca3be6e78
 pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

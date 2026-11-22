@@ -2,7 +2,7 @@
 
 # About this build
 
-This documentation was built on **2026-11-22 20:04 UTC** from commit <a href="https://github.com/thorwhalen/grub/commit/140aefef828b8bc8259a4198d4f60c801b7a86ab"><code>140aefe</code></a> on branch <code>master</code>, for **grub 0.1.11** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-22 22:04 UTC** from commit <a href="https://github.com/thorwhalen/grub/commit/c3c9e305ecd51774bcb24c6dfad15aeca3be6e78"><code>c3c9e30</code></a> on branch <code>master</code>, for **grub 0.1.11** (from <code>pyproject.toml</code>).
 
 #### NOTE
 Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
@@ -11,7 +11,7 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 |                     |                                                                                                                                                        |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/grub/commit/140aefef828b8bc8259a4198d4f60c801b7a86ab"><code>140aefef828b8bc8259a4198d4f60c801b7a86ab</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/grub/commit/c3c9e305ecd51774bcb24c6dfad15aeca3be6e78"><code>c3c9e305ecd51774bcb24c6dfad15aeca3be6e78</code></a> |
 | Branch              | <code>master</code>                                                                                                                                    |
 | Tags at this commit | none                                                                                                                                                   |
 | Working tree        | clean                                                                                                                                                  |
@@ -22,9 +22,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/grub</code>                                                               |
-| Run          | <a href="https://github.com/thorwhalen/grub/actions/runs/45064132889">45064132889</a>      |
+| Run          | <a href="https://github.com/thorwhalen/grub/actions/runs/45075431302">45075431302</a>      |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>140aefef828b8bc8259a4198d4f60c801b7a86ab</code> (in the history of the built commit) |
+| Event commit | <code>c3c9e305ecd51774bcb24c6dfad15aeca3be6e78</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -55,7 +55,7 @@ Latest release: <a href="https://pypi.org/project/grub/0.1.11/">0.1.11</a>, the 
 
 ```bash
 git clone https://github.com/thorwhalen/grub && cd grub
-git checkout 140aefef828b8bc8259a4198d4f60c801b7a86ab
+git checkout c3c9e305ecd51774bcb24c6dfad15aeca3be6e78
 pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

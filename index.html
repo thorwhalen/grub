@@ -267,6 +267,7 @@ line. No servers, no indexes to babysit, no configuration.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>grub
 </pre></div>
 </div>
+<!-- wads-docs: skip placeholder folder ./my_notes -->
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">grub</span><span class="w"> </span><span class="kn">import</span> <span class="n">grub</span>
 
 <span class="n">grub</span><span class="p">(</span><span class="s2">"./my_notes"</span><span class="p">,</span> <span class="s2">"where did I write about retirement savings"</span><span class="p">)</span>
@@ -352,6 +353,7 @@ it’s a small example — but the shape is the same all the way up.</p>
 path. The Python API is built to be a pleasure to use directly.</p>
 <section id="one-function-does-it-all">
 <h3>One function does it all<a class="headerlink" href="#one-function-does-it-all" title="Link to this heading">¶</a></h3>
+<!-- wads-docs: skip placeholder folder ./docs -->
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">grub</span><span class="w"> </span><span class="kn">import</span> <span class="n">grub</span>
 
 <span class="n">search</span> <span class="o">=</span> <span class="n">grub</span><span class="p">(</span><span class="s2">"./docs"</span><span class="p">)</span>  <span class="c1"># build a searcher</span>
@@ -370,6 +372,7 @@ path. The Python API is built to be a pleasure to use directly.</p>
 </section>
 <section id="results-that-explain-themselves">
 <h3>Results that explain themselves<a class="headerlink" href="#results-that-explain-themselves" title="Link to this heading">¶</a></h3>
+<!-- wads-docs: skip placeholder folder ./docs -->
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">grub</span><span class="p">(</span><span class="s2">"./docs"</span><span class="p">,</span> <span class="s2">"configure logging"</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
@@ -386,6 +389,7 @@ path. The Python API is built to be a pleasure to use directly.</p>
 </section>
 <section id="three-ways-to-search">
 <h3>Three ways to search<a class="headerlink" href="#three-ways-to-search" title="Link to this heading">¶</a></h3>
+<!-- wads-docs: skip fragment; src comes from a placeholder block above -->
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grub</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"tfidf"</span><span class="p">)</span>  <span class="c1"># lexical: shared words (default, fast)</span>
 <span class="n">grub</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"semantic"</span><span class="p">)</span>  <span class="c1"># embeddings: shared *meaning*</span>
 <span class="n">grub</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"hybrid"</span><span class="p">)</span>  <span class="c1"># a blend of both</span>
@@ -394,12 +398,14 @@ path. The Python API is built to be a pleasure to use directly.</p>
 <p>Semantic search finds “automobile” when you searched “car”. It needs
 embeddings — either <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">'grub[semantic]'</span></code> (a local
 sentence-transformers model) or your own provider:</p>
+<!-- wads-docs: skip placeholder embedding function -->
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grub</span><span class="p">(</span><span class="s2">"./docs"</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"semantic"</span><span class="p">,</span> <span class="n">embed</span><span class="o">=</span><span class="n">my_openai_embedding_function</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="long-documents-chunking-and-persistence">
 <h3>Long documents, chunking, and persistence<a class="headerlink" href="#long-documents-chunking-and-persistence" title="Link to this heading">¶</a></h3>
+<!-- wads-docs: skip placeholder file ./book.txt -->
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grub</span><span class="p">(</span><span class="s2">"./book.txt"</span><span class="p">,</span> <span class="n">chunk</span><span class="o">=</span><span class="mi">1500</span><span class="p">)</span>  <span class="c1"># split into passages, not whole files</span>
 <span class="n">grub</span><span class="p">(</span><span class="s2">"./src"</span><span class="p">,</span> <span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="s2">".py"</span><span class="p">])</span>  <span class="c1"># filter what gets indexed</span>
 
@@ -466,7 +472,7 @@ pip<span class="w"> </span>install<span class="w"> </span><span class="s1">'grub
 </section>
 </section>
 
-<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-11-22 20:04 UTC from <a href="https://github.com/thorwhalen/grub/commit/140aefef828b8bc8259a4198d4f60c801b7a86ab">140aefe</a> (master) · grub 0.1.11 · <a href="about-this-build.html">about this build</a></p>
+<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-11-22 22:04 UTC from <a href="https://github.com/thorwhalen/grub/commit/c3c9e305ecd51774bcb24c6dfad15aeca3be6e78">c3c9e30</a> (master) · grub 0.1.11 · <a href="about-this-build.html">about this build</a></p>
         </article>
       </div>
       <footer>

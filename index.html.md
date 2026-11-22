@@ -12,6 +12,7 @@ line. No servers, no indexes to babysit, no configuration.
 pip install grub
 ```
 
+<!-- wads-docs: skip placeholder folder ./my_notes -->
 ```python
 from grub import grub
 
@@ -88,6 +89,7 @@ path. The Python API is built to be a pleasure to use directly.
 
 ### One function does it all
 
+<!-- wads-docs: skip placeholder folder ./docs -->
 ```python
 from grub import grub
 
@@ -108,6 +110,7 @@ grub(["first doc", "second doc"])  # a list of strings
 
 ### Results that explain themselves
 
+<!-- wads-docs: skip placeholder folder ./docs -->
 ```python
 results = grub("./docs", "configure logging")
 
@@ -125,6 +128,7 @@ Every hit carries a **score** and a **snippet** — the line that shows you
 
 ### Three ways to search
 
+<!-- wads-docs: skip fragment; src comes from a placeholder block above -->
 ```python
 grub(src, query, method="tfidf")  # lexical: shared words (default, fast)
 grub(src, query, method="semantic")  # embeddings: shared *meaning*
@@ -135,12 +139,14 @@ Semantic search finds “automobile” when you searched “car”. It needs
 embeddings — either `pip install 'grub[semantic]'` (a local
 sentence-transformers model) or your own provider:
 
+<!-- wads-docs: skip placeholder embedding function -->
 ```python
 grub("./docs", method="semantic", embed=my_openai_embedding_function)
 ```
 
 ### Long documents, chunking, and persistence
 
+<!-- wads-docs: skip placeholder file ./book.txt -->
 ```python
 grub("./book.txt", chunk=1500)  # split into passages, not whole files
 grub("./src", extensions=[".py"])  # filter what gets indexed
