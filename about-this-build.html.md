@@ -2,18 +2,16 @@
 
 # About this build
 
-This documentation was built on **2026-10-26 13:26 UTC** from commit <a href="https://github.com/thorwhalen/grub/commit/7e47407ae202153b17213ba5acb359765170871f"><code>7e47407</code></a> on branch <code>master</code>, for **grub 0.1.10** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-22 18:25 UTC** from commit <a href="https://github.com/thorwhalen/grub/commit/94d39ee25f62207178287e82ed9724ce4c8f5c68"><code>94d39ee</code></a> on branch <code>master</code>, for **grub 0.1.11** (from <code>pyproject.toml</code>).
 
-#### WARNING
-The documentation and the package may be misaligned:
-
-- The documented version (0.1.10) is behind the latest release on PyPI (0.1.11): `pip install grub` gives newer code than these docs describe.
+#### NOTE
+Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
 
 ## Source
 
 |                     |                                                                                                                                                        |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/grub/commit/7e47407ae202153b17213ba5acb359765170871f"><code>7e47407ae202153b17213ba5acb359765170871f</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/grub/commit/94d39ee25f62207178287e82ed9724ce4c8f5c68"><code>94d39ee25f62207178287e82ed9724ce4c8f5c68</code></a> |
 | Branch              | <code>master</code>                                                                                                                                    |
 | Tags at this commit | none                                                                                                                                                   |
 | Working tree        | clean                                                                                                                                                  |
@@ -24,18 +22,18 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/grub</code>                                                               |
-| Run          | <a href="https://github.com/thorwhalen/grub/actions/runs/40330297472">40330297472</a>      |
+| Run          | <a href="https://github.com/thorwhalen/grub/actions/runs/45054787467">45054787467</a>      |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>7e47407ae202153b17213ba5acb359765170871f</code> (in the history of the built commit) |
+| Event commit | <code>94d39ee25f62207178287e82ed9724ce4c8f5c68</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.22  |
+| epythet  | 0.2.23  |
 | Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
-| Python   | 3.12.15 |
+| Python   | 3.12.16 |
 
 ## Configuration as resolved
 
@@ -51,14 +49,14 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/grub/0.1.11/">0.1.11</a>, newer than the documented version (0.1.10).
+Latest release: <a href="https://pypi.org/project/grub/0.1.11/">0.1.11</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/grub && cd grub
-git checkout 7e47407ae202153b17213ba5acb359765170871f
-pip install "epythet==0.2.22"
+git checkout 94d39ee25f62207178287e82ed9724ce4c8f5c68
+pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
 
