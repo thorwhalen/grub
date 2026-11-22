@@ -78,10 +78,10 @@ class SearchStoreMixin(KvReader):
     def __iter__(self):
         return getattr(self, self.store_attr).__iter__()
 
-    def __contains__(self, k):
+    def __contains__(self, k) -> bool:
         return getattr(self, self.store_attr).__contains__(k)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return getattr(self, self.store_attr).__len__()
 
 
@@ -120,7 +120,7 @@ class SearchStore(StoreMixin):
 
     def __init__(
         self, store, n_neighbors: int = 10, tokenizer=camelcase_and_underscore_tokenizer
-    ):
+    ) -> None:
         """Index store (values) and provide a search functionality for it.
 
         :param store: The collection that should be indexed for search.
@@ -167,10 +167,10 @@ class DfltSearchStore(Mapping):
     def __iter__(self):
         yield from ()
 
-    def __len__(self):
+    def __len__(self) -> int:
         return 0
 
-    def __contains__(self):
+    def __contains__(self) -> bool:
         return False
 
     def __getitem__(self, item):
@@ -260,7 +260,7 @@ class TfidfKnnSearcher(SearchStoreMixin, TfidfKnnFitMixin):
         # idx, scores = self.fv_to_idx_and_score(fv)
         return self.keys_array[idx]
 
-    def docs_to_fvs(self, docs):
+    def docs_to_fvs(self, docs) -> None:
         self.tfidf.transform(docs)
 
     def query_to_fv(self, query):

@@ -68,7 +68,9 @@ class TfidfBackend(Backend):
 
     method = "tfidf"
 
-    def __init__(self, *, tokenizer=camelcase_and_underscore_tokenizer, **tfidf_kwargs):
+    def __init__(
+        self, *, tokenizer=camelcase_and_underscore_tokenizer, **tfidf_kwargs
+    ) -> None:
         from sklearn.feature_extraction.text import TfidfVectorizer
 
         self.tokenizer = tokenizer
@@ -103,7 +105,7 @@ class SemanticBackend(Backend):
 
     method = "semantic"
 
-    def __init__(self, *, embed=None, model: str = DFLT_SEMANTIC_MODEL):
+    def __init__(self, *, embed=None, model: str = DFLT_SEMANTIC_MODEL) -> None:
         self._embed = embed
         self.model_name = model
         self._model = None
@@ -172,7 +174,7 @@ class HybridBackend(Backend):
         tokenizer=camelcase_and_underscore_tokenizer,
         embed=None,
         model: str = DFLT_SEMANTIC_MODEL,
-    ):
+    ) -> None:
         self.alpha = float(alpha)
         self.lexical = TfidfBackend(tokenizer=tokenizer)
         self.semantic = SemanticBackend(embed=embed, model=model)

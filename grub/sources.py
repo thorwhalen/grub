@@ -315,15 +315,15 @@ class _TextExtractor(HTMLParser):
         self._parts: list[str] = []
         self._depth = 0
 
-    def handle_starttag(self, tag, attrs):
+    def handle_starttag(self, tag, attrs) -> None:
         if tag in self._skip:
             self._depth += 1
 
-    def handle_endtag(self, tag):
+    def handle_endtag(self, tag) -> None:
         if tag in self._skip and self._depth:
             self._depth -= 1
 
-    def handle_data(self, data):
+    def handle_data(self, data) -> None:
         if self._depth == 0 and data.strip():
             self._parts.append(data.strip())
 

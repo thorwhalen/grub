@@ -30,7 +30,7 @@ def run(
     hybrid: bool = False,
     chunk: int = 0,
     extensions: str = "",
-):
+) -> None:
     """Search ``source``; with no query, drop into an interactive prompt.
 
     :param source: folder, glob, ``dir/{}.ext`` format, module path, or URL.

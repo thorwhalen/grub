@@ -36,11 +36,11 @@ from sklearn.neighbors import NearestNeighbors
 from grub import TfidfKnnSearcher
 
 
-def not_dundered(string):
+def not_dundered(string) -> bool:
     return not string.startswith("__")
 
 
-def not_underscored(string):
+def not_underscored(string) -> bool:
     return not string.startswith("_")
 
 
