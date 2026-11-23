@@ -2,9 +2,7 @@
 
 **A ridiculously simple search engine factory.**
 
-Point `grub` at *anything* — a folder, a codebase, a Python package, a
-website, a pile of notes — and get back a working search engine in one
-line. No servers, no indexes to babysit, no configuration.
+Point `grub` at *anything* — a folder, a codebase, a Python package, a website, a pile of notes — and get back a working search engine in one line. No servers, no indexes to babysit, no configuration.
 
 ```bash
 pip install grub
@@ -23,9 +21,7 @@ grub("./my_notes", "where did I write about retirement savings")
 
 You probably shouldn't be calling `grub` yourself at all.
 
-grub ships with **agent skills** — instruction files that teach an AI
-coding agent (Claude Code, Cursor, and friends) how to drive grub on your
-behalf. The skills live in [`.claude/skills/`](.claude/skills/):
+grub ships with **agent skills** — instruction files that teach an AI coding agent (Claude Code, Cursor, and friends) how to drive grub on your behalf. The skills live in [`.claude/skills/`](.claude/skills/):
 
 | Skill | What it lets the agent do |
 |---|---|
@@ -45,48 +41,29 @@ With the skills in place, you stop writing code and start *asking*:
 > "Search these three documentation URLs and summarize what they say
 > about authentication."
 
-The agent reads the skill, picks the right source type, the right search
-method (lexical, semantic, or hybrid), chunks long documents when it
-helps, and hands you the answer. You never see a `SearchStore`
-constructor. You never tune a vectorizer. You describe the outcome you
-want, in English, and it happens.
+The agent reads the skill, picks the right source type, the right search method (lexical, semantic, or hybrid), chunks long documents when it helps, and hands you the answer. You never see a `SearchStore` constructor. You never tune a vectorizer. You describe the outcome you want, in English, and it happens.
 
 ### Why AI-first?
 
-Because the interface to software is changing, and grub is built for the
-change.
+Because the interface to software is changing, and grub is built for the change.
 
-For decades, "using a tool" meant *learning the tool* — its API, its
-flags, its mental model — and then translating your intent into its
-vocabulary. That translation tax was unavoidable. It is not anymore.
+For decades, "using a tool" meant *learning the tool* — its API, its flags, its mental model — and then translating your intent into its vocabulary. That translation tax was unavoidable. It is not anymore.
 
-An AI agent is a universal adapter between human intent and machine
-capability. It already knows grub's vocabulary; you don't have to. So the
-job of a well-designed library is no longer "expose a clever API to
-humans" — it's **"expose powerful, composable capabilities, and ship the
-knowledge an agent needs to wield them."** That knowledge is the skill
-files.
+An AI agent is a universal adapter between human intent and machine capability. It already knows grub's vocabulary; you don't have to. So the job of a well-designed library is no longer "expose a clever API to humans" — it's **"expose powerful, composable capabilities, and ship the knowledge an agent needs to wield them."** That knowledge is the skill files.
 
 grub leans all the way into this:
 
-- **The skills are the primary interface.** They are documentation an
-  agent *executes*, not documentation a human *reads and then forgets*.
-- **The Python API is the substrate.** It stays clean, small, and
-  honest — because an agent calling it deserves the same good design a
-  human would.
-- **You operate at the level of intent.** "Find the doc about X" instead
-  of "instantiate, configure, fit, query, parse."
+- **The skills are the primary interface.** They are documentation an agent *executes*, not documentation a human *reads and then forgets*.
+- **The Python API is the substrate.** It stays clean, small, and honest — because an agent calling it deserves the same good design a human would.
+- **You operate at the level of intent.** "Find the doc about X" instead of "instantiate, configure, fit, query, parse."
 
-The future of tooling is not humans memorizing more APIs. It's humans
-stating goals and agents composing capabilities. grub is a small tool, so
-it's a small example — but the shape is the same all the way up.
+The future of tooling is not humans memorizing more APIs. It's humans stating goals and agents composing capabilities. grub is a small tool, so it's a small example — but the shape is the same all the way up.
 
 ---
 
 ## For the dinosaurs who want to operate with code directly 🦖
 
-No judgment. Sometimes you *are* the agent, and a REPL is the fastest
-path. The Python API is built to be a pleasure to use directly.
+No judgment. Sometimes you *are* the agent, and a REPL is the fastest path. The Python API is built to be a pleasure to use directly.
 
 ### One function does it all
 
@@ -124,8 +101,7 @@ print(results.show())  # a tidy ranked rendering
 print(search["logging.md"])  # the full original text of a hit
 ```
 
-Every hit carries a **score** and a **snippet** — the line that shows you
-*why* it matched.
+Every hit carries a **score** and a **snippet** — the line that shows you *why* it matched.
 
 ### Three ways to search
 
@@ -136,9 +112,7 @@ grub(src, query, method="semantic")  # embeddings: shared *meaning*
 grub(src, query, method="hybrid")  # a blend of both
 ```
 
-Semantic search finds "automobile" when you searched "car". It needs
-embeddings — either `pip install 'grub[semantic]'` (a local
-sentence-transformers model) or your own provider:
+Semantic search finds "automobile" when you searched "car". It needs embeddings — either `pip install 'grub[semantic]'` (a local sentence-transformers model) or your own provider:
 
 <!-- wads-docs: skip placeholder embedding function -->
 ```python
@@ -169,8 +143,7 @@ grub ./docs                                  # interactive prompt
 
 ### The legacy API still works
 
-The original `SearchStore` and friends are unchanged and still exported,
-so existing code keeps running:
+The original `SearchStore` and friends are unchanged and still exported, so existing code keeps running:
 
 ```python
 from grub import SearchStore
@@ -192,13 +165,10 @@ source ──to_store──▶ store ──backend──▶ scores ──▶ Sea
 ```
 
 1. **`to_store`** turns any source into a `Mapping[str, str]`.
-2. A **backend** (TF-IDF, embeddings, or a hybrid) scores every document
-   against your query.
+2. A **backend** (TF-IDF, embeddings, or a hybrid) scores every document against your query.
 3. Results come back ranked, scored, and annotated with snippets.
 
-Every stage is swappable — see the `grub-extend` skill or
-[`grub/backends.py`](grub/backends.py). That's the whole trick: simple
-things stay simple, powerful things stay possible.
+Every stage is swappable — see the `grub-extend` skill or [`grub/backends.py`](grub/backends.py). That's the whole trick: simple things stay simple, powerful things stay possible.
 
 ## Install
 
