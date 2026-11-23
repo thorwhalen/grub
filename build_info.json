@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "built_at": "2026-11-22T22:04:33Z",
+  "built_at": "2026-11-23T02:40:43Z",
   "package": {
     "name": "grub",
     "version": "0.1.11",
@@ -9,24 +9,24 @@
   },
   "git": {
     "available": true,
-    "commit": "c3c9e305ecd51774bcb24c6dfad15aeca3be6e78",
-    "short_commit": "c3c9e30",
+    "commit": "617ca63f29a84af806776f5a3f5d35f8a1d3e0e9",
+    "short_commit": "617ca63",
     "branch": "master",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/thorwhalen/grub",
-    "commit_url": "https://github.com/thorwhalen/grub/commit/c3c9e305ecd51774bcb24c6dfad15aeca3be6e78",
+    "commit_url": "https://github.com/thorwhalen/grub/commit/617ca63f29a84af806776f5a3f5d35f8a1d3e0e9",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "thorwhalen/grub",
-    "sha": "c3c9e305ecd51774bcb24c6dfad15aeca3be6e78",
+    "sha": "617ca63f29a84af806776f5a3f5d35f8a1d3e0e9",
     "sha_in_history": true,
     "ref": "refs/heads/master",
     "ref_name": "master",
-    "run_id": "45075431302",
-    "run_url": "https://github.com/thorwhalen/grub/actions/runs/45075431302",
+    "run_id": "45101349801",
+    "run_url": "https://github.com/thorwhalen/grub/actions/runs/45101349801",
     "server_url": "https://github.com"
   },
   "tools": {
@@ -60,14 +60,16 @@
   },
   "pypi": {
     "checked": true,
-    "latest": "0.1.11",
-    "relation": "same",
+    "latest": "0.1.12",
+    "relation": "behind",
     "error": null
   },
-  "reproduce": "git clone https://github.com/thorwhalen/grub && cd grub\ngit checkout c3c9e305ecd51774bcb24c6dfad15aeca3be6e78\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/thorwhalen/grub && cd grub\ngit checkout 617ca63f29a84af806776f5a3f5d35f8a1d3e0e9\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
-    "aligned": true,
-    "notes": []
+    "aligned": false,
+    "notes": [
+      "The documented version (0.1.11) is behind the latest release on PyPI (0.1.12): `pip install grub` gives newer code than these docs describe."
+    ]
   }
 }

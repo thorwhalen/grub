@@ -5,17 +5,19 @@ orphan: true
 
 # About this build
 
-This documentation was built on **2026-11-22 22:04 UTC** from commit <a href="https://github.com/thorwhalen/grub/commit/c3c9e305ecd51774bcb24c6dfad15aeca3be6e78"><code>c3c9e30</code></a> on branch <code>master</code>, for **grub 0.1.11** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-23 02:40 UTC** from commit <a href="https://github.com/thorwhalen/grub/commit/617ca63f29a84af806776f5a3f5d35f8a1d3e0e9"><code>617ca63</code></a> on branch <code>master</code>, for **grub 0.1.11** (from <code>pyproject.toml</code>).
 
-:::{note}
-Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
+:::{warning}
+The documentation and the package may be misaligned:
+
+- The documented version (0.1.11) is behind the latest release on PyPI (0.1.12): `pip install grub` gives newer code than these docs describe.
 :::
 
 ## Source
 
 | | |
 |---|---|
-| Commit | <a href="https://github.com/thorwhalen/grub/commit/c3c9e305ecd51774bcb24c6dfad15aeca3be6e78"><code>c3c9e305ecd51774bcb24c6dfad15aeca3be6e78</code></a> |
+| Commit | <a href="https://github.com/thorwhalen/grub/commit/617ca63f29a84af806776f5a3f5d35f8a1d3e0e9"><code>617ca63f29a84af806776f5a3f5d35f8a1d3e0e9</code></a> |
 | Branch | <code>master</code> |
 | Tags at this commit | none |
 | Working tree | clean |
@@ -26,9 +28,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 | | |
 |---|---|
 | Repository | <code>thorwhalen/grub</code> |
-| Run | <a href="https://github.com/thorwhalen/grub/actions/runs/45075431302">45075431302</a> |
+| Run | <a href="https://github.com/thorwhalen/grub/actions/runs/45101349801">45101349801</a> |
 | Ref | <code>refs/heads/master</code> |
-| Event commit | <code>c3c9e305ecd51774bcb24c6dfad15aeca3be6e78</code> (in the history of the built commit) |
+| Event commit | <code>617ca63f29a84af806776f5a3f5d35f8a1d3e0e9</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -53,13 +55,13 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/grub/0.1.11/">0.1.11</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/grub/0.1.12/">0.1.12</a>, newer than the documented version (0.1.11).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/grub && cd grub
-git checkout c3c9e305ecd51774bcb24c6dfad15aeca3be6e78
+git checkout 617ca63f29a84af806776f5a3f5d35f8a1d3e0e9
 pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

@@ -1,4 +1,4 @@
-> built 2026-11-22 22:04 UTC from c3c9e30 (master) · grub 0.1.11. Details: build_info.json
+> built 2026-11-23 02:40 UTC from 617ca63 (master) · grub 0.1.11. Details: build_info.json
 
 # index.html.md
 
@@ -8,9 +8,7 @@
 
 **A ridiculously simple search engine factory.**
 
-Point `grub` at *anything* — a folder, a codebase, a Python package, a
-website, a pile of notes — and get back a working search engine in one
-line. No servers, no indexes to babysit, no configuration.
+Point `grub` at *anything* — a folder, a codebase, a Python package, a website, a pile of notes — and get back a working search engine in one line. No servers, no indexes to babysit, no configuration.
 
 ```bash
 pip install grub
@@ -29,9 +27,7 @@ grub("./my_notes", "where did I write about retirement savings")
 
 You probably shouldn’t be calling `grub` yourself at all.
 
-grub ships with **agent skills** — instruction files that teach an AI
-coding agent (Claude Code, Cursor, and friends) how to drive grub on your
-behalf. The skills live in [`.claude/skills/`]():
+grub ships with **agent skills** — instruction files that teach an AI coding agent (Claude Code, Cursor, and friends) how to drive grub on your behalf. The skills live in [`.claude/skills/`]():
 
 | Skill             | What it lets the agent do                                                                                           |
 |-------------------|---------------------------------------------------------------------------------------------------------------------|
@@ -48,48 +44,29 @@ With the skills in place, you stop writing code and start *asking*:
 > “Search these three documentation URLs and summarize what they say
 > about authentication.”
 
-The agent reads the skill, picks the right source type, the right search
-method (lexical, semantic, or hybrid), chunks long documents when it
-helps, and hands you the answer. You never see a `SearchStore`
-constructor. You never tune a vectorizer. You describe the outcome you
-want, in English, and it happens.
+The agent reads the skill, picks the right source type, the right search method (lexical, semantic, or hybrid), chunks long documents when it helps, and hands you the answer. You never see a `SearchStore` constructor. You never tune a vectorizer. You describe the outcome you want, in English, and it happens.
 
 ### Why AI-first?
 
-Because the interface to software is changing, and grub is built for the
-change.
+Because the interface to software is changing, and grub is built for the change.
 
-For decades, “using a tool” meant *learning the tool* — its API, its
-flags, its mental model — and then translating your intent into its
-vocabulary. That translation tax was unavoidable. It is not anymore.
+For decades, “using a tool” meant *learning the tool* — its API, its flags, its mental model — and then translating your intent into its vocabulary. That translation tax was unavoidable. It is not anymore.
 
-An AI agent is a universal adapter between human intent and machine
-capability. It already knows grub’s vocabulary; you don’t have to. So the
-job of a well-designed library is no longer “expose a clever API to
-humans” — it’s **“expose powerful, composable capabilities, and ship the
-knowledge an agent needs to wield them.”** That knowledge is the skill
-files.
+An AI agent is a universal adapter between human intent and machine capability. It already knows grub’s vocabulary; you don’t have to. So the job of a well-designed library is no longer “expose a clever API to humans” — it’s **“expose powerful, composable capabilities, and ship the knowledge an agent needs to wield them.”** That knowledge is the skill files.
 
 grub leans all the way into this:
 
-- **The skills are the primary interface.** They are documentation an
-  agent *executes*, not documentation a human *reads and then forgets*.
-- **The Python API is the substrate.** It stays clean, small, and
-  honest — because an agent calling it deserves the same good design a
-  human would.
-- **You operate at the level of intent.** “Find the doc about X” instead
-  of “instantiate, configure, fit, query, parse.”
+- **The skills are the primary interface.** They are documentation an agent *executes*, not documentation a human *reads and then forgets*.
+- **The Python API is the substrate.** It stays clean, small, and honest — because an agent calling it deserves the same good design a human would.
+- **You operate at the level of intent.** “Find the doc about X” instead of “instantiate, configure, fit, query, parse.”
 
-The future of tooling is not humans memorizing more APIs. It’s humans
-stating goals and agents composing capabilities. grub is a small tool, so
-it’s a small example — but the shape is the same all the way up.
+The future of tooling is not humans memorizing more APIs. It’s humans stating goals and agents composing capabilities. grub is a small tool, so it’s a small example — but the shape is the same all the way up.
 
 ---
 
 ## For the dinosaurs who want to operate with code directly 🦖
 
-No judgment. Sometimes you *are* the agent, and a REPL is the fastest
-path. The Python API is built to be a pleasure to use directly.
+No judgment. Sometimes you *are* the agent, and a REPL is the fastest path. The Python API is built to be a pleasure to use directly.
 
 ### One function does it all
 
@@ -127,8 +104,7 @@ print(results.show())  # a tidy ranked rendering
 print(search["logging.md"])  # the full original text of a hit
 ```
 
-Every hit carries a **score** and a **snippet** — the line that shows you
-*why* it matched.
+Every hit carries a **score** and a **snippet** — the line that shows you *why* it matched.
 
 ### Three ways to search
 
@@ -139,9 +115,7 @@ grub(src, query, method="semantic")  # embeddings: shared *meaning*
 grub(src, query, method="hybrid")  # a blend of both
 ```
 
-Semantic search finds “automobile” when you searched “car”. It needs
-embeddings — either `pip install 'grub[semantic]'` (a local
-sentence-transformers model) or your own provider:
+Semantic search finds “automobile” when you searched “car”. It needs embeddings — either `pip install 'grub[semantic]'` (a local sentence-transformers model) or your own provider:
 
 <!-- wads-docs: skip placeholder embedding function -->
 ```python
@@ -172,8 +146,7 @@ grub ./docs                                  # interactive prompt
 
 ### The legacy API still works
 
-The original `SearchStore` and friends are unchanged and still exported,
-so existing code keeps running:
+The original `SearchStore` and friends are unchanged and still exported, so existing code keeps running:
 
 ```python
 from grub import SearchStore
@@ -195,13 +168,10 @@ source ──to_store──▶ store ──backend──▶ scores ──▶ Sea
 ```
 
 1. **`to_store`** turns any source into a `Mapping[str, str]`.
-2. A **backend** (TF-IDF, embeddings, or a hybrid) scores every document
-   against your query.
+2. A **backend** (TF-IDF, embeddings, or a hybrid) scores every document against your query.
 3. Results come back ranked, scored, and annotated with snippets.
 
-Every stage is swappable — see the `grub-extend` skill or
-[`grub/backends.py`](). That’s the whole trick: simple
-things stay simple, powerful things stay possible.
+Every stage is swappable — see the `grub-extend` skill or [`grub/backends.py`](). That’s the whole trick: simple things stay simple, powerful things stay possible.
 
 ## Install
 
@@ -1535,16 +1505,18 @@ Collapse whitespace and truncate `text` to at most `width` chars.
 
 # About this build
 
-This documentation was built on **2026-11-22 22:04 UTC** from commit <a href="https://github.com/thorwhalen/grub/commit/c3c9e305ecd51774bcb24c6dfad15aeca3be6e78"><code>c3c9e30</code></a> on branch <code>master</code>, for **grub 0.1.11** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-23 02:40 UTC** from commit <a href="https://github.com/thorwhalen/grub/commit/617ca63f29a84af806776f5a3f5d35f8a1d3e0e9"><code>617ca63</code></a> on branch <code>master</code>, for **grub 0.1.11** (from <code>pyproject.toml</code>).
 
-#### NOTE
-Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
+#### WARNING
+The documentation and the package may be misaligned:
+
+- The documented version (0.1.11) is behind the latest release on PyPI (0.1.12): `pip install grub` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                        |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/grub/commit/c3c9e305ecd51774bcb24c6dfad15aeca3be6e78"><code>c3c9e305ecd51774bcb24c6dfad15aeca3be6e78</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/grub/commit/617ca63f29a84af806776f5a3f5d35f8a1d3e0e9"><code>617ca63f29a84af806776f5a3f5d35f8a1d3e0e9</code></a> |
 | Branch              | <code>master</code>                                                                                                                                    |
 | Tags at this commit | none                                                                                                                                                   |
 | Working tree        | clean                                                                                                                                                  |
@@ -1555,9 +1527,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/grub</code>                                                               |
-| Run          | <a href="https://github.com/thorwhalen/grub/actions/runs/45075431302">45075431302</a>      |
+| Run          | <a href="https://github.com/thorwhalen/grub/actions/runs/45101349801">45101349801</a>      |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>c3c9e305ecd51774bcb24c6dfad15aeca3be6e78</code> (in the history of the built commit) |
+| Event commit | <code>617ca63f29a84af806776f5a3f5d35f8a1d3e0e9</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -1582,13 +1554,13 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/grub/0.1.11/">0.1.11</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/grub/0.1.12/">0.1.12</a>, newer than the documented version (0.1.11).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/grub && cd grub
-git checkout c3c9e305ecd51774bcb24c6dfad15aeca3be6e78
+git checkout 617ca63f29a84af806776f5a3f5d35f8a1d3e0e9
 pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
